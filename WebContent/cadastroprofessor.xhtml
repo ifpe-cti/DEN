@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      
+       <p:fieldset
+                legend="Cadastro de Professor">
+                 <p:panelGrid columns="3">
+                    <h:outputText value="SIAPE*:"/>
+                    <p:inputText id="txtSiape" value="#{ptd.professor.siape}"
+                                 required="true" requiredMessage="
+                                 O Siape precisa ser preenchido"/>                    
+                    <p:message for="txtSiape"/>
+                      
+                    <h:outputText value="Coordenação*:"/>
+                    <p:selectOneMenu id="txtCoordenacao" value="#{ptd.professor.coordenacao}">
+					    <f:selectItem itemValue="CCTIN" itemLabel="CCTIN"/>
+					    <f:selectItem itemValue="CTEE" itemLabel="CTEE"/>
+					    <f:selectItem itemValue="CTMA" itemLabel="CTMA"/>
+					    <f:selectItem itemValue="CTI" itemLabel="CTI"/>
+					</p:selectOneMenu>                 
+                    <p:message for="txtCoordenacao"/>
+                    
+                    <h:outputText value="Nome*:"/>
+                    <p:inputText id="txtNome" value="#{ptd.professor.nome}"
+                                 required="true" requiredMessage="
+                                 O Nome precisa ser preenchido"/>                    
+                    <p:message for="txtNome"/>
+                    
+                    <h:outputText value="Email*:"/>
+                    <p:inputText id="txtEmail" value="#{ptd.professor.email}"
+                                 required="true" requiredMessage="
+                                 O Email precisa ser preenchido"/>                    
+                    <p:message for="txtEmail"/>
+                    
+                </p:panelGrid>
+	            <p:commandButton value="cadastrar" oncomplete="PF('painel').show()"/>
+	            <p:messages/>
+            </p:fieldset>
+            
+            
+            <p:dialog id="dialogo" visible="false" resizable="false" style="width: 600px"
+                      modal="true" widgetVar="painel">
+                
+                <h:outputText value="Deseja realmente cadastrar o PTD?"/><br/>
+                <p:commandButton value="sim" action="#{PTDControlador.adicionaPTD(ptd)}"
+                                 update="formularioBusca" oncomplete="PF('painel').hide()"/>
+                <p:commandButton value="não" oncomplete="PF('painel').hide()"/>
+            </p:dialog>
+            
+         
+   
+</html>
+

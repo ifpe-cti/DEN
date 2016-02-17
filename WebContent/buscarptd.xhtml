@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+     
+    <h:head>
+        <title>PTD IFPE</title>
+    </h:head>
+    <h:body>
+        <ui:include src="menu.xhtml"/>
+        <p:growl id="gro" life="3000"/>
+        <h:form id="formularioBusca">  
+        	<p:fieldset
+                legend="Buscar PTD...">      
+            <p:panelGrid columns="4">
+		        <h:outputText value="SIAPE*: "/>
+	            <p:inputText id="txtSiapeBusca" value="#{PTDControlador.siape}"
+		                                 required="true" requiredMessage="O SIAPE precisa ser preenchido"/>
+		        <p:commandButton value="Buscar" update="formularioBusca"
+		        			action="#{PTDControlador.buscarPTDPorSIAPE()}"/>
+		        		        
+		        <p:message for="txtSiapeBusca"/>        
+       		</p:panelGrid>
+        
+	        <c:if test="${PTDControlador.ptds.size() == 0}">
+	         	<c:if test="${PTDControlador.searched}">
+	           		<ui:include src="cadastroprofessor.xhtml"/>
+	           	</c:if>	
+	        </c:if>
+	        
+	        <c:if test="${PTDControlador.ptds.size() != 0}">
+		        
+		        	<h:button value="NOVO PTD?" outcome="cadastroptd.xhtml" />
+		            <!-- <p:dataTable id="tabela" value="#{controleUsuario.listarTodos()}" var="item" 
+		                         paginator="true" rows="5" selection="#{controleUsuario.selectedUsuario}"
+		                         selectionMode="single" rowKey="#{item.codigo}">
+		                <p:column>
+		                    <h:outputText value="#{item.codigo}"/>
+		                    <f:facet name="header">
+		                        código
+		                    </f:facet>
+		                </p:column>
+		                
+		                <p:column headerText="login" filterBy="#{item.login}">
+		                    #{item.login}
+		                </p:column>
+		                <p:column headerText="email">
+		                    #{item.email}
+		                </p:column>
+			            </p:dataTable>
+			            <p:commandButton value="visualizar" oncomplete="PF('painel').show()" update="dial"/>
+			            <p:commandButton value="atualizar" oncomplete="location.href='atualizausuario.xhtml'"/>
+			            <p:commandButton value="excluir" oncomplete="PF('painel2').show()"/>
+		            
+		             --> 
+	        </c:if>
+	        
+         	</p:fieldset>
+        </h:form>
+    </h:body>
+</html>
+
