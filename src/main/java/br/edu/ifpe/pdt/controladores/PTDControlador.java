@@ -1,4 +1,4 @@
-package edu.ifpe.pdt.controladores;
+package br.edu.ifpe.pdt.controladores;
 
 import java.io.Serializable;
 import java.sql.Date;
@@ -9,9 +9,9 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
-import edu.ifpe.pdt.entidades.PTD;
-import edu.ifpe.pdt.entidades.Professor;
-import edu.ifpe.pdt.repositorios.PTDRepository;
+import br.edu.ifpe.pdt.entidades.PTD;
+import br.edu.ifpe.pdt.entidades.Professor;
+import br.edu.ifpe.pdt.repositorios.PTDRepository;
 
 @ManagedBean(name="PTDControlador")
 @SessionScoped

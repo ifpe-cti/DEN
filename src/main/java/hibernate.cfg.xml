@@ -8,12 +8,12 @@
     <property name="hibernate.connection.username">postgres</property>
     <property name="hibernate.connection.password">root</property>
     <!-- <property name="hibernate.hbm2ddl.auto">create</property>  -->
-    <mapping class="edu.ifpe.pdt.entidades.AAE"/>
-    <mapping class="edu.ifpe.pdt.entidades.AAP"/>
-    <mapping class="edu.ifpe.pdt.entidades.PTD"/>
-    <mapping class="edu.ifpe.pdt.entidades.Disciplina"/>
-    <mapping class="edu.ifpe.pdt.entidades.Extensao"/>
-    <mapping class="edu.ifpe.pdt.entidades.Pesquisa"/>
-    <mapping class="edu.ifpe.pdt.entidades.Professor"/>
+    <mapping class="br.edu.ifpe.pdt.entidades.AAE"/>
+    <mapping class="br.edu.ifpe.pdt.entidades.AAP"/>
+    <mapping class="br.edu.ifpe.pdt.entidades.PTD"/>
+    <mapping class="br.edu.ifpe.pdt.entidades.Disciplina"/>
+    <mapping class="br.edu.ifpe.pdt.entidades.Extensao"/>
+    <mapping class="br.edu.ifpe.pdt.entidades.Pesquisa"/>
+    <mapping class="br.edu.ifpe.pdt.entidades.Professor"/>
   </session-factory>
 </hibernate-configuration>

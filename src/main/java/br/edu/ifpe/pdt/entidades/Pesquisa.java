@@ -1,4 +1,4 @@
-package edu.ifpe.pdt.entidades;
+package br.edu.ifpe.pdt.entidades;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;

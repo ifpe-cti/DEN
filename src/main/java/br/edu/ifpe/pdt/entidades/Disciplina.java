@@ -1,7 +1,5 @@
-package edu.ifpe.pdt.entidades;
+package br.edu.ifpe.pdt.entidades;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,23 +9,20 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-
-/*
- * Atividades de Apoio ao Ensino
- */
-@ManagedBean(name = "aae")
-@RequestScoped
 @Entity
-@Table( name = "aae" )
-public class AAE {
-
+@Table( name = "disciplina" )
+public class Disciplina {
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id", updatable=false)
 	private Integer codigo;
 	
-	@Column(name="atividade", nullable=false, length=200)
-	private String atividade;
+	@Column(name="nome", nullable=false, length=200)
+	private String nome;
+	
+	@Column(name="curso", nullable=false, length=200)
+	private String curso;
 	
 	@Column(name="carga_horaria")
 	private Integer cargaHoraria;
@@ -44,12 +39,20 @@ public class AAE {
 		this.codigo = codigo;
 	}
 
-	public String getAtividade() {
-		return atividade;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setAtividade(String atividade) {
-		this.atividade = atividade;
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getCurso() {
+		return curso;
+	}
+
+	public void setCurso(String curso) {
+		this.curso = curso;
 	}
 
 	public Integer getCargaHoraria() {

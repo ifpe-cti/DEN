@@ -1,4 +1,4 @@
-package edu.ifpe.pdt.entidades;
+package br.edu.ifpe.pdt.entidades;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -11,14 +11,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-/*
- * Atividades Administrativas e Pedagógicas - AAP
- */
-@ManagedBean(name = "aap")
+@ManagedBean(name = "extensao")
 @RequestScoped
 @Entity
-@Table( name = "aap" )
-public class AAP {
+@Table( name = "extensao" )
+public class Extensao {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -28,35 +25,24 @@ public class AAP {
 	@Column(name="atividade", nullable=false, length=200)
 	private String atividade;
 	
-	@Column(name="portaria", nullable=false, length=50)
-	private String portaria;
-	
 	@ManyToOne
 	@JoinColumn(name="professor_id", updatable=false)
 	private Professor professor;
-	
+
 	public Integer getCodigo() {
 		return codigo;
 	}
-	
+
 	public void setCodigo(Integer codigo) {
 		this.codigo = codigo;
 	}
-	
+
 	public String getAtividade() {
 		return atividade;
 	}
-	
+
 	public void setAtividade(String atividade) {
 		this.atividade = atividade;
-	}
-	
-	public String getPortaria() {
-		return portaria;
-	}
-	
-	public void setPortaria(String portaria) {
-		this.portaria = portaria;
 	}
 
 	public Professor getProfessor() {
@@ -66,4 +52,5 @@ public class AAP {
 	public void setProfessor(Professor professor) {
 		this.professor = professor;
 	}
+	
 }

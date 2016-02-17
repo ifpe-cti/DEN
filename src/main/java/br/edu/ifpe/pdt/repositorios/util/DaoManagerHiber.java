@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.ifpe.pdt.repositorios.util;
+package br.edu.ifpe.pdt.repositorios.util;
 
 import java.util.List;
 

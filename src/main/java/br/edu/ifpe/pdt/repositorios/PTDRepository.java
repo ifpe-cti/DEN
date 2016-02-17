@@ -1,10 +1,10 @@
-package edu.ifpe.pdt.repositorios;
+package br.edu.ifpe.pdt.repositorios;
 
 import java.util.List;
 
-import edu.ifpe.pdt.entidades.PTD;
-import edu.ifpe.pdt.entidades.Professor;
-import edu.ifpe.pdt.repositorios.util.DaoManagerHiber;
+import br.edu.ifpe.pdt.entidades.PTD;
+import br.edu.ifpe.pdt.entidades.Professor;
+import br.edu.ifpe.pdt.repositorios.util.DaoManagerHiber;
 
 public class PTDRepository {
 

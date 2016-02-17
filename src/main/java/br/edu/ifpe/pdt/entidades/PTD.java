@@ -1,4 +1,4 @@
-package edu.ifpe.pdt.entidades;
+package br.edu.ifpe.pdt.entidades;
 
 import java.io.Serializable;
 import java.sql.Date;
