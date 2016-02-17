@@ -7,6 +7,13 @@
 	<artifactId>PDT</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
+	
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<failOnMissingWebXml>false</failOnMissingWebXml>
+	</properties>
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -83,10 +90,6 @@
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.3</version>
-				<configuration>
-					<warSourceDirectory>WebContent</warSourceDirectory>
-					<failOnMissingWebXml>false</failOnMissingWebXml>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>

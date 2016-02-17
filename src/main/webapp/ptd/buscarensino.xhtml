@@ -11,7 +11,7 @@
         <title>PTD IFPE</title>
     </h:head>
     <h:body>
-        <ui:include src="menu.xhtml"/>
+        <ui:include src="/menu.xhtml"/>
         <p:growl id="gro" life="3000"/>
         <h:form id="formularioBusca">  
         	<p:fieldset
@@ -55,7 +55,7 @@
 		                </p:column>
 			            </p:dataTable> 
 		            <p:commandButton value="Editar PTD." update="formularioBusca" 
-			            				oncomplete="location.href='editarptd.xhtml'"/>
+			            				oncomplete="location.href='/ptd/editar.xhtml'"/>
 	        </c:if>
 	        
 	        <c:if test="${PTDControlador.professores.size() != 0}">
