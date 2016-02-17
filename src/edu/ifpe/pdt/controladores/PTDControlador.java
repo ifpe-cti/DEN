@@ -77,10 +77,12 @@ public class PTDControlador implements Serializable{
 		return "buscarptdensino.xhtml"; 
 	}
 	
-	public String mostrarPTD() {		
-		this.professores = this.ptdRepository.findByProfessorCoordenacao(coordenacao);
-		this.ptds.clear();
-		return "mostrarptdensino.xhtml"; 
+	public String mostrarPTDByProfessor() {		
+		if (selectedProfessor != null) {
+			this.ptds = this.ptdRepository.findByProfessorSiape(selectedProfessor.getSiape());
+			this.professores.clear();
+		}
+		return "buscarptdensino.xhtml"; 
 	}
 
 	public String getSiape() {

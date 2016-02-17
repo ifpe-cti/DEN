@@ -37,28 +37,25 @@
        		
 	        <c:if test="${PTDControlador.ptds.size() != 0}">
 		        
-		        	<!-- <p:dataTable id="tabela" value="#{controleUsuario.listarTodos()}" var="item" 
-		                         paginator="true" rows="5" selection="#{controleUsuario.selectedUsuario}"
-		                         selectionMode="single" rowKey="#{item.codigo}">
+		        	<p:dataTable id="tabela" value="#{PTDControlador.ptds}" var="item" 
+		                         paginator="true" rows="5" selection="#{PTDControlador.selectedPtd}"
+		                         selectionMode="single" rowKey="#{item.professor.siape}">
 		                <p:column>
-		                    <h:outputText value="#{item.codigo}"/>
+		                    <h:outputText value="#{item.professor.siape}"/>
 		                    <f:facet name="header">
-		                        código
+		                        Siape
 		                    </f:facet>
 		                </p:column>
 		                
-		                <p:column headerText="login" filterBy="#{item.login}">
-		                    #{item.login}
+		                <p:column headerText="Status">
+		                    #{item.status}
 		                </p:column>
-		                <p:column headerText="email">
-		                    #{item.email}
+		                <p:column headerText="Update">
+		                    #{item.lastUpdate}
 		                </p:column>
-			            </p:dataTable>
-			            <p:commandButton value="visualizar" oncomplete="PF('painel').show()" update="dial"/>
-			            <p:commandButton value="atualizar" oncomplete="location.href='atualizausuario.xhtml'"/>
-			            <p:commandButton value="excluir" oncomplete="PF('painel2').show()"/>
-		            
-		             --> 
+			            </p:dataTable> 
+		            <p:commandButton value="Editar PTD." update="formularioBusca" 
+			            				oncomplete="location.href='editarptd.xhtml'"/>
 	        </c:if>
 	        
 	        <c:if test="${PTDControlador.professores.size() != 0}">
@@ -79,7 +76,8 @@
 		                    #{item.email}
 		                </p:column>
 			            </p:dataTable>
-			            <p:commandButton value="Mostrar PTD." oncomplete="${PTDControlador.mostrarPTD()}"/>
+			            <p:commandButton value="Mostrar PTDs." update="formularioBusca" 
+			            				oncomplete="${PTDControlador.mostrarPTDByProfessor()}"/>
 		            
 	        </c:if>
         </h:form>

@@ -13,6 +13,7 @@ public class PTDRepository {
 		
 	private static final String HQL_SELECT_PROFESSOR_BY_COORDENACAO = 
 			"from Professor where coordenacao = ':coordenacao'";
+	
 	private static PTDRepository instance;
 	
 	private PTDRepository() {
