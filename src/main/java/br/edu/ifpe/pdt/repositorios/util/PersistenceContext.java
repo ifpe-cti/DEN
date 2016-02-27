@@ -4,6 +4,15 @@ import java.beans.PropertyVetoException;
 
 import javax.sql.DataSource;
 
+import org.quartz.CronScheduleBuilder;
+import org.quartz.CronTrigger;
+import org.quartz.JobBuilder;
+import org.quartz.JobDetail;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.SchedulerFactory;
+import org.quartz.TriggerBuilder;
+import org.quartz.impl.StdSchedulerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -37,6 +46,17 @@ public class PersistenceContext {
 	private String databasePassword;
 	@Value("${db.driver}")
 	private String driver;
+	
+	@Value("${db.backupFolder}")
+	private String backupFolder;	
+	@Value("${db.backupFile}")
+	private String backupFile;	
+	@Value("${db.dumpCommand}")
+	private String dumpCommand;
+	@Value("${db.backupTime}")
+	private String backupTime;
+	@Value("${db.name}")
+	private String name;
 
 	@Bean
 	public DataSource dataSource() {
@@ -85,5 +105,25 @@ public class PersistenceContext {
 		JpaTransactionManager txManager = new JpaTransactionManager();
 		txManager.setEntityManagerFactory(entityManagerFactory().getObject());
 		return txManager;
+	}
+
+	@Bean
+	public Scheduler startSchedulerDump() {
+		Scheduler sched = null;
+		try {
+			SchedulerFactory sf = new StdSchedulerFactory();
+			sched = sf.getScheduler();
+			BackupBD.configureBackupBD(backupFolder, backupFile, dumpCommand, 
+										databaseUser, databasePassword, name);
+			JobDetail job = JobBuilder.newJob(BackupBD.class).withIdentity("job1", "group1").build();
+			CronTrigger trigger = TriggerBuilder.newTrigger().withIdentity("trigger1", "group1")
+					.withSchedule(CronScheduleBuilder.cronSchedule(backupTime)).build();
+			sched.scheduleJob(job, trigger);
+			
+			sched.start();
+		} catch (SchedulerException e) {
+			e.printStackTrace();
+		}
+		return sched;
 	}
 }
