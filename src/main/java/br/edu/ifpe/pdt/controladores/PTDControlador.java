@@ -9,80 +9,80 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import br.edu.ifpe.pdt.entidades.PTD;
 import br.edu.ifpe.pdt.entidades.Professor;
-import br.edu.ifpe.pdt.repositorios.PTDRepository;
+import br.edu.ifpe.pdt.repositorios.PTDRepositoryInterface;
 
-@ManagedBean(name="PTDControlador")
+@Component
+@ManagedBean(name="PTDControlador", eager=true)
 @SessionScoped
 public class PTDControlador implements Serializable{
 
 	
 	private static final long serialVersionUID = 1L;
 	
-	private PTDRepository ptdRepository;
-	
 	private String siape;
 	
 	private String coordenacao;
 	
-	private List<PTD> ptds;
+	private List<PTD> ptds = new ArrayList<PTD>();
 	
-	private List<Professor> professores;
+	private List<Professor> professores = new ArrayList<Professor>();
 	
 	private PTD selectedPtd;
 	
 	private Professor selectedProfessor;
 	
-	private boolean searched;
+	private boolean searched = false;
 	
-	public PTDControlador() {
-		this.ptdRepository = PTDRepository.getInstance();
-		this.ptds = new ArrayList<PTD>();
-		this.professores = new ArrayList<Professor>();
-		searched = false;
+	@Autowired
+	private PTDRepositoryInterface ptdRepositoryInterface;
+	
+	public PTDControlador() {		
 	}
 	
 	public String adicionaPTD(PTD ptd) {		
 		ptd.setStatus((byte) PTD.STATUS.CRIADO.ordinal());
 		ptd.setLastUpdate(Date.valueOf(LocalDate.now()));
-		this.ptdRepository.savePTD(ptd);
+		ptdRepositoryInterface.saveAndFlush(ptd);				
 		
-		return "cadastroptd.xhtml";
+		return "/ptd/cadastro.xhtml";
 	}
 	
 	public String atualizaPTD(PTD ptd) {		
 		ptd.setStatus((byte) PTD.STATUS.AGUARDO.ordinal());
 		ptd.setLastUpdate(Date.valueOf(LocalDate.now()));
-		this.ptdRepository.updatePTD(ptd);
-		
-		return "buscarptd.xhtml";
+		ptdRepositoryInterface.save(ptd);
+		return "/ptd/buscar.xhtml";
 	}
 	
 	public String buscarPTDPorSIAPE() {		
-		this.ptds = this.ptdRepository.findByProfessorSiape(siape);
+		this.ptds = ptdRepositoryInterface.findByProfessorSiape(siape);
 		searched = true;
-		return "buscarptd.xhtml"; 
+		return "/ptd/buscar.xhtml"; 
 	}
 	
 	public String buscarPTDEnsinoPorSIAPE() {		
-		this.ptds = this.ptdRepository.findByProfessorSiape(siape);
+		this.ptds = ptdRepositoryInterface.findByProfessorSiape(siape);
 		this.professores.clear();
-		return "buscarptdensino.xhtml"; 
+		return "/ptd/buscarensino.xhtml"; 
 	}
 	
 	public String buscarPTDEnsinoPorCoordenacao() {		
-		this.professores = this.ptdRepository.findByProfessorCoordenacao(coordenacao);
+		this.professores = ptdRepositoryInterface.findByProfessorCoordenacao(coordenacao);
 		this.ptds.clear();
-		return "buscarptdensino.xhtml"; 
+		return "/ptd/buscarensino.xhtml"; 
 	}
 	
 	public String mostrarPTDByProfessor() {		
 		if (selectedProfessor != null) {
-			this.ptds = this.ptdRepository.findByProfessorSiape(selectedProfessor.getSiape());
+			this.ptds = ptdRepositoryInterface.findByProfessorSiape(selectedProfessor.getSiape());
 			this.professores.clear();
 		}
-		return "buscarptdensino.xhtml"; 
+		return "/ptd/buscarensino.xhtml"; 
 	}
 
 	public String getSiape() {

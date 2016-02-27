@@ -28,13 +28,13 @@
         
 	        <c:if test="${PTDControlador.ptds.size() == 0}">
 	         	<c:if test="${PTDControlador.searched}">
-	           		<ui:include src="/cadastroprofessor.xhtml"/>
+	           		<ui:include src="/professor/cadastro.xhtml"/>
 	           	</c:if>	
 	        </c:if>
 	        
 	        <c:if test="${PTDControlador.ptds.size() != 0}">
 		        
-		        	<h:button value="NOVO PTD?" outcome="/cadastroptd.xhtml" />
+		        	<h:button value="NOVO PTD?" outcome="/ptd/cadastro.xhtml" />
 		            <!-- <p:dataTable id="tabela" value="#{controleUsuario.listarTodos()}" var="item" 
 		                         paginator="true" rows="5" selection="#{controleUsuario.selectedUsuario}"
 		                         selectionMode="single" rowKey="#{item.codigo}">
