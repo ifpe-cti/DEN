@@ -14,7 +14,8 @@ import org.springframework.stereotype.Component;
 
 import br.edu.ifpe.pdt.entidades.PTD;
 import br.edu.ifpe.pdt.entidades.Professor;
-import br.edu.ifpe.pdt.repositorios.PTDRepositoryInterface;
+import br.edu.ifpe.pdt.repositorios.PTDRepositorio;
+import br.edu.ifpe.pdt.repositorios.ProfessorRepositorio;
 
 @Component
 @ManagedBean(name="PTDControlador", eager=true)
@@ -39,7 +40,10 @@ public class PTDControlador implements Serializable{
 	private boolean searched = false;
 	
 	@Autowired
-	private PTDRepositoryInterface ptdRepositoryInterface;
+	private PTDRepositorio ptdRepositorio;
+	
+	@Autowired
+	private ProfessorRepositorio professorRepositorio;
 	
 	public PTDControlador() {		
 	}
@@ -47,7 +51,7 @@ public class PTDControlador implements Serializable{
 	public String adicionaPTD(PTD ptd) {		
 		ptd.setStatus((byte) PTD.STATUS.CRIADO.ordinal());
 		ptd.setLastUpdate(Date.valueOf(LocalDate.now()));
-		ptdRepositoryInterface.saveAndFlush(ptd);				
+		ptdRepositorio.saveAndFlush(ptd);				
 		
 		return "/ptd/cadastro.xhtml";
 	}
@@ -55,31 +59,31 @@ public class PTDControlador implements Serializable{
 	public String atualizaPTD(PTD ptd) {		
 		ptd.setStatus((byte) PTD.STATUS.AGUARDO.ordinal());
 		ptd.setLastUpdate(Date.valueOf(LocalDate.now()));
-		ptdRepositoryInterface.save(ptd);
+		ptdRepositorio.save(ptd);
 		return "/ptd/buscar.xhtml";
 	}
 	
 	public String buscarPTDPorSIAPE() {		
-		this.ptds = ptdRepositoryInterface.findByProfessorSiape(siape);
+		this.ptds = ptdRepositorio.findByProfessorSiape(siape);
 		searched = true;
 		return "/ptd/buscar.xhtml"; 
 	}
 	
 	public String buscarPTDEnsinoPorSIAPE() {		
-		this.ptds = ptdRepositoryInterface.findByProfessorSiape(siape);
+		this.ptds = ptdRepositorio.findByProfessorSiape(siape);
 		this.professores.clear();
 		return "/ptd/buscarensino.xhtml"; 
 	}
 	
 	public String buscarPTDEnsinoPorCoordenacao() {		
-		this.professores = ptdRepositoryInterface.findByProfessorCoordenacao(coordenacao);
+		this.professores = professorRepositorio.findByCoordenacao(coordenacao);
 		this.ptds.clear();
 		return "/ptd/buscarensino.xhtml"; 
 	}
 	
 	public String mostrarPTDByProfessor() {		
 		if (selectedProfessor != null) {
-			this.ptds = ptdRepositoryInterface.findByProfessorSiape(selectedProfessor.getSiape());
+			this.ptds = ptdRepositorio.findByProfessorSiape(selectedProfessor.getSiape());
 			this.professores.clear();
 		}
 		return "/ptd/buscarensino.xhtml"; 

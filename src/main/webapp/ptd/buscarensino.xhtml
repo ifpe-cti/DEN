@@ -54,8 +54,7 @@
 		                    #{item.lastUpdate}
 		                </p:column>
 			            </p:dataTable> 
-		            <p:commandButton value="Editar PTD." update="formularioBusca" 
-			            				oncomplete="location.href='/ptd/editar.xhtml'"/>
+        				<h:button value="Editar PTD." outcome="/ptd/editar.xhtml" />
 	        </c:if>
 	        
 	        <c:if test="${PTDControlador.professores.size() != 0}">
