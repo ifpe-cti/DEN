@@ -65,12 +65,18 @@ public class PTDControlador implements Serializable{
 	
 	public String buscarPTDPorSIAPE() {		
 		this.ptds = ptdRepositorio.findByProfessorSiape(siape);
+		if (ptds.size() > 0) {
+			this.selectedProfessor = ptds.get(0).getProfessor();
+		}
 		searched = true;
 		return "/ptd/buscar.xhtml"; 
 	}
 	
 	public String buscarPTDEnsinoPorSIAPE() {		
 		this.ptds = ptdRepositorio.findByProfessorSiape(siape);
+		if (ptds.size() > 0) {
+			this.selectedProfessor = ptds.get(0).getProfessor();
+		}
 		this.professores.clear();
 		return "/ptd/buscarensino.xhtml"; 
 	}
