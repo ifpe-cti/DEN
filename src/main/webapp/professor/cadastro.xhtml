@@ -12,7 +12,7 @@
 <h:form id="formularioCadastro" class="validform">
 
 	<p:fieldset legend="Cadastro de Professor">
-		<p:messages />	
+		<p:messages />
 		<p:panelGrid columns="2">
 			<h:outputText value="SIAPE*:" />
 			<p:inputText id="txtSiape" value="#{ptd.professor.siape}"
@@ -41,20 +41,12 @@
                                  O Email precisa ser preenchido" />
 
 		</p:panelGrid>
-		<h:commandButton class="buscar_button" value="cadastrar"
-			oncomplete="PF('painel').show()" />
+		<br/>
+		<p:commandButton value="cadastrar" class="buscar_button" 
+		action="#{PTDControlador.adicionaPTD(ptd)}" update="formularioCadastro" />
+		
 	</p:fieldset>
-
-	<p:dialog id="dialogo" visible="false" resizable="false"
-		style="width: 600px" modal="true" widgetVar="painel">
-
-		<h:outputText value="Deseja realmente cadastrar o PTD?" />
-		<br />
-		<h:commandButton value="sim"
-			outcome="#{PTDControlador.adicionaPTD(ptd)}"
-			update="formularioCadastro" oncomplete="PF('painel').hide()" />
-		<p:commandButton value="não" oncomplete="PF('painel').hide()" />
-	</p:dialog>
+	
 </h:form>
 </html>
 

@@ -6268,6 +6268,29 @@ button.close {
     text-overflow: '';
 }
 
+.top_block {
+	width: 100%;
+	display: block; 
+}
+
+.ptd-header {
+	width: 100%;
+	height: 60px;
+	background-color: #E4E4D8;
+	background: -moz-linear-gradient(
+		top,
+		#ffffff 0%,
+		#EBEBDF 50%,
+		#E5E5DC 50%,
+		#D7D7D0);
+	background: -webkit-gradient(
+		linear, left top, left bottom,
+		from(#ffffff),
+		color-stop(0.50, #EBEBDF),
+		color-stop(0.50, #E5E5DC),
+		to(#D7D7D0));	
+}
+
 /*
 .fieldset {
 	padding: 1em;

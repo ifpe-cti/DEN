@@ -12,8 +12,8 @@
 <h:body>
 	<ui:include src="/menu.xhtml" />
 
-	<div>
-		<p:panelGrid columns="2" class="validform">
+	<p:outputPanel style="display:block ptd-header">
+		<p:panelGrid columns="2" style="display:validform">
 			<h:outputText value="SIAPE:" />
 			<h:outputText value="#{PTDControlador.selectedProfessor.siape}" />
 			<h:outputText value="Coordenação:" />
@@ -23,29 +23,11 @@
 			<h:outputText value="Email:" />
 			<h:outputText value="#{PTDControlador.selectedProfessor.email}" />
 		</p:panelGrid>
+	</p:outputPanel>
+	<br />
+	<div>
+		<ui:include src="/ptd/formEditar.xhtml" />
 	</div>
-	<br/>
-	<h:form id="formulario" class="validform">
-		<p:fieldset legend="cadastro de PTD">
-		<p:messages />
-		
-			<h:outputText value="Pesquisa:" />
-
-			<h:commandButton value="cadastrar" class="buscar_button" oncomplete="PF('painel').show()" />
-		</p:fieldset>
-		
-		<p:dialog id="dialogo" visible="false" resizable="false"
-			style="width: 600px" modal="true" widgetVar="painel">
-
-			<h:outputText value="Deseja realmente cadastrar o PTD?" />
-			<br />
-			<h:commandButton value="sim" class="buscar_button"
-				outcome="#{PTDControlador.atualizaPTD(ptd)}" update="formulario"
-				oncomplete="PF('painel').hide()" />
-			<h:commandButton value="não"  class="buscar_button" oncomplete="PF('painel').hide()" />
-		</p:dialog>
-
-	</h:form>
 
 </h:body>
 </html>
