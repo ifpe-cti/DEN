@@ -51,8 +51,11 @@ public class PTDControlador implements Serializable{
 	public String adicionaPTD(PTD ptd) {		
 		ptd.setStatus((byte) PTD.STATUS.CRIADO.ordinal());
 		ptd.setLastUpdate(Date.valueOf(LocalDate.now()));
-		ptdRepositorio.saveAndFlush(ptd);				
+		ptdRepositorio.saveAndFlush(ptd);
+		this.selectedProfessor = ptd.getProfessor();
 		
+		
+		searched = false;		
 		return "/ptd/cadastro.xhtml";
 	}
 	
@@ -60,14 +63,30 @@ public class PTDControlador implements Serializable{
 		ptd.setStatus((byte) PTD.STATUS.AGUARDO.ordinal());
 		ptd.setLastUpdate(Date.valueOf(LocalDate.now()));
 		ptdRepositorio.save(ptd);
+		this.selectedProfessor = ptd.getProfessor();
+		
+		
+		searched = false;	
 		return "/ptd/buscar.xhtml";
 	}
 	
-	public String buscarPTDPorSIAPE() {		
+	public String editarPTD() {		
+		String ret  = "";
+		if (this.selectedPtd != null) {
+			ret = "/ptd/editar.xhtml";
+		}		
+		
+		searched = false;	
+		return ret;
+	}
+	
+	public String buscarPTDPorSIAPE() {	
 		this.ptds = ptdRepositorio.findByProfessorSiape(siape);
 		if (ptds.size() > 0) {
 			this.selectedProfessor = ptds.get(0).getProfessor();
 		}
+		
+		
 		searched = true;
 		return "/ptd/buscar.xhtml"; 
 	}
@@ -77,13 +96,19 @@ public class PTDControlador implements Serializable{
 		if (ptds.size() > 0) {
 			this.selectedProfessor = ptds.get(0).getProfessor();
 		}
-		this.professores.clear();
+		
+		this.professores.clear();		
+		searched = false;
 		return "/ptd/buscarensino.xhtml"; 
 	}
 	
 	public String buscarPTDEnsinoPorCoordenacao() {		
 		this.professores = professorRepositorio.findByCoordenacao(coordenacao);
-		this.ptds.clear();
+		
+		
+		this.ptds.clear();		
+		this.selectedProfessor = null;
+		searched = false;
 		return "/ptd/buscarensino.xhtml"; 
 	}
 	
@@ -92,6 +117,8 @@ public class PTDControlador implements Serializable{
 			this.ptds = ptdRepositorio.findByProfessorSiape(selectedProfessor.getSiape());
 			this.professores.clear();
 		}
+		
+		searched = false;
 		return "/ptd/buscarensino.xhtml"; 
 	}
 
@@ -149,5 +176,5 @@ public class PTDControlador implements Serializable{
 
 	public void setSelectedProfessor(Professor selectedProfessor) {
 		this.selectedProfessor = selectedProfessor;
-	}		
+	}	
 }

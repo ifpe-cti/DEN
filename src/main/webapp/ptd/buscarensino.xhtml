@@ -14,28 +14,32 @@
 <h:body>
 	<ui:include src="/menu.xhtml" />
 	<p:growl id="gro" life="3000" />
-	<h:form id="formularioBusca">
-		<p:fieldset legend="Buscar PTD...">
+	<h:form id="formularioBusca" class="validform">
+		<p:fieldset styleClass="fieldset" legend="Buscar PTD...">
 			<p:panelGrid columns="3">
 				<h:outputText value="SIAPE: " />
 				<p:inputText id="txtSiapeBusca" value="#{PTDControlador.siape}" />
-				<p:commandButton value="Buscar" update="formularioBusca"
+				<h:commandButton class="buscar_button" value="Buscar"
+					update="formularioBusca"
 					action="#{PTDControlador.buscarPTDEnsinoPorSIAPE()}" />
 
 
 				<h:outputText value="Coordenação: " />
-				<p:selectOneMenu id="txtCoordenacao"
+				<h:selectOneMenu id="txtCoordenacao" class="select"
 					value="#{PTDControlador.coordenacao}">
 					<f:selectItem itemValue="CCTIN" itemLabel="CCTIN" />
 					<f:selectItem itemValue="CTEE" itemLabel="CTEE" />
 					<f:selectItem itemValue="CTMA" itemLabel="CTMA" />
 					<f:selectItem itemValue="CTI" itemLabel="CTI" />
-				</p:selectOneMenu>
-				<p:commandButton value="Buscar" update="formularioBusca"
+				</h:selectOneMenu>
+				<h:commandButton value="Buscar" class="buscar_button"
+					update="formularioBusca"
 					action="#{PTDControlador.buscarPTDEnsinoPorCoordenacao()}" />
 			</p:panelGrid>
 		</p:fieldset>
 
+	</h:form>
+	<h:form id="formularioEditar" class="validform">
 		<c:if test="${PTDControlador.ptds.size() != 0}">
 
 			<p:dataTable id="tabela" value="#{PTDControlador.ptds}" var="item"
@@ -55,9 +59,11 @@
 		                    #{item.lastUpdate}
 		                </p:column>
 			</p:dataTable>
-			<h:button value="Editar PTD." outcome="/ptd/editar.xhtml" />
+			<h:commandButton value="Editar PTD." class="buscar_button"
+				update="formularioBusca" action="#{PTDControlador.editarPTD()}" />
 		</c:if>
-
+	</h:form>
+	<h:form id="formularioProfessor" class="validform">
 		<c:if test="${PTDControlador.professores.size() != 0}">
 			<p:dataTable id="tabela" value="#{PTDControlador.professores}"
 				var="item" paginator="true" rows="5"
@@ -77,8 +83,9 @@
 		                    #{item.email}
 		                </p:column>
 			</p:dataTable>
-			<p:commandButton value="Mostrar PTDs." update="formularioBusca"
-				oncomplete="${PTDControlador.mostrarPTDByProfessor()}" />
+			<h:commandButton value="Mostrar PTDs." class="buscar_button"
+				update="formularioBusca"
+				action="#{PTDControlador.mostrarPTDByProfessor()}" />
 
 		</c:if>
 	</h:form>

@@ -12,7 +12,7 @@
 <h:body>
 	<ui:include src="/menu.xhtml" />
 
-	<p:panelGrid columns="2">
+	<p:panelGrid columns="2" class="validform">
 		<h:outputText value="SIAPE:" />
 		<h:outputText value="#{PTDControlador.selectedPtd.professor.siape}" />
 		<h:outputText value="Coordenação:" />
@@ -23,12 +23,12 @@
 		<h:outputText value="Email:" />
 		<h:outputText value="#{PTDControlador.selectedPtd.professor.email}" />
 	</p:panelGrid>
-	<h:form id="formulario">
+	<h:form id="formularioEditar" class="validform">
 		<p:fieldset legend="cadastro de PTD">
 			<h:outputText value="Pesquisa:" />
 
 		</p:fieldset>
-		<p:commandButton value="cadastrar" oncomplete="PF('painel').show()" />
+		<h:commandButton value="cadastrar" class="buscar_button"  oncomplete="PF('painel').show()" />
 		<p:messages />
 
 		<p:dialog id="dialogo" visible="false" resizable="false"
@@ -36,10 +36,10 @@
 
 			<h:outputText value="Deseja realmente cadastrar o PTD?" />
 			<br />
-			<p:commandButton value="sim"
-				action="#{PTDControlador.atualizaPTD(ptd)}" update="formulario"
+			<h:commandButton value="sim" class="buscar_button" 
+				outcome="#{PTDControlador.atualizaPTD(ptd)}" update="formularioEditar"
 				oncomplete="PF('painel').hide()" />
-			<p:commandButton value="não" oncomplete="PF('painel').hide()" />
+			<h:commandButton value="não" class="buscar_button"  oncomplete="PF('painel').hide()" />
 		</p:dialog>
 
 	</h:form>
