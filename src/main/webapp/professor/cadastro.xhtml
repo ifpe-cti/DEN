@@ -21,7 +21,7 @@
                                  O Siape precisa ser preenchido" />
 
 			<h:outputText value="Coordenação*:" />
-			<h:selectOneMenu id="txtCoordenacao" class="select"
+			<h:selectOneMenu id="txtCoordenacao" style="class:select"
 				value="#{ptd.professor.coordenacao}">
 				<f:selectItem itemValue="CCTIN" itemLabel="CCTIN" />
 				<f:selectItem itemValue="CTEE" itemLabel="CTEE" />
@@ -42,7 +42,7 @@
 
 		</p:panelGrid>
 		<br/>
-		<p:commandButton value="cadastrar" class="buscar_button" 
+		<h:commandButton value="cadastrar" class="buscar_button" 
 		action="#{PTDControlador.adicionaPTD(ptd)}" update="formularioCadastro" />
 		
 	</p:fieldset>

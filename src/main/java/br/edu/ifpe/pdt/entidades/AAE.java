@@ -26,7 +26,7 @@ public class AAE {
 	@Column(name="id", updatable=false)
 	private Integer codigo;
 	
-	@Column(name="atividade", nullable=false, length=200)
+	@Column(name="atividade", nullable=false, length=100)
 	private String atividade;
 	
 	@Column(name="carga_horaria")

@@ -83,9 +83,19 @@ sup {
 sub {
   bottom: -.25em;
 }
+
 img {
-  border: 0;
+  vertical-align: middle;
 }
+.img-responsive{
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+.img-rounded {
+  border-radius: 6px;
+}
+
 svg:not(:root) {
   overflow: hidden;
 }
@@ -257,7 +267,7 @@ th {
   }
   .table-bordered th,
   .table-bordered td {
-    border: 1px solid #ddd !important;
+    border: 1px solid #ddd !important;    
   }
 }
 @font-face {
@@ -6259,7 +6269,6 @@ button.close {
 }
 
 .validform select {
-    background: #FBFBFB no-repeat right;
     background: #FBFBFB no-repeat right;
    appearance:none;
     -webkit-appearance:none; 

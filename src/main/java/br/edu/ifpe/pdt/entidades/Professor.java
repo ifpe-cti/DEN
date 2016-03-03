@@ -1,10 +1,12 @@
 package br.edu.ifpe.pdt.entidades;
 
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -25,38 +27,38 @@ public class Professor {
 	@Column(name="id", updatable=false)
 	private Integer codigo;
 	
-	@Column(name="siape", nullable=false, length=200)
+	@Column(name="siape", nullable=false, length=12)
 	private String siape;
 	
-	@Column(name="coordenacao", nullable=false, length=200)
+	@Column(name="coordenacao", nullable=false, length=10)
 	private String coordenacao;
 	
-	@Column(name="nome", nullable=false, length=200)
+	@Column(name="nome", nullable=false, length=100)
 	private String nome;
 
-	@Column(name="email", nullable=false, length=200)
+	@Column(name="email", nullable=false, length=50)
 	private String email;
 	
 	@ManagedProperty(value="#{disciplinas}")
-	@OneToMany(mappedBy="professor", fetch=FetchType.EAGER, orphanRemoval=true)
+	@OneToMany(mappedBy="professor", fetch=FetchType.EAGER, orphanRemoval=true, cascade=CascadeType.ALL)
 	private Set<Disciplina> disciplinas;
 	
 	@ManagedProperty(value="#{aaes}")
-	@OneToMany(mappedBy="professor", fetch=FetchType.EAGER, orphanRemoval=true)
+	@OneToMany(mappedBy="professor", fetch=FetchType.EAGER, orphanRemoval=true, cascade=CascadeType.ALL)
 	private Set<AAE> aaes;
 	
 	@ManagedProperty(value="#{pesquisas}")
-	@OneToMany(mappedBy="professor", fetch=FetchType.EAGER, orphanRemoval=true)
+	@OneToMany(mappedBy="professor", fetch=FetchType.EAGER, orphanRemoval=true, cascade=CascadeType.ALL)
 	private Set<Pesquisa> pesquisas;
 	
 	@ManagedProperty(value="#{extensoes}")
-	@OneToMany(mappedBy="professor", fetch=FetchType.EAGER, orphanRemoval=true)
+	@OneToMany(mappedBy="professor", fetch=FetchType.EAGER, orphanRemoval=true, cascade=CascadeType.ALL)
 	private Set<Extensao> extensoes;
 	
 	@ManagedProperty(value="#{aaps}")
-	@OneToMany(mappedBy="professor", fetch=FetchType.EAGER, orphanRemoval=true)
+	@OneToMany(mappedBy="professor", fetch=FetchType.EAGER, orphanRemoval=true, cascade=CascadeType.ALL)
 	private Set<AAP> aaps;
-
+	
 	public Integer getCodigo() {
 		return codigo;
 	}
@@ -135,5 +137,13 @@ public class Professor {
 
 	public void setAaps(Set<AAP> aaps) {
 		this.aaps = aaps;
+	}
+
+	public void createSets() {
+		this.disciplinas = new LinkedHashSet<Disciplina>();
+		this.aaes = new LinkedHashSet<AAE>();
+		this.pesquisas = new LinkedHashSet<Pesquisa>();
+		this.extensoes = new LinkedHashSet<Extensao>();
+		this.aaps = new LinkedHashSet<AAP>();
 	}
 }

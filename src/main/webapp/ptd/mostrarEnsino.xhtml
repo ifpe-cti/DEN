@@ -13,7 +13,7 @@
 <h:body>
 	<ui:include src="/menu.xhtml" />
 
-	<p:outputPanel style="width:40%">
+	<p:outputPanel id="panel">
 		<h:form id="formularioEnsino" style="width:500px">
 			<h:panelGrid id="gridEnsino" columns="2"
 				class="table table-bordered table-condensed">
@@ -50,12 +50,7 @@
 	</p:outputPanel>
 	<br />
 	<div>
-		<c:if test="${PTDControlador.selectedPtd.status != 5}">
-			<ui:include src="/ptd/formEditar.xhtml" />
-		</c:if>
-		<c:if test="${PTDControlador.selectedPtd.status == 5}">
-			<ui:include src="/ptd/formVisualizar.xhtml" />
-		</c:if>
+		<ui:include src="/ptd/formVisualizar.xhtml" />
 	</div>
 
 </h:body>

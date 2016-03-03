@@ -52,6 +52,8 @@ public class PTD implements Serializable {
 	@JoinColumn(name="professor_id", updatable=false)
 	private Professor professor;
 	
+	@Column(name="resultado", length=2000)
+	private String resultado;
 
 	public Integer getCodigo() {
 		return codigo;
@@ -83,5 +85,20 @@ public class PTD implements Serializable {
 
 	public void setLastUpdate(Date lastUpdate) {
 		this.lastUpdate = lastUpdate;
+	}
+
+	public String getResultado() {
+		return resultado;
+	}
+
+	public void setResultado(String resultado) {
+		this.resultado = resultado;
 	}	
+	
+	public PTD clone() {
+		PTD ptd = new PTD();
+		
+		ptd.setProfessor(this.professor);
+		return ptd;		
+	}
 }

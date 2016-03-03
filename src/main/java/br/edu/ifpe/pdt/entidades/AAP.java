@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /*
- * Atividades Administrativas e Pedagógicas - AAP
+ * Atividades Administrativas e Pedagï¿½gicas - AAP
  */
 @ManagedBean(name = "aap")
 @RequestScoped
@@ -25,10 +25,10 @@ public class AAP {
 	@Column(name="id", updatable=false)
 	private Integer codigo;
 	
-	@Column(name="atividade", nullable=false, length=200)
+	@Column(name="atividade", nullable=false, length=100)
 	private String atividade;
 	
-	@Column(name="portaria", nullable=false, length=50)
+	@Column(name="portaria", nullable=false, length=20)
 	private String portaria;
 	
 	@ManyToOne

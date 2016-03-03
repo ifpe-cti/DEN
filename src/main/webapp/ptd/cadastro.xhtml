@@ -12,17 +12,20 @@
 <h:body>
 	<ui:include src="/menu.xhtml" />
 
-	<p:outputPanel style="display:block ptd-header">
-		<p:panelGrid columns="2" style="display:validform">
-			<h:outputText value="SIAPE:" />
-			<h:outputText value="#{PTDControlador.selectedProfessor.siape}" />
-			<h:outputText value="Coordenação:" />
-			<h:outputText value="#{PTDControlador.selectedProfessor.coordenacao}" />
-			<h:outputText value="Nome:" />
-			<h:outputText value="#{PTDControlador.selectedProfessor.nome}" />
-			<h:outputText value="Email:" />
-			<h:outputText value="#{PTDControlador.selectedProfessor.email}" />
-		</p:panelGrid>
+	<p:outputPanel style="width:40%">
+		<h:form id="formularioEnsino" style="width:500px">
+			<p:panelGrid columns="2" style="display:validform">
+				<h:outputText value="SIAPE:" />
+				<h:outputText value="#{PTDControlador.selectedProfessor.siape}" />
+				<h:outputText value="Coordenação:" />
+				<h:outputText
+					value="#{PTDControlador.selectedProfessor.coordenacao}" />
+				<h:outputText value="Nome:" />
+				<h:outputText value="#{PTDControlador.selectedProfessor.nome}" />
+				<h:outputText value="Email:" />
+				<h:outputText value="#{PTDControlador.selectedProfessor.email}" />
+			</p:panelGrid>
+		</h:form>
 	</p:outputPanel>
 	<br />
 	<div>

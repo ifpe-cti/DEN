@@ -43,9 +43,18 @@
 			<br />
 			<div id="div_buttons">
 				<div id="conteudo-left">
-					<h:button class="buscar_button" value="Novo PTD"
-						outcome="/ptd/cadastro.xhtml" />
+					<br />
+					<h:panelGrid id="gridEnsino" columns="2" class="table">
+						<h:commandButton class="buscar_button" value="Novo PTD"
+							update="formularioEditar"
+							action="#{PTDControlador.cadastrarNovoPTD()}" />
+
+						<h:commandButton class="buscar_button"
+							value="Importar PTD selecionado" update="formularioEditar"
+							action="#{PTDControlador.cadastrarNovoPTDFromSelected()}" />
+					</h:panelGrid>
 				</div>
+				<br />
 			</div>
 			<p:dataTable id="tabela" value="${PTDControlador.ptds}" var="item"
 				paginator="true" rows="5" selection="${PTDControlador.selectedPtd}"
@@ -67,8 +76,9 @@
 			</p:dataTable>
 			<div id="div_buttons">
 				<div id="conteudo-left">
-					<h:commandButton class="buscar_button" value="Editar PTD" update="formularioEditar"
-						action="#{PTDControlador.editarPTD()}" />
+					<br />
+					<h:commandButton class="buscar_button" value="Editar PTD"
+						update="formularioEditar" action="#{PTDControlador.editarPTD()}" />
 				</div>
 			</div>
 		</c:if>

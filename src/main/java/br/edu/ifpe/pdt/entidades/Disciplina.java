@@ -18,17 +18,17 @@ public class Disciplina {
 	@Column(name="id", updatable=false)
 	private Integer codigo;
 	
-	@Column(name="nome", nullable=false, length=200)
+	@Column(name="nome", nullable=false, length=100)
 	private String nome;
 	
-	@Column(name="curso", nullable=false, length=200)
+	@Column(name="curso", nullable=false, length=10)
 	private String curso;
 	
 	@Column(name="carga_horaria")
 	private Integer cargaHoraria;
 	
 	@ManyToOne
-	@JoinColumn(name="professor_id", updatable=false)
+	@JoinColumn(name="professor_id")
 	private Professor professor;
 
 	public Integer getCodigo() {

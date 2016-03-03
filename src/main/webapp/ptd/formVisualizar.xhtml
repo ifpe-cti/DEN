@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+
+
+<p:messages />
+<p:fieldset legend="Atualizar PTD">
+	<h:form id="formularioDisciplina" class="validform">
+		<p:fieldset legend="ATIVIDADES DE ENSINO (AULAS)">
+
+			<br />
+			<p:dataTable id="tabela"
+				value="${PTDControlador.selectedPtd.professor.disciplinas}"
+				var="item" paginator="true" rows="7" editable="true"
+				rowKey="${item.id}">
+				<p:column>
+					<h:outputText value="${item.nome}" />
+					<f:facet name="header">
+		                        Nome
+		                    </f:facet>
+				</p:column>
+
+				<p:column headerText="Curso">
+		                    ${item.curso}
+		                </p:column>
+				<p:column headerText="Carga Horária">
+		                    ${item.cargaHoraria}
+		                </p:column>
+
+			</p:dataTable>
+		</p:fieldset>
+	</h:form>
+
+	<br />
+	<h:form id="formularioAAE" class="validform">
+		<p:fieldset legend="ATIVIDADES DE APOIO AO ENSINO">
+
+			<p:dataTable id="tabela"
+				value="${PTDControlador.selectedPtd.professor.aaes}" var="item"
+				paginator="true" rows="7" editable="true" rowKey="${item.id}">
+				<p:column>
+					<h:outputText value="${item.atividade}" />
+					<f:facet name="header">
+		                        Atividade
+		            </f:facet>
+				</p:column>
+				<p:column headerText="Carga Horária">
+		                    ${item.cargaHoraria}
+		                </p:column>
+
+			</p:dataTable>
+		</p:fieldset>
+	</h:form>
+	<br />
+	<h:form id="formularioPesquisa" class="validform">
+		<p:fieldset legend="ATIVIDADES DE PESQUISA">
+
+			<br />
+			<p:dataTable id="tabela"
+				value="${PTDControlador.selectedPtd.professor.pesquisas}" var="item"
+				paginator="true" rows="7" editable="true" rowKey="${item.id}">
+				<p:column>
+					<h:outputText value="${item.atividade}" />
+					<f:facet name="header">
+		                        Atividade
+		            </f:facet>
+				</p:column>
+
+			</p:dataTable>
+		</p:fieldset>
+	</h:form>
+	<br />
+	<h:form id="formularioExtensao" class="validform">
+		<p:fieldset legend="ATIVIDADES DE EXTENSÃO">
+
+			<br />
+			<p:dataTable id="tabela"
+				value="${PTDControlador.selectedPtd.professor.extensoes}" var="item"
+				paginator="true" rows="7" editable="true" rowKey="${item.id}">
+				<p:column>
+					<h:outputText value="${item.atividade}" />
+					<f:facet name="header">
+		                        Atividade
+		            </f:facet>
+				</p:column>
+
+			</p:dataTable>
+		</p:fieldset>
+	</h:form>
+	<br />
+	<h:form id="formularioAAP" class="validform">
+		<p:fieldset legend="ATIVIDADES ADMINISTRATIVO-PEDAGÓGICAS">
+
+			<br />
+			<p:dataTable id="tabela"
+				value="${PTDControlador.selectedPtd.professor.aaps}" var="item"
+				paginator="true" rows="7" editable="true" rowKey="${item.id}">
+				<p:column>
+					<h:outputText value="${item.atividade}" />
+					<f:facet name="header">
+		                        Atividade
+		            </f:facet>
+				</p:column>
+				<p:column headerText="Portaria">
+		                    ${item.portaria}
+		                </p:column>
+
+			</p:dataTable>
+		</p:fieldset>
+	</h:form>
+</p:fieldset>
+
+<c:if test="${PTDControlador.selectedPtd.status != 5}">
+	<h:form id="formularioVisualizar" class="validform" style="width:100%;">
+		<br />
+		<p:panelGrid columns="3" style="width:40%;">
+			<h:outputText value="Atualizar Status:" />
+			<h:selectOneMenu id="txtCoordenacao" class="select"
+				style="width:200px;" value="#{PTDControlador.selectedPtd.status}">
+				<f:selectItem itemValue="2" itemLabel="HOMOLOGADO" />
+				<f:selectItem itemValue="3" itemLabel="APROVADO" />
+				<f:selectItem itemValue="4" itemLabel="CORRECAO" />
+			</h:selectOneMenu>
+
+			<h:commandButton value="Atualizar" class="buscar_button"
+				update="formularioEnsino"
+				action="#{PTDControlador.atualizaPTDEnsino()}" />
+		</p:panelGrid>
+		<br />
+		<br />
+	</h:form>
+</c:if>
+<c:if test="${PTDControlador.selectedPtd.status == 5}">
+	<h:form id="formularioVisualizar" class="validform" style="width:100%;">
+		<br />
+		<p align="center">
+			<h:commandButton value="Reabrir PTD" class="buscar_button"
+				update="formularioEnsino"
+				action="#{PTDControlador.reabrirPTD(PTDControlador.selectedPtd)}" />
+		</p>
+		<br />
+	</h:form>
+</c:if>
+</html>
