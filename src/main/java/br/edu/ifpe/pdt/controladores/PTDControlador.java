@@ -120,7 +120,7 @@ public class PTDControlador implements Serializable{
 	public String editarPTD() {		
 		String ret  = "";
 		if (this.selectedPtd != null) {
-			this.selectedPtd = ptdRepositorio.getOne(this.selectedPtd.getCodigo());
+			this.selectedPtd = ptdRepositorio.findOne(this.selectedPtd.getCodigo());
 			ret = "/ptd/editar.xhtml";
 		}		
 		
@@ -131,7 +131,7 @@ public class PTDControlador implements Serializable{
 	public String mostrarPTD() {		
 		String ret  = "";
 		if (this.selectedPtd != null) {
-			this.selectedPtd = ptdRepositorio.getOne(this.selectedPtd.getCodigo());
+			this.selectedPtd = ptdRepositorio.findOne(this.selectedPtd.getCodigo());
 			ret = "/ptd/mostrarEnsino.xhtml";
 		}		
 		
@@ -141,6 +141,7 @@ public class PTDControlador implements Serializable{
 	
 	public String cadastrarNovoPTD() {		
 		this.selectedPtd = new PTD();
+		this.selectedProfessor.clear();
 		this.selectedPtd.setProfessor(this.selectedProfessor);
 		
 		searched = false;	
