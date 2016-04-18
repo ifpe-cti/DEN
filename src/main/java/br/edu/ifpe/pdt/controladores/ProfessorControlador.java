@@ -87,20 +87,14 @@ public class ProfessorControlador implements Serializable{
 		
 		return "login.xhtml";
 	}
-// Getters and Setters from bean	
+// Getters from bean	
 	public List<Professor> getProfessores() {
 		return professores;
 	}
 
-	public void setProfessores(List<Professor> professores) {
-		this.professores = professores;
-	}
-
 	public Professor getProfessorLogado() {
+		this.professorLogado = (Professor) FacesContext.getCurrentInstance().
+				getExternalContext().getSessionMap().get("professorLogado");
 		return professorLogado;
-	}
-
-	public void setProfessorLogado(Professor professorLogado) {
-		this.professorLogado = professorLogado;
 	}
 }

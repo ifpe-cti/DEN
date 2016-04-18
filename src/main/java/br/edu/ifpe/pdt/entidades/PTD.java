@@ -2,6 +2,7 @@ package br.edu.ifpe.pdt.entidades;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.faces.bean.ManagedProperty;
@@ -162,6 +163,50 @@ public class PTD implements Serializable {
 	
 	public PTD clone() {
 		PTD ptd = new PTD();
+		
+		ptd.setDisciplinas(new LinkedHashSet<Disciplina>());
+		for (Disciplina d: this.disciplinas) {
+			Disciplina clone = new Disciplina();
+			clone.setNome(d.getNome());
+			clone.setCurso(d.getCurso());
+			clone.setCargaHoraria(d.getCargaHoraria());
+			clone.setPTD(ptd);
+			ptd.getDisciplinas().add(clone);
+		}
+		
+		ptd.setAaes(new LinkedHashSet<AAE>());
+		for (AAE aae: this.aaes) {
+			AAE clone = new AAE();
+			clone.setAtividade(aae.getAtividade());
+			clone.setCargaHoraria(aae.getCargaHoraria());
+			clone.setPTD(ptd);
+			ptd.getAaes().add(clone);
+		}
+		
+		ptd.setAaps(new LinkedHashSet<AAP>());
+		for (AAP aap: this.aaps) {
+			AAP clone = new AAP();
+			clone.setAtividade(aap.getAtividade());
+			clone.setPortaria(aap.getPortaria());
+			clone.setPTD(ptd);
+			ptd.getAaps().add(clone);
+		}
+		
+		ptd.setExtensoes(new LinkedHashSet<Extensao>());
+		for (Extensao e: this.extensoes) {
+			Extensao clone = new Extensao();
+			clone.setAtividade(e.getAtividade());
+			clone.setPTD(ptd);
+			ptd.getExtensoes().add(clone);
+		}
+		
+		ptd.setPesquisas(new LinkedHashSet<Pesquisa>());
+		for (Pesquisa p: this.pesquisas) {
+			Pesquisa clone = new Pesquisa();
+			clone.setAtividade(p.getAtividade());
+			clone.setPTD(ptd);
+			ptd.getPesquisas().add(clone);
+		}
 		
 		return ptd;		
 	}

@@ -11,33 +11,23 @@
 	<link href="../css/ptd.css" type="text/css" rel="stylesheet" />
 </h:head>
 <h:body>
-	<ui:include src="/menu.xhtml" />
+	<ui:include src="/restrito/menu.xhtml" />
 
 	<p:outputPanel style="width:40%">
-		<h:form id="formularioEnsino" style="width:500px">
-			<h:panelGrid id="gridEnsino" columns="2"
-				class="table table-bordered table-condensed">
-				<h:outputText value="SIAPE:" />
-				<h:outputText value="#{PTDControlador.selectedProfessor.siape}" />
-				<h:outputText value="Coordenação:" />
-				<h:outputText
-					value="#{PTDControlador.selectedProfessor.coordenacao}" />
-				<h:outputText value="Nome:" />
-				<h:outputText value="#{PTDControlador.selectedProfessor.nome}" />
-				<h:outputText value="Email:" />
-				<h:outputText value="#{PTDControlador.selectedProfessor.email}" />
-				<h:outputText value="Status:" />
-				<h:outputText value="${PTDControlador.selectedPtd.status}" />
+		<h:form id="formularioEnsino" style="width:500px" styleClass="validForm">
+			<h:panelGrid id="gridEnsino" columns="2">
+					<h:outputText value="Status:" />
+					<h:outputText value="${PTDControlador.selectedPtd.status}" />
 			</h:panelGrid>
 		</h:form>
 	</p:outputPanel>
 	<br />
 	<div>
 		<c:if test="${PTDControlador.selectedPtd.status.ordinal != 5}">
-			<ui:include src="/ptd/formEditar.xhtml" />
+			<ui:include src="/restrito/ptd/formEditar.xhtml" />
 		</c:if>
 		<c:if test="${PTDControlador.selectedPtd.status.ordinal == 5}">
-			<ui:include src="/ptd/formVisualizar.xhtml" />
+			<ui:include src="/restrito/ptd/formVisualizar.xhtml" />
 		</c:if>
 	</div>
 

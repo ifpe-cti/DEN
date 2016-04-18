@@ -16,7 +16,7 @@
 
 			<br />
 			<p:dataTable id="tabela"
-				value="${PTDControlador.selectedPtd.professor.disciplinas}"
+				value="${PTDControlador.selectedPtd.disciplinas}"
 				var="item" paginator="true" rows="7" editable="true"
 				rowKey="${item.id}">
 				<p:column>
@@ -42,7 +42,7 @@
 		<p:fieldset legend="ATIVIDADES DE APOIO AO ENSINO">
 
 			<p:dataTable id="tabela"
-				value="${PTDControlador.selectedPtd.professor.aaes}" var="item"
+				value="${PTDControlador.selectedPtd.aaes}" var="item"
 				paginator="true" rows="7" editable="true" rowKey="${item.id}">
 				<p:column>
 					<h:outputText value="${item.atividade}" />
@@ -63,7 +63,7 @@
 
 			<br />
 			<p:dataTable id="tabela"
-				value="${PTDControlador.selectedPtd.professor.pesquisas}" var="item"
+				value="${PTDControlador.selectedPtd.pesquisas}" var="item"
 				paginator="true" rows="7" editable="true" rowKey="${item.id}">
 				<p:column>
 					<h:outputText value="${item.atividade}" />
@@ -81,7 +81,7 @@
 
 			<br />
 			<p:dataTable id="tabela"
-				value="${PTDControlador.selectedPtd.professor.extensoes}" var="item"
+				value="${PTDControlador.selectedPtd.extensoes}" var="item"
 				paginator="true" rows="7" editable="true" rowKey="${item.id}">
 				<p:column>
 					<h:outputText value="${item.atividade}" />
@@ -99,7 +99,7 @@
 
 			<br />
 			<p:dataTable id="tabela"
-				value="${PTDControlador.selectedPtd.professor.aaps}" var="item"
+				value="${PTDControlador.selectedPtd.aaps}" var="item"
 				paginator="true" rows="7" editable="true" rowKey="${item.id}">
 				<p:column>
 					<h:outputText value="${item.atividade}" />
@@ -116,7 +116,7 @@
 	</h:form>
 </p:fieldset>
 
-<c:if test="${PTDControlador.selectedPtd.status != 5}">
+<c:if test="${PTDControlador.selectedPtd.status.ordinal != 5}">
 	<h:form id="formularioVisualizar" class="validform" style="width:100%;">
 		<br />
 		<p:panelGrid columns="3" style="width:40%;">
@@ -136,13 +136,13 @@
 		<br />
 	</h:form>
 </c:if>
-<c:if test="${PTDControlador.selectedPtd.status == 5}">
+<c:if test="${PTDControlador.selectedPtd.status.ordinal == 5}">
 	<h:form id="formularioVisualizar" class="validform" style="width:100%;">
 		<br />
 		<p align="center">
 			<h:commandButton value="Reabrir PTD" class="buscar_button"
 				update="formularioEnsino"
-				action="#{PTDControlador.reabrirPTD(PTDControlador.selectedPtd)}" />
+				action="#{PTDControlador.reabrirPTD()}" />
 		</p>
 		<br />
 	</h:form>

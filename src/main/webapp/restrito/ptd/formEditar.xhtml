@@ -205,7 +205,7 @@
 		</c:if>
 		<c:if test="${PTDControlador.selectedPtd.professor == null}">
 			<p:commandButton value="Criar PTD" class="buscar_button"
-				action="#{PTDControlador.criarPTD(professorControlador.professorLogado.codigo)}" />
+				action="#{PTDControlador.criarPTD(professorControlador.professorLogado.siape)}" />
 		</c:if>
 		<p:commandButton value="Fechar PTD" class="buscar_button"
 			action="#{PTDControlador.fecharPTD()}" />
