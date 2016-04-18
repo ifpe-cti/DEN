@@ -1,7 +1,6 @@
 package br.edu.ifpe.pdt.entidades;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,8 +13,6 @@ import javax.persistence.Table;
 /*
  * Atividades Administrativas e Pedag�gicas - AAP
  */
-@ManagedBean(name = "aap")
-@RequestScoped
 @Entity
 @Table( name = "aap" )
 public class AAP {
@@ -31,9 +28,9 @@ public class AAP {
 	@Column(name="portaria", nullable=false, length=20)
 	private String portaria;
 	
-	@ManyToOne
-	@JoinColumn(name="professor_id", updatable=false)
-	private Professor professor;
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="ptd_id", updatable=false)
+	private PTD ptd;
 	
 	public Integer getCodigo() {
 		return codigo;
@@ -59,11 +56,11 @@ public class AAP {
 		this.portaria = portaria;
 	}
 
-	public Professor getProfessor() {
-		return professor;
+	public PTD getPTD() {
+		return ptd;
 	}
 
-	public void setProfessor(Professor professor) {
-		this.professor = professor;
+	public void setPTD(PTD ptd) {
+		this.ptd = ptd;
 	}
 }

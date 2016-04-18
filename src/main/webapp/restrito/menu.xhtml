@@ -10,11 +10,8 @@
 	<h:form id="formularioMenu" class="validform">
 		<p:menubar>
 			<p:menuitem value="home" url="/index.xhtml" />
-			<p:submenu label="Professor">
-				<p:menuitem value="Buscar PTD" url="/ptd/buscar.xhtml" />
-			</p:submenu>
-			<p:submenu label="Ensino">
-				<p:menuitem value="Buscar PTD" url="/ptd/buscarensino.xhtml" />
+			<p:submenu label="#{professorControlador.professorLogado.nome}">
+				<p:menuitem value="Logout" action="#{professorControlador.realizarLogout()}" />
 			</p:submenu>
 		</p:menubar>
 		<p:separator />

@@ -18,42 +18,25 @@
 			<h:panelGrid id="gridEnsino" columns="2"
 				class="table table-bordered table-condensed">
 				<h:outputText value="SIAPE:" />
-				<h:outputText value="#{PTDControlador.selectedPtd.professor.siape}" />
+				<h:outputText value="#{PTDControlador.selectedProfessor.siape}" />
 				<h:outputText value="Coordenação:" />
 				<h:outputText
-					value="#{PTDControlador.selectedPtd.professor.coordenacao}" />
+					value="#{PTDControlador.selectedProfessor.coordenacao}" />
 				<h:outputText value="Nome:" />
-				<h:outputText value="#{PTDControlador.selectedPtd.professor.nome}" />
+				<h:outputText value="#{PTDControlador.selectedProfessor.nome}" />
 				<h:outputText value="Email:" />
-				<h:outputText value="#{PTDControlador.selectedPtd.professor.email}" />
+				<h:outputText value="#{PTDControlador.selectedProfessor.email}" />
 				<h:outputText value="Status:" />
-				<c:if test="${PTDControlador.selectedPtd.status == 0}">
-					<h:outputText value="CRIADO" />
-				</c:if>
-				<c:if test="${PTDControlador.selectedPtd.status == 1}">
-					<h:outputText value="ENTREGUE" />
-				</c:if>
-				<c:if test="${PTDControlador.selectedPtd.status == 2}">
-					<h:outputText value="HOMOLOGADO" />
-				</c:if>
-				<c:if test="${PTDControlador.selectedPtd.status == 3}">
-					<h:outputText value="APROVADO" />
-				</c:if>
-				<c:if test="${PTDControlador.selectedPtd.status == 4}">
-					<h:outputText value="CORRECAO" />
-				</c:if>
-				<c:if test="${PTDControlador.selectedPtd.status == 5}">
-					<h:outputText value="FECHADO" />
-				</c:if>
+				<h:outputText value="${PTDControlador.selectedPtd.status}" />
 			</h:panelGrid>
 		</h:form>
 	</p:outputPanel>
 	<br />
 	<div>
-		<c:if test="${PTDControlador.selectedPtd.status != 5}">
+		<c:if test="${PTDControlador.selectedPtd.status.ordinal != 5}">
 			<ui:include src="/ptd/formEditar.xhtml" />
 		</c:if>
-		<c:if test="${PTDControlador.selectedPtd.status == 5}">
+		<c:if test="${PTDControlador.selectedPtd.status.ordinal == 5}">
 			<ui:include src="/ptd/formVisualizar.xhtml" />
 		</c:if>
 	</div>

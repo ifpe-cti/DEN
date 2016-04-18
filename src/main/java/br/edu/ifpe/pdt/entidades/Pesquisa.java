@@ -1,7 +1,6 @@
 package br.edu.ifpe.pdt.entidades;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,8 +10,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-@ManagedBean(name = "pesquisa")
-@RequestScoped
 @Entity
 @Table( name = "pesquisa" )
 public class Pesquisa {
@@ -25,9 +22,9 @@ public class Pesquisa {
 	@Column(name="atividade", nullable=false, length=100)
 	private String atividade;
 	
-	@ManyToOne
-	@JoinColumn(name="professor_id", updatable=false)
-	private Professor professor;
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="ptd_id", updatable=false)
+	private PTD ptd;
 
 	public Integer getCodigo() {
 		return codigo;
@@ -45,11 +42,11 @@ public class Pesquisa {
 		this.atividade = atividade;
 	}
 
-	public Professor getProfessor() {
-		return professor;
+	public PTD getPTD() {
+		return ptd;
 	}
 
-	public void setProfessor(Professor professor) {
-		this.professor = professor;
+	public void setPTD(PTD ptd) {
+		this.ptd = ptd;
 	}
 }

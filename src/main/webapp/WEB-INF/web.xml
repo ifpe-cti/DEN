@@ -34,7 +34,15 @@
 		<session-timeout>30</session-timeout>
 	</session-config>
 	<welcome-file-list>
-		<welcome-file>index.xhtml</welcome-file>
+		<welcome-file>login.xhtml</welcome-file>
 	</welcome-file-list>
+	<filter> 
+		<filter-name>LoginFilter</filter-name> 
+		<filter-class>br.edu.ifpe.pdt.controladores.LoginFilter</filter-class> 
+	</filter> 
+	<filter-mapping> 
+		<filter-name>LoginFilter</filter-name> 
+		<url-pattern>/restrito/*</url-pattern> 
+	</filter-mapping>
 
 </web-app>

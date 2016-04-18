@@ -4,9 +4,8 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-
-
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
 <p:messages />
 <p:fieldset legend="Atualizar PTD">
@@ -18,27 +17,26 @@
 				<p:inputText style="width:500px;"
 					value="#{PTDControlador.disciplina.nome}" />
 				<h:outputLabel style="width:70px;" value="Curso: " />
-				<h:selectOneMenu id="txtCoordenacao" style="width:150px;"
+				<p:selectOneMenu id="txtCoordenacao" style="width:150px;"
 					class="select" value="#{PTDControlador.disciplina.curso}">
 					<f:selectItem itemValue="CCTIN" itemLabel="CCTIN" />
 					<f:selectItem itemValue="CTEE" itemLabel="CTEE" />
 					<f:selectItem itemValue="CTMA" itemLabel="CTMA" />
 					<f:selectItem itemValue="CTI" itemLabel="CTI" />
-				</h:selectOneMenu>
+				</p:selectOneMenu>
 				<h:outputLabel style="width:90px;" value="Carga Horária: " />
 				<p:inputText style="width:150px;"
 					value="#{PTDControlador.disciplina.cargaHoraria}" />
 				<f:facet name="footer">
-					<h:commandButton value="Adicionar" class="buscar_button"
+					<p:commandButton value="Adicionar" class="buscar_button"
 						update="formularioDisciplina"
 						action="#{PTDControlador.addDisciplina()}" />
 				</f:facet>
 			</p:panelGrid>
 			<br />
 			<p:dataTable id="tabela"
-				value="${PTDControlador.selectedPtd.professor.disciplinas}"
-				var="item" paginator="true" rows="7" editable="true"
-				rowKey="${item.id}">
+				value="${PTDControlador.selectedPtd.disciplinas}" var="item"
+				paginator="true" rows="7" editable="true" rowKey="${item.id}">
 				<p:column>
 					<h:outputText value="${item.nome}" />
 					<f:facet name="header">
@@ -53,7 +51,7 @@
 					<p align="center">${item.cargaHoraria}</p>
 				</p:column>
 				<p:column style="width:10%" headerText="">
-					<h:commandButton value="Remover" class="buscar_button"
+					<p:commandButton value="Remover" class="buscar_button"
 						update="formularioDisciplina"
 						action="#{PTDControlador.removeDisciplina(item)}" />
 				</p:column>
@@ -72,14 +70,14 @@
 				<p:inputText style="width:150px;"
 					value="#{PTDControlador.aae.cargaHoraria}" />
 				<f:facet name="footer">
-					<h:commandButton value="Adicionar" class="buscar_button"
+					<p:commandButton value="Adicionar" class="buscar_button"
 						update="formularioAAE" action="#{PTDControlador.addAAE()}" />
 				</f:facet>
 			</p:panelGrid>
 			<br />
-			<p:dataTable id="tabela"
-				value="${PTDControlador.selectedPtd.professor.aaes}" var="item"
-				paginator="true" rows="7" editable="true" rowKey="${item.id}">
+			<p:dataTable id="tabela" value="${PTDControlador.selectedPtd.aaes}"
+				var="item" paginator="true" rows="7" editable="true"
+				rowKey="${item.id}">
 				<p:column>
 					<h:outputText value="${item.atividade}" />
 					<f:facet name="header">
@@ -90,7 +88,7 @@
 		                    ${item.cargaHoraria}
 		                </p:column>
 				<p:column style="width:10%" headerText="">
-					<h:commandButton value="Remover" class="buscar_button"
+					<p:commandButton value="Remover" class="buscar_button"
 						update="formularioAAE" action="#{PTDControlador.removeAAE(item)}" />
 				</p:column>
 			</p:dataTable>
@@ -104,14 +102,14 @@
 				<p:inputText style="width:500px;"
 					value="#{PTDControlador.pesquisa.atividade}" />
 				<f:facet name="footer">
-					<h:commandButton value="Adicionar" class="buscar_button"
+					<p:commandButton value="Adicionar" class="buscar_button"
 						update="formularioPesquisa"
 						action="#{PTDControlador.addPesquisa()}" />
 				</f:facet>
 			</p:panelGrid>
 			<br />
 			<p:dataTable id="tabela"
-				value="${PTDControlador.selectedPtd.professor.pesquisas}" var="item"
+				value="${PTDControlador.selectedPtd.pesquisas}" var="item"
 				paginator="true" rows="7" editable="true" rowKey="${item.id}">
 				<p:column>
 					<h:outputText value="${item.atividade}" />
@@ -120,7 +118,7 @@
 		            </f:facet>
 				</p:column>
 				<p:column style="width:10%" headerText="">
-					<h:commandButton value="Remover" class="buscar_button"
+					<p:commandButton value="Remover" class="buscar_button"
 						update="formularioPesquisa"
 						action="#{PTDControlador.removePesquisa(item)}" />
 				</p:column>
@@ -135,14 +133,14 @@
 				<p:inputText style="width:500px;"
 					value="#{PTDControlador.extensao.atividade}" />
 				<f:facet name="footer">
-					<h:commandButton value="Adicionar" class="buscar_button"
+					<p:commandButton value="Adicionar" class="buscar_button"
 						update="formularioExtensao"
 						action="#{PTDControlador.addExtensao()}" />
 				</f:facet>
 			</p:panelGrid>
 			<br />
 			<p:dataTable id="tabela"
-				value="${PTDControlador.selectedPtd.professor.extensoes}" var="item"
+				value="${PTDControlador.selectedPtd.extensoes}" var="item"
 				paginator="true" rows="7" editable="true" rowKey="${item.id}">
 				<p:column>
 					<h:outputText value="${item.atividade}" />
@@ -151,7 +149,7 @@
 		            </f:facet>
 				</p:column>
 				<p:column style="width:10%" headerText="">
-					<h:commandButton value="Remover" class="buscar_button"
+					<p:commandButton value="Remover" class="buscar_button"
 						update="formularioExtensao"
 						action="#{PTDControlador.removeExtensao(item)}" />
 				</p:column>
@@ -169,14 +167,14 @@
 				<p:inputText style="width:300px;"
 					value="#{PTDControlador.aap.portaria}" />
 				<f:facet name="footer">
-					<h:commandButton value="Adicionar" class="buscar_button"
+					<p:commandButton value="Adicionar" class="buscar_button"
 						update="formularioAAP" action="#{PTDControlador.addAAP()}" />
 				</f:facet>
 			</p:panelGrid>
 			<br />
-			<p:dataTable id="tabela"
-				value="${PTDControlador.selectedPtd.professor.aaps}" var="item"
-				paginator="true" rows="7" editable="true" rowKey="${item.id}">
+			<p:dataTable id="tabela" value="${PTDControlador.selectedPtd.aaps}"
+				var="item" paginator="true" rows="7" editable="true"
+				rowKey="${item.id}">
 				<p:column>
 					<h:outputText value="${item.atividade}" />
 					<f:facet name="header">
@@ -187,7 +185,7 @@
 		                    ${item.portaria}
 		                </p:column>
 				<p:column style="width:10%" headerText="">
-					<h:commandButton value="Remover" class="buscar_button"
+					<p:commandButton value="Remover" class="buscar_button"
 						update="formularioAAP" action="#{PTDControlador.removeAAP(item)}" />
 				</p:column>
 			</p:dataTable>
@@ -197,13 +195,20 @@
 	</h:form>
 </p:fieldset>
 
-<h:form id="formularioEditar" class="validform" style="width:20%;">
+<h:form id="form" class="validform" style="width:20%;">
 	<br />
 	<h:panelGrid id="gridEnsino" columns="2" class="table">
-		<h:commandButton value="Atualizar PTD" class="buscar_button"
-			action="#{PTDControlador.atualizaPTD(PTDControlador.selectedPtd)}" />
-		<h:commandButton value="Fechar PTD" class="buscar_button"
-			action="#{PTDControlador.fecharPTD(PTDControlador.selectedPtd)}" />
+		<c:if test="${PTDControlador.selectedPtd.professor != null}">
+			<p:commandButton value="Atualizar PTD" class="buscar_button"
+				action="#{PTDControlador.atualizaPTD()}" />
+
+		</c:if>
+		<c:if test="${PTDControlador.selectedPtd.professor == null}">
+			<p:commandButton value="Criar PTD" class="buscar_button"
+				action="#{PTDControlador.criarPTD(professorControlador.professorLogado.codigo)}" />
+		</c:if>
+		<p:commandButton value="Fechar PTD" class="buscar_button"
+			action="#{PTDControlador.fecharPTD()}" />
 	</h:panelGrid>
 	<br />
 	<br />

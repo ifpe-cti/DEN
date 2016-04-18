@@ -1,5 +1,6 @@
 package br.edu.ifpe.pdt.entidades;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,9 +28,9 @@ public class Disciplina {
 	@Column(name="carga_horaria")
 	private Integer cargaHoraria;
 	
-	@ManyToOne
-	@JoinColumn(name="professor_id")
-	private Professor professor;
+	@ManyToOne (cascade=CascadeType.ALL)
+	@JoinColumn(name="ptd_id", updatable=false)
+	private PTD ptd;
 
 	public Integer getCodigo() {
 		return codigo;
@@ -63,11 +64,11 @@ public class Disciplina {
 		this.cargaHoraria = cargaHoraria;
 	}
 
-	public Professor getProfessor() {
-		return professor;
+	public PTD getPTD() {
+		return ptd;
 	}
 
-	public void setProfessor(Professor professor) {
-		this.professor = professor;
+	public void setPTD(PTD ptd) {
+		this.ptd = ptd;
 	}
 }
