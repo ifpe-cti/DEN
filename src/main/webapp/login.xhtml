@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+<h:head>
+	<title>PTD IFPE</title>
+	<link href="./css/ptd.css" type="text/css" rel="stylesheet" />
+</h:head>
+<h:body>
+	<h:graphicImage library="images" name="banner_topo.png"
+		class="img-rounded img-responsive" />
+	<h:form id="formularioMenu" class="loginform">
+		<p:fieldset legend="Realizar Login.">
+			<p:messages />
+			<p:panelGrid columns="2">
+
+				<p:outputLabel value="SIAPE*: " />
+				<p:inputText id="txtSiape" binding="#{siapeLogin}" required="true" maxlength="12"
+					requiredMessage="O SIAPE precisa ser preenchido!" />
+
+				<p:outputLabel value="Senha*: " />
+				<p:password id="txtSenha" binding="#{senhaLogin}" required="true" maxlength="12"
+					requiredMessage="A senha precisa ser preenchido!" />
+			</p:panelGrid>
+			<h:commandButton class="buscar_button" value="Login"
+				update="formularioMenu"
+				action="#{professorControlador.realizarLogin(siapeLogin.value, senhaLogin.value)}" />
+		</p:fieldset>
+	</h:form>
+	<br />
+	<h:form id="form" class="loginform2">
+		<h:commandButton styleClass="buscar_button" value="Cadastrar Professor."
+			action="#{professorControlador.redirectCadastro()}" />
+	</h:form>
+</h:body>
+</html>
+
