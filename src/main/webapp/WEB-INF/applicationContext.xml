@@ -7,4 +7,5 @@
 
 	<context:annotation-config />
 	<context:component-scan base-package="br.edu.ifpe.pdt" />
+	
 </beans>

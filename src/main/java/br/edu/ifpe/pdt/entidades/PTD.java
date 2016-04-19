@@ -39,6 +39,35 @@ public class PTD implements Serializable {
 		public int getOrdinal() {
 			return this.ordinal();
 		}
+		
+		public static STATUS getStatus(Integer auto) {
+			STATUS a = null;
+			
+			switch (auto) {
+			case 0:
+				a = CRIADO;
+				break;
+			case 1:
+				a = AGUARDO;
+				break;
+			case 2:
+				a = HOMOLOGADO;
+				break;
+			case 3:
+				a = APROVADO;
+				break;
+			case 4:
+				a = CORRECAO;
+				break;
+			case 5:
+				a = FECHADO;
+				break;
+			default:
+				break;
+			}
+			
+			return a;
+		}
 	};
 	
 	private static final long serialVersionUID = 1L;

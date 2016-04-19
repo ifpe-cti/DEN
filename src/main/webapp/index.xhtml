@@ -15,52 +15,57 @@
 	<ui:include src="/restrito/menu.xhtml" />
 	<p:growl id="gro" life="3000" />
 
-	<h:form id="formularioEditar" class="validform">
-		<p:fieldset legend="Planos de Trabalho Docente - PTD">
-			<br />
-			<div id="div_buttons">
-				<div id="conteudo-left">
-					<br />
-					<h:panelGrid id="gridEnsino" columns="2" class="table">
-						<h:commandButton class="buscar_button" value="Novo PTD"
-							update="formularioEditar"
-							action="#{PTDControlador.cadastrarNovoPTD()}" />
+	<c:if
+		test="${professorControlador.professorLogado.autorizacao.ordinal != 7}">
+		<h:form id="formularioEditar" class="validform">
+			<p:fieldset legend="Planos de Trabalho Docente - PTD">
+				<br />
+				<div id="div_buttons">
+					<div id="conteudo-left">
+						<br />
+						<h:panelGrid id="gridEnsino" columns="2" class="table">
+							<p:commandButton class="buscar_button" value="Novo PTD"
+								update="formularioEditar"
+								action="#{PTDControlador.cadastrarNovoPTD()}" />
 
-						<h:commandButton class="buscar_button"
-							value="Importar PTD selecionado" update="formularioEditar"
-							action="#{PTDControlador.cadastrarNovoPTDFromSelected(selectedPtd.codigo)}" />
-					</h:panelGrid>
+							<p:commandButton class="buscar_button"
+								value="Importar PTD selecionado" update="formularioEditar"
+								action="#{PTDControlador.cadastrarNovoPTDFromSelected(selectedPtd.codigo)}" />
+						</h:panelGrid>
+					</div>
 				</div>
-			</div>
-			<p:dataTable id="tabela"
-				value="#{professorControlador.professorLogado.ptds}" var="item"
-				paginator="true" rows="5" selection="#{selectedPtd}"
-				selectionMode="single" rowKey="${item.professor.siape}">
-				<p:column>
-					<h:outputText value="${item.professor.siape}" />
-					<f:facet name="header">
+				<p:dataTable id="tabela"
+					value="#{professorControlador.professorLogado.ptds}" var="item"
+					paginator="true" rows="15" selection="#{selectedPtd}"
+					selectionMode="single" rowKey="${item.codigo}">
+					<p:column>
+						<h:outputText value="${item.professor.siape}" />
+						<f:facet name="header">
 		                        Siape
 		                    </f:facet>
-				</p:column>
+					</p:column>
 
-				<p:column headerText="Status">
+					<p:column headerText="Status">
 		                    ${item.status}
-		                </p:column>
-				<p:column headerText="Update">
+		            </p:column>
+					<p:column headerText="Update">
 		                    ${item.lastUpdate}
-		                </p:column>
-
-			</p:dataTable>
-			<div id="div_buttons">
-				<div id="conteudo-left">
-					<br />
-					<h:commandButton class="buscar_button" value="Editar PTD"
-						update="formularioEditar"
-						action="#{PTDControlador.editarPTD(selectedPtd.codigo)}" />
+		            </p:column>
+		            <p:column headerText="Codigo">
+		                    ${item.codigo}
+		            </p:column>
+				</p:dataTable>
+				<div id="div_buttons">
+					<div id="conteudo-left">
+						<br />
+						<p:commandButton class="buscar_button" value="Editar PTD"
+							update="formularioEditar"
+							action="#{PTDControlador.editarPTD(selectedPtd.codigo)}" />
+					</div>
 				</div>
-			</div>
-		</p:fieldset>
-	</h:form>
+			</p:fieldset>
+		</h:form>
+	</c:if>
 </h:body>
 </html>
 

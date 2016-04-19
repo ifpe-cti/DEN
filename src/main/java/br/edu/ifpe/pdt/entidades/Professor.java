@@ -18,6 +18,60 @@ import javax.persistence.Table;
 @Table( name = "professor" )
 public class Professor {
 	
+	public static enum AUTORIZACAO{
+		PROFESSOR,
+		CCTI,
+		CCTMA,
+		CCTEE,
+		CCTIN,
+		DIVEN,
+		DEN,
+		SUPER;
+		
+		public int getOrdinal() {
+			return this.ordinal();
+		}
+		
+		public String getNome() {
+			return this.name();
+		}
+		
+		public static AUTORIZACAO getAutorizacao(Integer auto) {
+			AUTORIZACAO a = null;
+			
+			switch (auto) {
+			case 0:
+				a = PROFESSOR;
+				break;
+			case 1:
+				a = CCTI;
+				break;
+			case 2:
+				a = CCTMA;
+				break;
+			case 3:
+				a = CCTEE;
+				break;
+			case 4:
+				a = CCTIN;
+				break;
+			case 5:
+				a = DIVEN;
+				break;
+			case 6:
+				a = DEN;
+				break;
+			case 7:
+				a = SUPER;
+				break;
+			default:
+				break;
+			}
+			
+			return a;
+		}
+	};
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id", updatable=false)
@@ -38,8 +92,8 @@ public class Professor {
 	@Column(name="email", nullable=false, length=50, unique=true)
 	private String email;
 	
-	@Column(name="isGestao", nullable=false)
-	private boolean isGestao;
+	@Column(name="autorizacao")
+	private AUTORIZACAO autorizacao;
 	
 	@ManagedProperty(value="#{ptds}")
 	@OneToMany(mappedBy="professor", fetch=FetchType.EAGER, orphanRemoval=true, cascade=CascadeType.ALL)
@@ -92,13 +146,13 @@ public class Professor {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	public boolean isGestao() {
-		return isGestao;
+
+	public AUTORIZACAO getAutorizacao() {
+		return autorizacao;
 	}
 
-	public void setGestao(boolean isGestao) {
-		this.isGestao = isGestao;
+	public void setAutorizacao(AUTORIZACAO autorizacao) {
+		this.autorizacao = autorizacao;
 	}
 
 	public List<PTD> getPtds() {

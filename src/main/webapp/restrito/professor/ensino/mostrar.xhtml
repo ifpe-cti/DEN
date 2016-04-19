@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+<h:head>
+	<title>PTD IFPE</title>
+	<link href="../css/ptd.css" type="text/css" rel="stylesheet" />
+</h:head>
+<h:body>
+	<ui:include src="/restrito/menu.xhtml" />
+	<p:growl id="gro" life="3000" />
+
+	<p:outputPanel id="panel">
+		<h:form id="formularioEnsino" style="width:500px">
+			<p:panelGrid id="gridEnsino" columns="2"
+				class="table table-bordered table-condensed">
+				<h:outputText value="SIAPE:" />
+				<h:outputText
+					value="#{professorControlador.professorDetalhado.siape}" />
+				<h:outputText value="Coordenação:" />
+				<h:outputText
+					value="#{professorControlador.professorDetalhado.coordenacao}" />
+				<h:outputText value="Nome:" />
+				<h:outputText
+					value="#{professorControlador.professorDetalhado.nome}" />
+				<h:outputText value="Email:" />
+				<h:outputText
+					value="#{professorControlador.professorDetalhado.email}" />
+
+				<h:outputText value="Perfil:" />
+				<c:choose>
+					<c:when
+						test="#{professorControlador.professorLogado.autorizacao.ordinal >= 5}">
+						<p:selectOneMenu id="txtAutorizacao" class="select" value="#{professorControlador.professorDetalhado.autorizacao.ordinal}"
+							binding="#{autorizacao}">
+							<f:selectItem itemValue="0" itemLabel="Professor" />
+							<f:selectItem itemValue="1" itemLabel="CCTI" />
+							<f:selectItem itemValue="2" itemLabel="CCTMA" />
+							<f:selectItem itemValue="3" itemLabel="CCTEE" />
+							<f:selectItem itemValue="4" itemLabel="CCTIN" />
+							<f:selectItem itemValue="5" itemLabel="DIVEN" />
+							<f:selectItem itemValue="6" itemLabel="DEN" />
+						</p:selectOneMenu>
+					</c:when>
+					<c:otherwise>
+						<h:outputText
+							value="${professorControlador.professorDetalhado.autorizacao}" />
+					</c:otherwise>
+				</c:choose>
+			</p:panelGrid>
+			<c:if
+				test="${professorControlador.professorLogado.autorizacao.ordinal >= 5}">
+				<br />
+				<p:commandButton value="Atualizar Perfil" class="buscar_button"
+					update="formularioEnsino"
+					action="#{professorControlador.alterarAutorizacao(autorizacao.value)}" />
+			</c:if>
+		</h:form>
+	</p:outputPanel>
+	<br />
+	
+	<c:if test="${professorControlador.professorLogado.autorizacao.ordinal != 7}">
+		<h:form id="formularioEditar" class="validform">
+			<p:fieldset legend="Planos de Trabalho Docente - PTD">
+				<br />
+				<p:dataTable id="tabela"
+					value="#{professorControlador.professorDetalhado.ptds}" var="item"
+					paginator="true" rows="5" selection="#{selectedPtd}"
+					selectionMode="single" rowKey="${item.codigo}">
+					<p:column>
+						<h:outputText value="${item.professor.siape}" />
+						<f:facet name="header">
+		                        Siape
+		                    </f:facet>
+					</p:column>
+
+					<p:column headerText="Status">
+		                    ${item.status}
+		                </p:column>
+					<p:column headerText="Update">
+		                    ${item.lastUpdate}
+		                </p:column>
+
+				</p:dataTable>
+				<div id="div_buttons">
+					<div id="conteudo-left">
+						<br />
+						<p:commandButton class="buscar_button" value="Detalhar PTD"
+							update="formularioEditar"
+							action="#{PTDControlador.detalharPTD(selectedPtd.codigo)}" />
+					</div>
+				</div>
+			</p:fieldset>
+		</h:form>
+	</c:if>
+</h:body>
+</html>
+

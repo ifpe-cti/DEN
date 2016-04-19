@@ -27,14 +27,14 @@
 				<p:password id="txtSenha" binding="#{senhaLogin}" required="true" maxlength="12"
 					requiredMessage="A senha precisa ser preenchido!" />
 			</p:panelGrid>
-			<h:commandButton class="buscar_button" value="Login"
+			<p:commandButton value="Login"
 				update="formularioMenu"
 				action="#{professorControlador.realizarLogin(siapeLogin.value, senhaLogin.value)}" />
 		</p:fieldset>
 	</h:form>
 	<br />
 	<h:form id="form" class="loginform2">
-		<h:commandButton styleClass="buscar_button" value="Cadastrar Professor."
+		<p:commandButton value="Cadastrar Professor"
 			action="#{professorControlador.redirectCadastro()}" />
 	</h:form>
 </h:body>

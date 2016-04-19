@@ -23,12 +23,7 @@
 	</p:outputPanel>
 	<br />
 	<div>
-		<c:if test="${PTDControlador.selectedPtd.status.ordinal != 5}">
-			<ui:include src="/restrito/ptd/formEditar.xhtml" />
-		</c:if>
-		<c:if test="${PTDControlador.selectedPtd.status.ordinal == 5}">
-			<ui:include src="/restrito/ptd/formVisualizar.xhtml" />
-		</c:if>
+		<ui:include src="/restrito/ptd/formEditar.xhtml" />
 	</div>
 
 </h:body>

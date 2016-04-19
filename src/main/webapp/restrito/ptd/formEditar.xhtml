@@ -195,9 +195,9 @@
 	</h:form>
 </p:fieldset>
 
-<h:form id="form" class="validform" style="width:20%;">
+<h:form id="formButtons" class="validform" style="width:20%;">
 	<br />
-	<h:panelGrid id="gridEnsino" columns="2" class="table">
+	<h:panelGrid id="gridEnsino" columns="1" class="table">
 		<c:if test="${PTDControlador.selectedPtd.professor != null}">
 			<p:commandButton value="Atualizar PTD" class="buscar_button"
 				action="#{PTDControlador.atualizaPTD()}" />
@@ -207,8 +207,8 @@
 			<p:commandButton value="Criar PTD" class="buscar_button"
 				action="#{PTDControlador.criarPTD(professorControlador.professorLogado.siape)}" />
 		</c:if>
-		<p:commandButton value="Fechar PTD" class="buscar_button"
-			action="#{PTDControlador.fecharPTD()}" />
+		<!-- <p:commandButton value="Fechar PTD" class="buscar_button"
+			action="#{PTDControlador.fecharPTD()}" /> -->
 	</h:panelGrid>
 	<br />
 	<br />

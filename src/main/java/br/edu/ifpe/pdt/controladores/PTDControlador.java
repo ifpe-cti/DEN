@@ -19,6 +19,7 @@ import br.edu.ifpe.pdt.entidades.AAP;
 import br.edu.ifpe.pdt.entidades.Disciplina;
 import br.edu.ifpe.pdt.entidades.Extensao;
 import br.edu.ifpe.pdt.entidades.PTD;
+import br.edu.ifpe.pdt.entidades.PTD.STATUS;
 import br.edu.ifpe.pdt.entidades.Pesquisa;
 import br.edu.ifpe.pdt.entidades.Professor;
 import br.edu.ifpe.pdt.repositorios.PTDRepositorio;
@@ -101,7 +102,7 @@ public class PTDControlador implements Serializable {
 		Professor prof = this.professorRepositorio.findBySiape(siape);
 		prof.getPtds().add(this.selectedPtd);
 		this.selectedPtd.setProfessor(prof);
-		professorRepositorio.saveAndFlush(prof);
+		prof = professorRepositorio.saveAndFlush(prof);
 
 		FacesContext.getCurrentInstance().getExternalContext().
 						getSessionMap().put("professorLogado", prof);
@@ -110,13 +111,13 @@ public class PTDControlador implements Serializable {
 	}
 
 	public String fecharPTD() {
-		this.selectedPtd.setStatus(PTD.STATUS.FECHADO);
+		/*this.selectedPtd.setStatus(PTD.STATUS.FECHADO);
 		this.selectedPtd.setLastUpdate(Date.valueOf(LocalDate.now()));
 
 		ptdRepositorio.saveAndFlush(this.selectedPtd);
 
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("professorLogado",
-				this.selectedPtd.getProfessor());
+				this.selectedPtd.getProfessor());*/
 
 		return "/index.xhtml";
 	}
@@ -132,40 +133,27 @@ public class PTDControlador implements Serializable {
 
 		return "/index.xhtml";
 	}
-
-	// Antigos
-
-	public String atualizaPTDEnsino(PTD ptd) {
-		ptd.setLastUpdate(Date.valueOf(LocalDate.now()));
-
-		// buscar e atualizar PTD
-
-		professorRepositorio.saveAndFlush(this.selectedProfessor);
-
-		return "/restrito/ptd/mostrarEnsino.xhtml";
-	}
-
-	public String mostrarPTD() {
+	
+	public String detalharPTD(Integer ptdId) {
 		String ret = "";
-		if (this.selectedPtd != null) {
-			// buscar PTD
-			// this.selectedPtd =
-			// ptdRepositorio.findOne(this.selectedPtd.getCodigo());
-			ret = "/restrito/ptd/mostrarEnsino.xhtml";
-		}
-
+		
+		if (ptdId != null) {
+			this.selectedPtd = ptdRepositorio.findOne(ptdId);
+			ret = "/restrito/ptd/mostrar.xhtml";
+		} 
+		
 		return ret;
 	}
+	
+	public String atualizaPTDEnsino(Integer status) {
+		this.selectedPtd.setLastUpdate(Date.valueOf(LocalDate.now()));
+		this.selectedPtd.setStatus(STATUS.getStatus(status));
+		ptdRepositorio.saveAndFlush(this.selectedPtd);
 
-	public String mostrarPTDByProfessor() {
-		if (selectedProfessor != null) {
-			this.ptds = this.selectedProfessor.getPtds();
-		}
-
-		return "/restrito/ptd/buscarensino.xhtml";
+		return "/restrito/ptd/mostrar.xhtml";
 	}
 
-	// Métodos de apoio a tela editar.
+// Métodos de apoio a tela editar.
 	public String addDisciplina() {
 		if (this.selectedPtd.getDisciplinas() == null) {
 			this.selectedPtd.setDisciplinas(new LinkedHashSet<Disciplina>());
