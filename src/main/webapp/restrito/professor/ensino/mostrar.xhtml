@@ -8,7 +8,7 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 <h:head>
 	<title>PTD IFPE</title>
-	<link href="../css/ptd.css" type="text/css" rel="stylesheet" />
+	<link href="../../../css/ptd.css" type="text/css" rel="stylesheet" />
 </h:head>
 <h:body>
 	<ui:include src="/restrito/menu.xhtml" />
@@ -31,12 +31,15 @@
 				<h:outputText
 					value="#{professorControlador.professorDetalhado.email}" />
 
-				<h:outputText value="Perfil:" />
+				<h:outputText value="Perfil Atual:" />
+				<h:outputText
+							value="#{professorControlador.professorDetalhado.autorizacao}" />
 				<c:choose>
 					<c:when
 						test="#{professorControlador.professorLogado.autorizacao.ordinal >= 5}">
-						<p:selectOneMenu id="txtAutorizacao" class="select" value="#{professorControlador.professorDetalhado.autorizacao.ordinal}"
-							binding="#{autorizacao}">
+						<h:outputText value="Perfil Novo:" />
+						<p:selectOneMenu id="txtAutorizacao" class="select" 
+							binding="#{auto}">
 							<f:selectItem itemValue="0" itemLabel="Professor" />
 							<f:selectItem itemValue="1" itemLabel="CCTI" />
 							<f:selectItem itemValue="2" itemLabel="CCTMA" />
@@ -46,10 +49,6 @@
 							<f:selectItem itemValue="6" itemLabel="DEN" />
 						</p:selectOneMenu>
 					</c:when>
-					<c:otherwise>
-						<h:outputText
-							value="${professorControlador.professorDetalhado.autorizacao}" />
-					</c:otherwise>
 				</c:choose>
 			</p:panelGrid>
 			<c:if
@@ -57,7 +56,7 @@
 				<br />
 				<p:commandButton value="Atualizar Perfil" class="buscar_button"
 					update="formularioEnsino"
-					action="#{professorControlador.alterarAutorizacao(autorizacao.value)}" />
+					action="#{professorControlador.alterarAutorizacao(auto.value)}" />
 			</c:if>
 		</h:form>
 	</p:outputPanel>

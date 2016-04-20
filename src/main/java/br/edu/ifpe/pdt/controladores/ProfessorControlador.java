@@ -165,6 +165,11 @@ public class ProfessorControlador implements Serializable {
 		if (autorizacao != null) {
 			this.professorDetalhado.setAutorizacao(AUTORIZACAO.getAutorizacao(autorizacao));
 			professorRepositorio.saveAndFlush(this.professorDetalhado);
+			for (Professor prof: this.professores) {
+				if (prof.getSiape().equals(this.professorDetalhado.getSiape())) {
+					prof.setAutorizacao(AUTORIZACAO.getAutorizacao(autorizacao));
+				}
+			}
 			ret = "/restrito/professor/ensino/buscar.xhtml";
 		}
 

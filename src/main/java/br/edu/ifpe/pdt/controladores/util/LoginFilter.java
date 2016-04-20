@@ -1,4 +1,4 @@
-package br.edu.ifpe.pdt.controladores;
+package br.edu.ifpe.pdt.controladores.util;
 
 import java.io.IOException;
 
