@@ -9,26 +9,26 @@
 
 <h:head>
 	<title>PTD IFPE</title>
-	<link href="./css/ptd.css" type="text/css" rel="stylesheet" />
+	<h:outputStylesheet library="css" name="ptd.css"  />
 </h:head>
 <h:body>
 	<h:graphicImage library="images" name="banner_topo.png"
 		class="img-rounded img-responsive" />
+	<p:growl id="gro" life="3000" />
 	<h:form id="formularioMenu" class="loginform">
 		<p:fieldset legend="Realizar Login.">
 			<p:messages />
 			<p:panelGrid columns="2">
 
 				<p:outputLabel value="SIAPE*: " />
-				<p:inputText id="txtSiape" binding="#{siapeLogin}" required="true" maxlength="12"
-					requiredMessage="O SIAPE precisa ser preenchido!" />
+				<p:inputText id="txtSiape" binding="#{siapeLogin}" required="true"
+					maxlength="12" requiredMessage="O SIAPE precisa ser preenchido!" />
 
 				<p:outputLabel value="Senha*: " />
-				<p:password id="txtSenha" binding="#{senhaLogin}" required="true" maxlength="12"
-					requiredMessage="A senha precisa ser preenchido!" />
+				<p:password id="txtSenha" binding="#{senhaLogin}" required="true"
+					maxlength="12" requiredMessage="A senha precisa ser preenchido!" />
 			</p:panelGrid>
-			<p:commandButton value="Login"
-				update="formularioMenu"
+			<p:commandButton value="Login" update="formularioMenu"
 				action="#{professorControlador.realizarLogin(siapeLogin.value, senhaLogin.value)}" />
 		</p:fieldset>
 	</h:form>

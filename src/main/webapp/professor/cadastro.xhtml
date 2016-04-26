@@ -11,26 +11,29 @@
 
 <h:head>
 	<title>PTD IFPE</title>
-	<link href="./css/ptd.css" type="text/css" rel="stylesheet" />
+	<h:outputStylesheet library="css" name="ptd.css" />
 </h:head>
 <h:body>
 	<h:graphicImage library="images" name="banner_topo.png"
 		class="img-rounded img-responsive" />
+	<p:growl id="gro" life="3000" />
 	<h:form id="formularioCadastro" class="validform">
 
 		<p:fieldset legend="Cadastro de Professor">
 			<p:messages />
 			<p:panelGrid columns="2">
 				<p:outputLabel value="SIAPE*:" />
-				<p:inputText id="txtSiape" binding="#{siape}" required="true" maxlength="12"
+				<p:inputText id="txtSiape" binding="#{siape}" required="true"
+					maxlength="12"
 					requiredMessage="
                                  O Siape precisa ser preenchido" />
-                                 
+
 				<p:outputLabel value="Senha*:" />
-				<p:password id="txtSenha" binding="#{senha}" required="true" maxlength="12"
+				<p:password id="txtSenha" binding="#{senha}" required="true"
+					maxlength="12"
 					requiredMessage="
                                  A Senha precisa ser preenchida" />
-                                 
+
 				<p:outputLabel value="Coordenação*:" />
 				<h:selectOneMenu id="txtCoordenacao" style="class:select"
 					binding="#{coordenacao}">

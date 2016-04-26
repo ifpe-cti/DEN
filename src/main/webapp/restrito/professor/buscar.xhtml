@@ -7,13 +7,9 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-<h:head>
-	<title>PTD IFPE</title>
-	<link href="../../css/ptd.css" type="text/css" rel="stylesheet" />
-</h:head>
+<ui:include src="/restrito/menu.xhtml" />
 <h:body>
-	<ui:include src="/restrito/menu.xhtml" />
-	<p:growl id="gro" life="3000" />
+
 	<h:form id="formularioBusca" class="validform">
 		<p:fieldset legend="Buscar Professor.">
 			<p:messages />

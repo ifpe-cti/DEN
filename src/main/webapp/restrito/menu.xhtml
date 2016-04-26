@@ -5,10 +5,16 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-<h:body>
+<h:head>
+	<title>PTD IFPE</title>
+	<h:outputStylesheet library="css" name="ptd.css"  />
+</h:head>
 
+<h:body>
 	<h:graphicImage library="images" name="banner_topo.png"
-		class="img-rounded img-responsive" />
+		class="img-rounded img-responsive" />	
+	<p:growl id="gro" life="3000" />
+	
 	<h:form id="formularioMenu" class="validform">
 		<p:menubar>
 			<p:menuitem value="home" url="/restrito/index.xhtml" />
