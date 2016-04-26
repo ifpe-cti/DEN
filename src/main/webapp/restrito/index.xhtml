@@ -16,7 +16,7 @@
 	<p:growl id="gro" life="3000" />
 
 	<c:if
-		test="${professorControlador.professorLogado.autorizacao.ordinal != 7}">
+		test="${professorLogado.autorizacao.ordinal != 7}">
 		<h:form id="formularioEditar" class="validform">
 			<p:fieldset legend="Planos de Trabalho Docente - PTD">
 				<br />
@@ -35,7 +35,7 @@
 					</div>
 				</div>
 				<p:dataTable id="tabela"
-					value="#{professorControlador.professorLogado.ptds}" var="item"
+					value="#{professorLogado.ptds}" var="item"
 					paginator="true" rows="15" selection="#{selectedPtd}"
 					selectionMode="single" rowKey="${item.codigo}">
 					<p:column>

@@ -11,21 +11,21 @@
 	<link href="../../css/ptd.css" type="text/css" rel="stylesheet" />
 </h:head>
 <h:body>
+	<h2>Mensagem:</h2>
 	<ui:include src="/restrito/menu.xhtml" />
-
-	<p:outputPanel style="width:40%">
-		<h:form id="formularioEnsino" style="width:500px" styleClass="validForm">
-			<h:panelGrid id="gridEnsino" columns="2">
-					<h:outputText value="Status:" />
-					<h:outputText value="${selectedPtd.status}" />
-			</h:panelGrid>
+	<p:growl id="gro" life="3000" />
+	<p:outputPanel id="panel">
+		<p:messages/>
+		<h:form id="formularioEnvioCorrecao" style="width:500px">
+			<h:inputTextarea binding="#{messagem}" cols="100" required="true"
+				rows="20" title="Mensagem" />
+			<br />
+			<br />
+			<p:commandButton value="Enviar Correção" class="buscar_button"
+				action="#{PTDControlador.enviarEmailCorrecao(messagem.value)}" />
 		</h:form>
 	</p:outputPanel>
 	<br />
-	<div>
-		<ui:include src="/restrito/ptd/formEditar.xhtml" />
-	</div>
-
 </h:body>
 </html>
 

@@ -3,13 +3,13 @@ package br.edu.ifpe.pdt.controladores;
 import java.io.Serializable;
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,6 +24,7 @@ import br.edu.ifpe.pdt.entidades.Pesquisa;
 import br.edu.ifpe.pdt.entidades.Professor;
 import br.edu.ifpe.pdt.repositorios.PTDRepositorio;
 import br.edu.ifpe.pdt.repositorios.ProfessorRepositorio;
+import br.edu.ifpe.pdt.util.PTDEmail;
 
 @Component
 @ManagedBean(name = "PTDControlador", eager = true)
@@ -31,12 +32,6 @@ import br.edu.ifpe.pdt.repositorios.ProfessorRepositorio;
 public class PTDControlador implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
-	private List<PTD> ptds = new ArrayList<PTD>();
-
-	private Professor selectedProfessor;
-
-	private PTD selectedPtd;
 
 	@Autowired
 	private ProfessorRepositorio professorRepositorio;
@@ -59,16 +54,16 @@ public class PTDControlador implements Serializable {
 	}
 
 	public String cadastrarNovoPTD() {
-		this.selectedPtd = new PTD();
+		this.setSelectedPtd(new PTD());
 		return "/restrito/ptd/cadastro.xhtml";
 	}
 
 	public String cadastrarNovoPTDFromSelected(Integer ptdId) {
 		String ret = "";
 		if (ptdId != null) {
-			PTD ptd= ptdRepositorio.findOne(ptdId);
+			PTD ptd = ptdRepositorio.findOne(ptdId);
 
-			this.selectedPtd = ptd.clone();
+			this.setSelectedPtd(ptd.clone());
 			ret = "/restrito/ptd/cadastro.xhtml";
 		}
 
@@ -78,7 +73,7 @@ public class PTDControlador implements Serializable {
 	public String editarPTD(Integer ptdId) {
 		String ret = "/restrito/ptd/editar.xhtml";
 		if (ptdId != null) {
-			this.selectedPtd = ptdRepositorio.findOne(ptdId);
+			this.setSelectedPtd(ptdRepositorio.findOne(ptdId));
 		} else {
 			ret = "";
 		}
@@ -87,180 +82,213 @@ public class PTDControlador implements Serializable {
 	}
 
 	public String atualizaPTD() {
-		this.selectedPtd.setStatus(PTD.STATUS.AGUARDO);
-		this.selectedPtd.setLastUpdate(Date.valueOf(LocalDate.now()));
+		PTD ptd = this.getSelectedPtd();
+		ptd.setStatus(PTD.STATUS.AGUARDO);
+		ptd.setLastUpdate(Date.valueOf(LocalDate.now()));
 
-		ptdRepositorio.saveAndFlush(this.selectedPtd);
+		this.setSelectedPtd(ptdRepositorio.saveAndFlush(ptd));
 
 		return "/index.xhtml";
 	}
 
 	public String criarPTD(String siape) {
-		this.selectedPtd.setStatus(PTD.STATUS.AGUARDO);
-		this.selectedPtd.setLastUpdate(Date.valueOf(LocalDate.now()));
+		PTD ptd = this.getSelectedPtd();
+		ptd.setStatus(PTD.STATUS.AGUARDO);
+		ptd.setLastUpdate(Date.valueOf(LocalDate.now()));
 
 		Professor prof = this.professorRepositorio.findBySiape(siape);
-		prof.getPtds().add(this.selectedPtd);
-		this.selectedPtd.setProfessor(prof);
+		prof.getPtds().add(ptd);
+		ptd.setProfessor(prof);
 		prof = professorRepositorio.saveAndFlush(prof);
 
-		FacesContext.getCurrentInstance().getExternalContext().
-						getSessionMap().put("professorLogado", prof);
-
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("professorLogado", prof);
+		this.setSelectedPtd(ptd);
+		
 		return "/index.xhtml";
 	}
 
 	public String fecharPTD() {
-		/*this.selectedPtd.setStatus(PTD.STATUS.FECHADO);
-		this.selectedPtd.setLastUpdate(Date.valueOf(LocalDate.now()));
-
-		ptdRepositorio.saveAndFlush(this.selectedPtd);
-
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("professorLogado",
-				this.selectedPtd.getProfessor());*/
+		/*
+		 * this.selectedPtd.setStatus(PTD.STATUS.FECHADO);
+		 * this.selectedPtd.setLastUpdate(Date.valueOf(LocalDate.now()));
+		 * 
+		 * ptdRepositorio.saveAndFlush(this.selectedPtd);
+		 * 
+		 * FacesContext.getCurrentInstance().getExternalContext().getSessionMap(
+		 * ).put("professorLogado", this.selectedPtd.getProfessor());
+		 */
 
 		return "/index.xhtml";
 	}
 
 	public String reabrirPTD() {
-		this.selectedPtd.setStatus(PTD.STATUS.AGUARDO);
-		this.selectedPtd.setLastUpdate(Date.valueOf(LocalDate.now()));
+		PTD ptd = this.getSelectedPtd();
+		ptd.setStatus(PTD.STATUS.AGUARDO);
+		ptd.setLastUpdate(Date.valueOf(LocalDate.now()));
 
-		ptdRepositorio.saveAndFlush(this.selectedPtd);
+		this.setSelectedPtd(ptdRepositorio.saveAndFlush(ptd));
 
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("professorLogado",
-				this.selectedPtd.getProfessor());
+				ptd.getProfessor());
 
 		return "/index.xhtml";
 	}
-	
+
 	public String detalharPTD(Integer ptdId) {
 		String ret = "";
-		
+
 		if (ptdId != null) {
-			this.selectedPtd = ptdRepositorio.findOne(ptdId);
+			this.setSelectedPtd(ptdRepositorio.findOne(ptdId));
 			ret = "/restrito/ptd/mostrar.xhtml";
-		} 
-		
+		}
+
 		return ret;
 	}
-	
-	public String atualizaPTDEnsino(Integer status) {
-		this.selectedPtd.setLastUpdate(Date.valueOf(LocalDate.now()));
-		this.selectedPtd.setStatus(STATUS.getStatus(status));
-		ptdRepositorio.saveAndFlush(this.selectedPtd);
 
-		return "/restrito/ptd/mostrar.xhtml";
+	public String atualizaPTDEnsino(Integer status) {
+		String ret = "/restrito/ptd/mostrar.xhtml";
+		
+		PTD ptd = this.getSelectedPtd();
+		ptd.setLastUpdate(Date.valueOf(LocalDate.now()));
+		STATUS s = STATUS.getStatus(status);
+		ptd.setStatus(s);
+		this.setSelectedPtd(ptdRepositorio.saveAndFlush(ptd));
+
+		if (s == STATUS.CORRECAO) {
+			ret = "/restrito/ptd/enviarCorrecao.xhtml";
+		}
+
+		return ret;
 	}
 
-// Métodos de apoio a tela editar.
+	public String enviarEmailCorrecao(String mensagem) {
+		String ret = "/restrito/ptd/mostrar.xhtml";
+		PTDEmail mail = new PTDEmail();
+		try {
+			PTD ptd = this.getSelectedPtd();
+			mail.postMail(ptd.getProfessor().getEmail(), "Correção do PTD", "Favor Verificar PTD",
+					"diven@garanhuns.ifpe.edu.br");
+		} catch (MessagingException e) {
+			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage("Falha no envio!",
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falha no envio!", e.getMessage()));
+			ret = "";
+		}
+		return ret;
+	}
+
+	// Métodos de apoio a tela editar.
 	public String addDisciplina() {
-		if (this.selectedPtd.getDisciplinas() == null) {
-			this.selectedPtd.setDisciplinas(new LinkedHashSet<Disciplina>());
+		PTD ptd = this.getSelectedPtd();
+		if (ptd.getDisciplinas() == null) {
+			ptd.setDisciplinas(new LinkedHashSet<Disciplina>());
 		}
 		Disciplina d = new Disciplina();
 		d.setNome(this.disciplina.getNome());
 		d.setCurso(this.disciplina.getCurso());
 		d.setCargaHoraria(this.disciplina.getCargaHoraria());
-		d.setPTD(this.selectedPtd);
-		this.selectedPtd.getDisciplinas().add(d);
+		d.setPTD(ptd);
+		ptd.getDisciplinas().add(d);
+		this.setSelectedPtd(ptd);
 		return "";
 	}
 
 	public String removeDisciplina(Disciplina disciplina) {
-		this.selectedPtd.getDisciplinas().remove(disciplina);
+		PTD ptd = this.getSelectedPtd();
+		ptd.getDisciplinas().remove(disciplina);
+		this.setSelectedPtd(ptd);
 		return "";
 	}
 
 	public String addAAE() {
-		if (this.selectedPtd.getAaes() == null) {
-			this.selectedPtd.setAaes(new LinkedHashSet<AAE>());
+		PTD ptd = this.getSelectedPtd();
+		if (ptd.getAaes() == null) {
+			ptd.setAaes(new LinkedHashSet<AAE>());
 		}
 		AAE aae = new AAE();
 		aae.setAtividade(this.aae.getAtividade());
 		aae.setCargaHoraria(this.aae.getCargaHoraria());
-		aae.setPTD(this.selectedPtd);
-		this.selectedPtd.getAaes().add(aae);
+		aae.setPTD(ptd);
+		ptd.getAaes().add(aae);
+		this.setSelectedPtd(ptd);
 		return "";
 	}
 
 	public String removeAAE(AAE aae) {
-		this.selectedPtd.getAaes().remove(aae);
+		PTD ptd = this.getSelectedPtd();
+		ptd.getAaes().remove(aae);
+		this.setSelectedPtd(ptd);
 		return "";
 	}
 
 	public String addPesquisa() {
-		if (this.selectedPtd.getPesquisas() == null) {
-			this.selectedPtd.setPesquisas(new LinkedHashSet<Pesquisa>());
+		PTD ptd = this.getSelectedPtd();
+		if (ptd.getPesquisas() == null) {
+			ptd.setPesquisas(new LinkedHashSet<Pesquisa>());
 		}
 		Pesquisa p = new Pesquisa();
 		p.setAtividade(this.pesquisa.getAtividade());
-		p.setPTD(this.selectedPtd);
-		this.selectedPtd.getPesquisas().add(p);
+		p.setPTD(ptd);
+		ptd.getPesquisas().add(p);
+		this.setSelectedPtd(ptd);
 		return "";
 	}
 
 	public String removePesquisa(Pesquisa pesquisa) {
-		this.selectedPtd.getPesquisas().remove(pesquisa);
+		PTD ptd = this.getSelectedPtd();
+		ptd.getPesquisas().remove(pesquisa);
+		this.setSelectedPtd(ptd);
 		return "";
 	}
 
 	public String addExtensao() {
-		if (this.selectedPtd.getExtensoes() == null) {
-			this.selectedPtd.setExtensoes(new LinkedHashSet<Extensao>());
+		PTD ptd = this.getSelectedPtd();
+		if (ptd.getExtensoes() == null) {
+			ptd.setExtensoes(new LinkedHashSet<Extensao>());
 		}
 		Extensao e = new Extensao();
 		e.setAtividade(this.extensao.getAtividade());
-		e.setPTD(this.selectedPtd);
-		this.selectedPtd.getExtensoes().add(e);
+		e.setPTD(ptd);
+		ptd.getExtensoes().add(e);
+		this.setSelectedPtd(ptd);
 		return "";
 	}
 
 	public String removeExtensao(Extensao extensao) {
-		this.selectedPtd.getExtensoes().remove(extensao);
+		PTD ptd = this.getSelectedPtd();
+		ptd.getExtensoes().remove(extensao);
+		this.setSelectedPtd(ptd);
 		return "";
 	}
 
 	public String addAAP() {
-		if (this.selectedPtd.getAaps() == null) {
-			this.selectedPtd.setAaps(new LinkedHashSet<AAP>());
+		PTD ptd = this.getSelectedPtd();
+		if (ptd.getAaps() == null) {
+			ptd.setAaps(new LinkedHashSet<AAP>());
 		}
 		AAP a = new AAP();
 		a.setAtividade(this.aap.getAtividade());
 		a.setPortaria(this.aap.getPortaria());
-		aap.setPTD(this.selectedPtd);
-		this.selectedPtd.getAaps().add(this.aap);
+		aap.setPTD(ptd);
+		ptd.getAaps().add(this.aap);
+		this.setSelectedPtd(ptd);
 		return "";
 	}
 
 	public String removeAAP(AAP aap) {
-		this.selectedPtd.getAaps().remove(aap);
+		PTD ptd = this.getSelectedPtd();
+		ptd.getAaps().remove(aap);
+		this.setSelectedPtd(ptd);
 		return "";
 	}
 
 	// Getters and Setters from bean
-	public List<PTD> getPtds() {
-		return ptds;
-	}
-
-	public void setPtds(List<PTD> ptds) {
-		this.ptds = ptds;
-	}
-
 	public PTD getSelectedPtd() {
-		return selectedPtd;
+		return (PTD) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("selectedPtd");
 	}
 
 	public void setSelectedPtd(PTD selectedPtd) {
-		this.selectedPtd = selectedPtd;
-	}
-
-	public Professor getSelectedProfessor() {
-		return selectedProfessor;
-	}
-
-	public void setSelectedProfessor(Professor selectedProfessor) {
-		this.selectedProfessor = selectedProfessor;
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedPtd", selectedPtd);
 	}
 
 	public Disciplina getDisciplina() {

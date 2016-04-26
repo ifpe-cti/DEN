@@ -35,7 +35,7 @@
 			</p:panelGrid>
 			<br />
 			<p:dataTable id="tabela"
-				value="${PTDControlador.selectedPtd.disciplinas}" var="item"
+				value="${selectedPtd.disciplinas}" var="item"
 				paginator="true" rows="7" editable="true" rowKey="${item.id}">
 				<p:column>
 					<h:outputText value="${item.nome}" />
@@ -75,7 +75,7 @@
 				</f:facet>
 			</p:panelGrid>
 			<br />
-			<p:dataTable id="tabela" value="${PTDControlador.selectedPtd.aaes}"
+			<p:dataTable id="tabela" value="${selectedPtd.aaes}"
 				var="item" paginator="true" rows="7" editable="true"
 				rowKey="${item.id}">
 				<p:column>
@@ -109,7 +109,7 @@
 			</p:panelGrid>
 			<br />
 			<p:dataTable id="tabela"
-				value="${PTDControlador.selectedPtd.pesquisas}" var="item"
+				value="${selectedPtd.pesquisas}" var="item"
 				paginator="true" rows="7" editable="true" rowKey="${item.id}">
 				<p:column>
 					<h:outputText value="${item.atividade}" />
@@ -140,7 +140,7 @@
 			</p:panelGrid>
 			<br />
 			<p:dataTable id="tabela"
-				value="${PTDControlador.selectedPtd.extensoes}" var="item"
+				value="${selectedPtd.extensoes}" var="item"
 				paginator="true" rows="7" editable="true" rowKey="${item.id}">
 				<p:column>
 					<h:outputText value="${item.atividade}" />
@@ -172,7 +172,7 @@
 				</f:facet>
 			</p:panelGrid>
 			<br />
-			<p:dataTable id="tabela" value="${PTDControlador.selectedPtd.aaps}"
+			<p:dataTable id="tabela" value="${selectedPtd.aaps}"
 				var="item" paginator="true" rows="7" editable="true"
 				rowKey="${item.id}">
 				<p:column>
@@ -198,12 +198,12 @@
 <h:form id="formButtons" class="validform" style="width:20%;">
 	<br />
 	<h:panelGrid id="gridEnsino" columns="1" class="table">
-		<c:if test="${PTDControlador.selectedPtd.professor != null}">
+		<c:if test="${selectedPtd.professor != null}">
 			<p:commandButton value="Atualizar PTD" class="buscar_button"
 				action="#{PTDControlador.atualizaPTD()}" />
 
 		</c:if>
-		<c:if test="${PTDControlador.selectedPtd.professor == null}">
+		<c:if test="${selectedPtd.professor == null}">
 			<p:commandButton value="Criar PTD" class="buscar_button"
 				action="#{PTDControlador.criarPTD(professorControlador.professorLogado.siape)}" />
 		</c:if>

@@ -1,5 +1,6 @@
 package br.edu.ifpe.pdt.entidades;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.faces.bean.ManagedProperty;
@@ -16,8 +17,10 @@ import javax.persistence.Table;
 
 @Entity
 @Table( name = "professor" )
-public class Professor {
+public class Professor implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
+
 	public static enum AUTORIZACAO{
 		PROFESSOR,
 		CCTI,

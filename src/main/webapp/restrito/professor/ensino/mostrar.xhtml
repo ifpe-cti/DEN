@@ -20,23 +20,23 @@
 				class="table table-bordered table-condensed">
 				<h:outputText value="SIAPE:" />
 				<h:outputText
-					value="#{professorControlador.professorDetalhado.siape}" />
+					value="#{professorDetalhado.siape}" />
 				<h:outputText value="Coordenação:" />
 				<h:outputText
-					value="#{professorControlador.professorDetalhado.coordenacao}" />
+					value="#{professorDetalhado.coordenacao}" />
 				<h:outputText value="Nome:" />
 				<h:outputText
-					value="#{professorControlador.professorDetalhado.nome}" />
+					value="#{professorDetalhado.nome}" />
 				<h:outputText value="Email:" />
 				<h:outputText
-					value="#{professorControlador.professorDetalhado.email}" />
+					value="#{professorDetalhado.email}" />
 
 				<h:outputText value="Perfil Atual:" />
 				<h:outputText
-							value="#{professorControlador.professorDetalhado.autorizacao}" />
+							value="#{professorDetalhado.autorizacao}" />
 				<c:choose>
 					<c:when
-						test="#{professorControlador.professorLogado.autorizacao.ordinal >= 5}">
+						test="#{professorLogado.autorizacao.ordinal >= 5}">
 						<h:outputText value="Perfil Novo:" />
 						<p:selectOneMenu id="txtAutorizacao" class="select" 
 							binding="#{auto}">
@@ -52,7 +52,7 @@
 				</c:choose>
 			</p:panelGrid>
 			<c:if
-				test="${professorControlador.professorLogado.autorizacao.ordinal >= 5}">
+				test="${professorLogado.autorizacao.ordinal >= 5}">
 				<br />
 				<p:commandButton value="Atualizar Perfil" class="buscar_button"
 					update="formularioEnsino"
@@ -62,12 +62,12 @@
 	</p:outputPanel>
 	<br />
 	
-	<c:if test="${professorControlador.professorLogado.autorizacao.ordinal != 7}">
+	<c:if test="${professorLogado.autorizacao.ordinal != 7}">
 		<h:form id="formularioEditar" class="validform">
 			<p:fieldset legend="Planos de Trabalho Docente - PTD">
 				<br />
 				<p:dataTable id="tabela"
-					value="#{professorControlador.professorDetalhado.ptds}" var="item"
+					value="#{professorDetalhado.ptds}" var="item"
 					paginator="true" rows="5" selection="#{selectedPtd}"
 					selectionMode="single" rowKey="${item.codigo}">
 					<p:column>

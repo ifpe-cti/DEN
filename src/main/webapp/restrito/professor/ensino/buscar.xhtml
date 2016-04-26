@@ -47,7 +47,7 @@
 	</h:form>
 	<br/>
 	<h:form id="formularioLista" class="validform">
-		<p:dataTable id="tabela" value="#{professorControlador.professores}"
+		<p:dataTable id="tabela" value="#{professores}"
 			var="item" paginator="true" rows="15"
 			selection="#{selectedProfessor}" selectionMode="single"
 			rowKey="#{item.siape}">

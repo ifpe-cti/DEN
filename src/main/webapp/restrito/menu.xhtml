@@ -11,24 +11,24 @@
 		class="img-rounded img-responsive" />
 	<h:form id="formularioMenu" class="validform">
 		<p:menubar>
-			<p:menuitem value="home" url="/index.xhtml" />
+			<p:menuitem value="home" url="/restrito/index.xhtml" />
 			<c:if
-				test="${professorControlador.professorLogado.autorizacao.ordinal != 7}">
+				test="${professorLogado.autorizacao.ordinal != 7}">
 				<p:submenu
-					label="Bem vindo, Prof. #{professorControlador.professorLogado.nome}">
+					label="Bem vindo, Prof. #{professorLogado.nome}">
 					<p:menuitem value="Logout"
 						action="#{professorControlador.realizarLogout()}" />
 				</p:submenu>
 			</c:if>
 			<c:if
-				test="${professorControlador.professorLogado.autorizacao.ordinal == 7}">
-				<p:submenu label="#{professorControlador.professorLogado.nome}">
+				test="${professorLogado.autorizacao.ordinal == 7}">
+				<p:submenu label="#{professorLogado.nome}">
 					<p:menuitem value="Logout"
 						action="#{professorControlador.realizarLogout()}" />
 				</p:submenu>
 			</c:if>
 			<c:if
-				test="${professorControlador.professorLogado.autorizacao.ordinal > 0}">
+				test="${professorLogado.autorizacao.ordinal > 0}">
 				<p:submenu label="Ensino">
 					<p:menuitem value="Buscar Professores"
 						url="/restrito/professor/ensino/buscar.xhtml" />

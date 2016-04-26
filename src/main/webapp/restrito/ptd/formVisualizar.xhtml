@@ -14,7 +14,7 @@
 
 			<br />
 			<p:dataTable id="tabela"
-				value="${PTDControlador.selectedPtd.disciplinas}" var="item"
+				value="${selectedPtd.disciplinas}" var="item"
 				paginator="true" rows="7" editable="true" rowKey="${item.id}">
 				<p:column style="width:70%; align:center">
 					<h:outputText value="${item.nome}" />
@@ -37,7 +37,7 @@
 	<h:form id="formularioAAE" class="validform">
 		<p:fieldset legend="ATIVIDADES DE APOIO AO ENSINO">
 
-			<p:dataTable id="tabela" value="${PTDControlador.selectedPtd.aaes}"
+			<p:dataTable id="tabela" value="${selectedPtd.aaes}"
 				var="item" paginator="true" rows="7" editable="true"
 				rowKey="${item.id}">
 				<p:column style="width:80%">
@@ -59,7 +59,7 @@
 
 			<br />
 			<p:dataTable id="tabela"
-				value="${PTDControlador.selectedPtd.pesquisas}" var="item"
+				value="${selectedPtd.pesquisas}" var="item"
 				paginator="true" rows="7" editable="true" rowKey="${item.id}">
 				<p:column>
 					<h:outputText value="${item.atividade}" />
@@ -77,7 +77,7 @@
 
 			<br />
 			<p:dataTable id="tabela"
-				value="${PTDControlador.selectedPtd.extensoes}" var="item"
+				value="${selectedPtd.extensoes}" var="item"
 				paginator="true" rows="7" editable="true" rowKey="${item.id}">
 				<p:column>
 					<h:outputText value="${item.atividade}" />
@@ -94,7 +94,7 @@
 		<p:fieldset legend="ATIVIDADES ADMINISTRATIVO-PEDAGÓGICAS">
 
 			<br />
-			<p:dataTable id="tabela" value="${PTDControlador.selectedPtd.aaps}"
+			<p:dataTable id="tabela" value="${selectedPtd.aaps}"
 				var="item" paginator="true" rows="7" editable="true"
 				rowKey="${item.id}">
 				<p:column style="width:70%">
@@ -111,7 +111,7 @@
 	</h:form>
 </p:fieldset>
 
-<c:if test="${PTDControlador.selectedPtd.status.ordinal != 5}">
+<c:if test="${selectedPtd.status.ordinal != 5}">
 	<h:form id="formularioVisualizar" class="validform" style="width:100%;">
 		<br />
 		<p:panelGrid columns="3" style="width:40%;">

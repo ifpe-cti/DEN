@@ -38,7 +38,7 @@
 	</welcome-file-list>
 	<filter> 
 		<filter-name>LoginFilter</filter-name> 
-		<filter-class>br.edu.ifpe.pdt.controladores.LoginFilter</filter-class> 
+		<filter-class>br.edu.ifpe.pdt.controladores.util.LoginFilter</filter-class> 
 	</filter> 
 	<filter-mapping> 
 		<filter-name>LoginFilter</filter-name> 

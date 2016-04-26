@@ -30,13 +30,6 @@
 	</h:form>
 
 	<br />
-	<c:if test="${professorControlador.selectedProfessor.siape == null}">
-		<c:if test="${professorControlador.searched}">
-			<div>
-				<ui:include src="/professor/cadastro.xhtml" />
-			</div>
-		</c:if>
-	</c:if>
 	<c:if test="${professorControlador.selectedProfessor.siape != null}">
 		<p:outputPanel id="panel">
 			<h:form id="form" style="width:500px">
