@@ -85,26 +85,29 @@ public class PTDControlador implements Serializable {
 		PTD ptd = this.getSelectedPtd();
 		ptd.setStatus(PTD.STATUS.AGUARDO);
 		ptd.setLastUpdate(Date.valueOf(LocalDate.now()));
+		ptd = ptdRepositorio.saveAndFlush(ptd);
+		this.setSelectedPtd(ptd);
+		this.updateProfessorLogado(ptd.getProfessor());
 
-		this.setSelectedPtd(ptdRepositorio.saveAndFlush(ptd));
-
-		return "/index.xhtml";
+		return "/restrito/index.xhtml";
 	}
 
-	public String criarPTD(String siape) {
+	public String criarPTD(String siape, Integer ano, Integer semestre) {
 		PTD ptd = this.getSelectedPtd();
 		ptd.setStatus(PTD.STATUS.AGUARDO);
 		ptd.setLastUpdate(Date.valueOf(LocalDate.now()));
+		ptd.setAno(ano);
+		ptd.setSemestre(semestre);
 
 		Professor prof = this.professorRepositorio.findBySiape(siape);
 		prof.getPtds().add(ptd);
 		ptd.setProfessor(prof);
 		prof = professorRepositorio.saveAndFlush(prof);
 
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("professorLogado", prof);
+		this.updateProfessorLogado(prof);
 		this.setSelectedPtd(ptd);
 		
-		return "/index.xhtml";
+		return "/restrito/index.xhtml";
 	}
 
 	public String fecharPTD() {
@@ -118,7 +121,7 @@ public class PTDControlador implements Serializable {
 		 * ).put("professorLogado", this.selectedPtd.getProfessor());
 		 */
 
-		return "/index.xhtml";
+		return "/restrito/index.xhtml";
 	}
 
 	public String reabrirPTD() {
@@ -128,10 +131,10 @@ public class PTDControlador implements Serializable {
 
 		this.setSelectedPtd(ptdRepositorio.saveAndFlush(ptd));
 
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("professorLogado",
-				ptd.getProfessor());
+		this.updateProfessorLogado(ptd.getProfessor());
+		
 
-		return "/index.xhtml";
+		return "/restrito/index.xhtml";
 	}
 
 	public String detalharPTD(Integer ptdId) {
@@ -152,7 +155,9 @@ public class PTDControlador implements Serializable {
 		ptd.setLastUpdate(Date.valueOf(LocalDate.now()));
 		STATUS s = STATUS.getStatus(status);
 		ptd.setStatus(s);
-		this.setSelectedPtd(ptdRepositorio.saveAndFlush(ptd));
+		ptd = ptdRepositorio.saveAndFlush(ptd);
+		this.setSelectedPtd(ptd);
+		this.updateProfessorLogado(ptd.getProfessor());
 
 		if (s == STATUS.CORRECAO) {
 			ret = "/restrito/ptd/enviarCorrecao.xhtml";
@@ -175,6 +180,10 @@ public class PTDControlador implements Serializable {
 			ret = "";
 		}
 		return ret;
+	}
+
+	private void updateProfessorLogado(Professor prof) {
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("professorLogado", prof);
 	}
 
 	// Métodos de apoio a tela editar.

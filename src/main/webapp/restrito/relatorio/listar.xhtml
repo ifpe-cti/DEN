@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+<ui:include src="/restrito/menu.xhtml" />
+
+<h:body>
+
+	<h:form id="formularioRelatorios" class="validform">
+		<p:fieldset legend="Relatórios">
+
+			<p:panelGrid columns="2">
+				<h:outputLabel style="width:70px;" value="Relatórios: " />
+				
+				<p:selectOneMenu id="txtRelatorio" style="width:350px;"
+					class="select" binding="#{relatorio}">
+					<f:selectItem itemValue="0" itemLabel="Listar carga horária das disciplinas dos professores" />
+					<f:selectItem itemValue="1" itemLabel="Listar ..." />
+				</p:selectOneMenu>
+				
+				<f:facet name="footer">
+					<p:commandButton value="Listar" class="buscar_button"
+						update="formularioRelatorios"
+						action="#{relatorioControlador.emitirRelatorio(relatorio.value)}" />
+				</f:facet>
+			</p:panelGrid>
+			<br />			
+		</p:fieldset>
+	</h:form>
+
+	<br />
+</h:body>
+</html>
+

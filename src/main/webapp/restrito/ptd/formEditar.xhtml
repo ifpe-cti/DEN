@@ -7,10 +7,9 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-<p:messages />
 <p:fieldset legend="Atualizar PTD">
 	<h:form id="formularioDisciplina" class="validform">
-		<p:fieldset legend="ATIVIDADES DE ENSINO (AULAS)">
+		<p:fieldset legend="ATIVIDADES DE ENSINO (DISCIPLINAS)">
 
 			<p:panelGrid columns="6">
 				<h:outputLabel style="width:70px;" value="Nome: " />
@@ -34,9 +33,9 @@
 				</f:facet>
 			</p:panelGrid>
 			<br />
-			<p:dataTable id="tabela"
-				value="${selectedPtd.disciplinas}" var="item"
-				paginator="true" rows="7" editable="true" rowKey="${item.id}">
+			<p:dataTable id="tabela" value="${selectedPtd.disciplinas}"
+				var="item" paginator="true" rows="7" editable="true"
+				rowKey="${item.id}">
 				<p:column>
 					<h:outputText value="${item.nome}" />
 					<f:facet name="header">
@@ -75,9 +74,8 @@
 				</f:facet>
 			</p:panelGrid>
 			<br />
-			<p:dataTable id="tabela" value="${selectedPtd.aaes}"
-				var="item" paginator="true" rows="7" editable="true"
-				rowKey="${item.id}">
+			<p:dataTable id="tabela" value="${selectedPtd.aaes}" var="item"
+				paginator="true" rows="7" editable="true" rowKey="${item.id}">
 				<p:column>
 					<h:outputText value="${item.atividade}" />
 					<f:facet name="header">
@@ -108,8 +106,7 @@
 				</f:facet>
 			</p:panelGrid>
 			<br />
-			<p:dataTable id="tabela"
-				value="${selectedPtd.pesquisas}" var="item"
+			<p:dataTable id="tabela" value="${selectedPtd.pesquisas}" var="item"
 				paginator="true" rows="7" editable="true" rowKey="${item.id}">
 				<p:column>
 					<h:outputText value="${item.atividade}" />
@@ -139,8 +136,7 @@
 				</f:facet>
 			</p:panelGrid>
 			<br />
-			<p:dataTable id="tabela"
-				value="${selectedPtd.extensoes}" var="item"
+			<p:dataTable id="tabela" value="${selectedPtd.extensoes}" var="item"
 				paginator="true" rows="7" editable="true" rowKey="${item.id}">
 				<p:column>
 					<h:outputText value="${item.atividade}" />
@@ -172,9 +168,8 @@
 				</f:facet>
 			</p:panelGrid>
 			<br />
-			<p:dataTable id="tabela" value="${selectedPtd.aaps}"
-				var="item" paginator="true" rows="7" editable="true"
-				rowKey="${item.id}">
+			<p:dataTable id="tabela" value="${selectedPtd.aaps}" var="item"
+				paginator="true" rows="7" editable="true" rowKey="${item.id}">
 				<p:column>
 					<h:outputText value="${item.atividade}" />
 					<f:facet name="header">
@@ -196,20 +191,38 @@
 </p:fieldset>
 
 <h:form id="formButtons" class="validform" style="width:20%;">
-	<br />
-	<h:panelGrid id="gridEnsino" columns="1" class="table">
-		<c:if test="${selectedPtd.professor != null}">
-			<p:commandButton value="Atualizar PTD" class="buscar_button"
-				action="#{PTDControlador.atualizaPTD()}" />
+<p:messages />
+	<c:if test="${selectedPtd.professor != null}">
+		<br />
+		<p:panelGrid columns="4">
+			<h:outputLabel style="width:70px;" value="Ano: " />
+			<p:inputText style="width:100px;" value="#{selectedPtd.ano}" required="true"
+			requiredMessage="Ano é obrigatório!"/>
+			<h:outputLabel style="width:70px;" value="Semestre: " />
+			<p:inputText style="width:100px;" value="#{selectedPtd.semestre}" required="true"
+			requiredMessage="Semestre é obrigatório!"/>
+		</p:panelGrid>
+		<br />
+		<p:commandButton value="Atualizar PTD" class="buscar_button" update="formButtons"
+			action="#{PTDControlador.atualizaPTD()}" />
 
-		</c:if>
-		<c:if test="${selectedPtd.professor == null}">
-			<p:commandButton value="Criar PTD" class="buscar_button"
-				action="#{PTDControlador.criarPTD(professorControlador.professorLogado.siape)}" />
-		</c:if>
-		<!-- <p:commandButton value="Fechar PTD" class="buscar_button"
+	</c:if>
+	<c:if test="${selectedPtd.professor == null}">
+		<br />
+		<p:panelGrid columns="4">
+			<h:outputLabel style="width:70px;" value="Ano: " />
+			<p:inputText style="width:100px;" binding="#{ano}" required="true"
+			requiredMessage="Ano é obrigatório!"/>
+			<h:outputLabel style="width:70px;" value="Semestre: " />
+			<p:inputText style="width:100px;" binding="#{semestre}" required="true"
+			requiredMessage="Semestre é obrigatório!"/>
+		</p:panelGrid>
+		<br />
+		<p:commandButton value="Criar PTD" class="buscar_button" update="formButtons"
+			action="#{PTDControlador.criarPTD(professorControlador.professorLogado.siape, ano.value, semestre.value)}" />
+	</c:if>
+	<!-- <p:commandButton value="Fechar PTD" class="buscar_button"
 			action="#{PTDControlador.fecharPTD()}" /> -->
-	</h:panelGrid>
 	<br />
 	<br />
 </h:form>

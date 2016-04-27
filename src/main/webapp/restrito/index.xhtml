@@ -11,8 +11,7 @@
 
 <h:body>
 
-	<c:if
-		test="${professorLogado.autorizacao.ordinal != 7}">
+	<c:if test="${professorLogado.autorizacao.ordinal != 7}">
 		<h:form id="formularioEditar" class="validform">
 			<p:fieldset legend="Planos de Trabalho Docente - PTD">
 				<br />
@@ -30,26 +29,30 @@
 						</h:panelGrid>
 					</div>
 				</div>
-				<p:dataTable id="tabela"
-					value="#{professorLogado.ptds}" var="item"
+				<p:dataTable id="tabela" value="#{professorLogado.ptds}" var="item"
 					paginator="true" rows="15" selection="#{selectedPtd}"
-					selectionMode="single" rowKey="${item.codigo}">
+					selectionMode="single" rowKey="${item.codigo}"
+					sortBy="${item.lastUpdate}">
 					<p:column>
-						<h:outputText value="${item.professor.siape}" />
+						<p align="center">
+
+							<h:outputText value="${item.ano}" />
+						</p>
 						<f:facet name="header">
-		                        Siape
+		                        Ano
 		                    </f:facet>
 					</p:column>
 
+					<p:column headerText="Semestre">
+						<p align="center">${item.semestre}</p>
+					</p:column>
+
 					<p:column headerText="Status">
-		                    ${item.status}
-		            </p:column>
-					<p:column headerText="Update">
-		                    ${item.lastUpdate}
-		            </p:column>
-		            <p:column headerText="Codigo">
-		                    ${item.codigo}
-		            </p:column>
+						<p align="center">${item.status}</p>
+					</p:column>
+					<p:column headerText="Atualizado em">
+						<p align="center">${item.lastUpdate}</p>
+					</p:column>
 				</p:dataTable>
 				<div id="div_buttons">
 					<div id="conteudo-left">

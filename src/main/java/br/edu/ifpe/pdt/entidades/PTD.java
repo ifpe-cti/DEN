@@ -83,6 +83,12 @@ public class PTD implements Serializable {
 	@Column(name="last_update")
 	private Date lastUpdate;
 	
+	@Column(name="ano")
+	private Integer ano;
+	
+	@Column(name="semestre")
+	private Integer semestre;
+	
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="professor_id")
 	private Professor professor;
@@ -140,6 +146,22 @@ public class PTD implements Serializable {
 
 	public void setLastUpdate(Date lastUpdate) {
 		this.lastUpdate = lastUpdate;
+	}
+
+	public Integer getAno() {
+		return ano;
+	}
+
+	public void setAno(Integer ano) {
+		this.ano = ano;
+	}
+
+	public Integer getSemestre() {
+		return semestre;
+	}
+
+	public void setSemestre(Integer semestre) {
+		this.semestre = semestre;
 	}
 
 	public String getResultado() {
