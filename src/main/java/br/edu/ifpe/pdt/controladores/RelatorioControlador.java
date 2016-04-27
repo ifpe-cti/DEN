@@ -1,20 +1,24 @@
 package br.edu.ifpe.pdt.controladores;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import br.edu.ifpe.pdt.controladores.relatorio.beans.ProfessorCargaHoraria;
-import br.edu.ifpe.pdt.entidades.Professor;
-import br.edu.ifpe.pdt.entidades.Professor.AUTORIZACAO;
+import br.edu.ifpe.pdt.controladores.relatorio.XLSExport;
+import br.edu.ifpe.pdt.entidades.Disciplina;
+import br.edu.ifpe.pdt.entidades.PTD;
 import br.edu.ifpe.pdt.repositorios.PTDRepositorio;
-import br.edu.ifpe.pdt.repositorios.ProfessorRepositorio;
 
 @Component
 @ManagedBean(name = "relatorioControlador", eager = true)
@@ -23,11 +27,8 @@ public class RelatorioControlador implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final int LISTAR_CARGA_HORARIA_PROFESSOR = 1;
+	public static final int LISTAR_CARGA_HORARIA_SEMESTRE = 1;
 
-	@Autowired
-	private ProfessorRepositorio professorRepositorio;
-	
 	@Autowired
 	private PTDRepositorio ptdRepositorio;
 
@@ -35,8 +36,8 @@ public class RelatorioControlador implements Serializable {
 		String ret = "";
 
 		switch (relatorioID) {
-		case LISTAR_CARGA_HORARIA_PROFESSOR:
-			ret = listarCargaHorariaProfessor();
+		case LISTAR_CARGA_HORARIA_SEMESTRE:
+			ret = "/restrito/relatorio/professorCargaHoraria.xhtml";
 			break;
 		default:
 			break;
@@ -45,19 +46,56 @@ public class RelatorioControlador implements Serializable {
 		return ret;
 	}
 
-	private String listarCargaHorariaProfessor() {
-		List<Professor> professores = this.professorRepositorio.findAll();
-		List<ProfessorCargaHoraria> profsCH = new ArrayList<ProfessorCargaHoraria>();
-		for (Professor prof : professores) {
-			if (prof.getAutorizacao() != AUTORIZACAO.SUPER) {
-				ProfessorCargaHoraria profCH = new ProfessorCargaHoraria(prof);
-				
-				
-				
-				profsCH.add(profCH);
+	public String listarCargaHorariaSemestre(Integer ano, Integer semestre) {
+
+		List<PTD> ptds = this.ptdRepositorio.findByAnoAndSemestre(ano, semestre);
+
+		for (PTD ptd : ptds) {
+			Integer cargaHoraria = 0;
+
+			for (Disciplina disciplina : ptd.getDisciplinas()) {
+				cargaHoraria += disciplina.getCargaHoraria();
 			}
+
+			ptd.setCargaHoraria(cargaHoraria);
 		}
 
-		return "/restrito/relatorio/professorCargaHoraria.xhtml";
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedPtds", ptds);
+
+		return "";
+	}
+
+	@SuppressWarnings("unchecked")
+	public void exportarCargaHorariaSemestre() {
+		List<PTD> ptds = (List<PTD>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+				.get("selectedPtds");
+
+		File f = XLSExport.exportarCargaHorariaSemestre(ptds);
+
+		if (f != null) { 
+			FacesContext fc = FacesContext.getCurrentInstance();
+			ExternalContext ec = fc.getExternalContext();
+			
+			ec.responseReset();
+			ec.setResponseContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+			ec.setResponseContentLength((int) f.length());
+			ec.setResponseHeader("Content-Disposition", "attachment; filename=\"" + f.getName() + "\"");
+			try {
+				OutputStream output = ec.getResponseOutputStream();
+
+				FileInputStream fis = new FileInputStream(f);
+				while (fis.available() > -1) {
+					output.write(fis.read());
+				}
+				
+				output.flush();
+				output.close();
+				fis.close();
+				fc.responseComplete();
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

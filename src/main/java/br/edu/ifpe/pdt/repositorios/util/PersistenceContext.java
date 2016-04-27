@@ -112,7 +112,7 @@ public class PersistenceContext {
 		Scheduler sched = null;
 		try {
 			SchedulerFactory sf = new StdSchedulerFactory();
-			sched = sf.getScheduler();
+			sched = sf.getScheduler(); 
 			BackupBD.configureBackupBD(backupFolder, backupFile, dumpCommand, 
 										databaseUser, databasePassword, name);
 			JobDetail job = JobBuilder.newJob(BackupBD.class).withIdentity("job1", "group1").build();

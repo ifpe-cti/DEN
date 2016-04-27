@@ -18,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /*
  * Plano de Trabalho Docente
@@ -116,6 +117,9 @@ public class PTD implements Serializable {
 	@OneToMany(mappedBy="ptd", fetch=FetchType.EAGER, orphanRemoval=true, cascade=CascadeType.ALL)
 	private Set<AAP> aaps;
 
+	@Transient
+	private Integer cargaHoraria;
+	
 	public Integer getCodigo() {
 		return codigo;
 	}
@@ -212,6 +216,14 @@ public class PTD implements Serializable {
 		this.aaps = aaps;
 	}
 	
+	public Integer getCargaHoraria() {
+		return cargaHoraria;
+	}
+
+	public void setCargaHoraria(Integer cargaHoraria) {
+		this.cargaHoraria = cargaHoraria;
+	}
+
 	public PTD clone() {
 		PTD ptd = new PTD();
 		
