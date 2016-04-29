@@ -2,7 +2,6 @@ package br.edu.ifpe.pdt.controladores;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.LinkedHashSet;
 
 import javax.faces.application.FacesMessage;
@@ -11,6 +10,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.mail.MessagingException;
 
+import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -84,7 +84,7 @@ public class PTDControlador implements Serializable {
 	public String atualizaPTD() {
 		PTD ptd = this.getSelectedPtd();
 		ptd.setStatus(PTD.STATUS.AGUARDO);
-		ptd.setLastUpdate(Date.valueOf(LocalDate.now()));
+		ptd.setLastUpdate(Date.valueOf(LocalDate.now().toString()));
 		ptd = ptdRepositorio.saveAndFlush(ptd);
 		this.setSelectedPtd(ptd);
 		this.updateProfessorLogado(ptd.getProfessor());
@@ -95,7 +95,7 @@ public class PTDControlador implements Serializable {
 	public String criarPTD(String siape, Integer ano, Integer semestre) {
 		PTD ptd = this.getSelectedPtd();
 		ptd.setStatus(PTD.STATUS.AGUARDO);
-		ptd.setLastUpdate(Date.valueOf(LocalDate.now()));
+		ptd.setLastUpdate(Date.valueOf(LocalDate.now().toString()));
 		ptd.setAno(ano);
 		ptd.setSemestre(semestre);
 
@@ -127,7 +127,7 @@ public class PTDControlador implements Serializable {
 	public String reabrirPTD() {
 		PTD ptd = this.getSelectedPtd();
 		ptd.setStatus(PTD.STATUS.AGUARDO);
-		ptd.setLastUpdate(Date.valueOf(LocalDate.now()));
+		ptd.setLastUpdate(Date.valueOf(LocalDate.now().toString()));
 
 		this.setSelectedPtd(ptdRepositorio.saveAndFlush(ptd));
 
@@ -152,7 +152,7 @@ public class PTDControlador implements Serializable {
 		String ret = "/restrito/ptd/mostrar.xhtml";
 		
 		PTD ptd = this.getSelectedPtd();
-		ptd.setLastUpdate(Date.valueOf(LocalDate.now()));
+		ptd.setLastUpdate(Date.valueOf(LocalDate.now().toString()));
 		STATUS s = STATUS.getStatus(status);
 		ptd.setStatus(s);
 		ptd = ptdRepositorio.saveAndFlush(ptd);

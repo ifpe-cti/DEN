@@ -54,7 +54,7 @@ public class XLSExport {
 		FileOutputStream out;
 		File f = null;
 		try {			
-			f = new File(AppContext.getRelatorioPath());
+			f = new File(AppContext.getRelatorioPath()+"cargaHoraria.xlsx");
 			f.createNewFile();
 			out = new FileOutputStream(f);
 			workbook.write(out);
