@@ -19,6 +19,7 @@ import br.edu.ifpe.pdt.controladores.relatorio.XLSExport;
 import br.edu.ifpe.pdt.entidades.Disciplina;
 import br.edu.ifpe.pdt.entidades.PTD;
 import br.edu.ifpe.pdt.repositorios.PTDRepositorio;
+import br.edu.ifpe.pdt.util.LoggerPTD;
 
 @Component
 @ManagedBean(name = "relatorioControlador", eager = true)
@@ -71,7 +72,6 @@ public class RelatorioControlador implements Serializable {
 				.get("selectedPtds");
 
 		File f = XLSExport.exportarCargaHorariaSemestre(ptds);
-
 		if (f != null) { 
 			FacesContext fc = FacesContext.getCurrentInstance();
 			ExternalContext ec = fc.getExternalContext();
@@ -94,7 +94,7 @@ public class RelatorioControlador implements Serializable {
 				fc.responseComplete();
 				
 			} catch (IOException e) {
-				e.printStackTrace();
+				LoggerPTD.getLoggerInstance().logError(e.getMessage());
 			}
 		}
 	}

@@ -8,6 +8,8 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
+import br.edu.ifpe.pdt.util.LoggerPTD;
+
 public class BackupBD implements Job{
 
 	private static String backupFolder;
@@ -49,9 +51,9 @@ public class BackupBD implements Job{
              process.waitFor();    
              process.destroy(); 
          } catch (IOException e) {      
-             e.printStackTrace();      
+        	 LoggerPTD.getLoggerInstance().logError(e.getMessage());  
          } catch (InterruptedException ie) {      
-             ie.printStackTrace();      
+        	 LoggerPTD.getLoggerInstance().logError(ie.getMessage()); 
          }
 	}
 }

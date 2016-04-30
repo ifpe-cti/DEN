@@ -30,6 +30,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 import br.edu.ifpe.pdt.entidades.PTD;
+import br.edu.ifpe.pdt.util.LoggerPTD;
 
 @Configuration
 @Import(PropertyPlaceholderConfig.class)
@@ -76,7 +77,7 @@ public class PersistenceContext {
 			dataSource.setTestConnectionOnCheckout(true);
 			dataSource.setMaxIdleTime(1800);
 		} catch (PropertyVetoException | ClassNotFoundException e) {
-			e.printStackTrace();
+			LoggerPTD.getLoggerInstance().logError(e.getMessage());
 		}
 		return dataSource;
 	}
@@ -122,7 +123,7 @@ public class PersistenceContext {
 			
 			sched.start();
 		} catch (SchedulerException e) {
-			e.printStackTrace();
+			LoggerPTD.getLoggerInstance().logError(e.getMessage());
 		}
 		return sched;
 	}

@@ -4,11 +4,9 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.LinkedHashSet;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.mail.MessagingException;
 
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,7 +104,7 @@ public class PTDControlador implements Serializable {
 
 		this.updateProfessorLogado(prof);
 		this.setSelectedPtd(ptd);
-		
+
 		return "/restrito/index.xhtml";
 	}
 
@@ -132,7 +130,6 @@ public class PTDControlador implements Serializable {
 		this.setSelectedPtd(ptdRepositorio.saveAndFlush(ptd));
 
 		this.updateProfessorLogado(ptd.getProfessor());
-		
 
 		return "/restrito/index.xhtml";
 	}
@@ -150,7 +147,7 @@ public class PTDControlador implements Serializable {
 
 	public String atualizaPTDEnsino(Integer status) {
 		String ret = "/restrito/ptd/mostrar.xhtml";
-		
+
 		PTD ptd = this.getSelectedPtd();
 		ptd.setLastUpdate(Date.valueOf(LocalDate.now().toString()));
 		STATUS s = STATUS.getStatus(status);
@@ -169,16 +166,10 @@ public class PTDControlador implements Serializable {
 	public String enviarEmailCorrecao(String mensagem) {
 		String ret = "/restrito/ptd/mostrar.xhtml";
 		PTDEmail mail = new PTDEmail();
-		try {
-			PTD ptd = this.getSelectedPtd();
-			mail.postMail(ptd.getProfessor().getEmail(), "Correção do PTD", "Favor Verificar PTD",
-					"diven@garanhuns.ifpe.edu.br");
-		} catch (MessagingException e) {
-			e.printStackTrace();
-			FacesContext.getCurrentInstance().addMessage("Falha no envio!",
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falha no envio!", e.getMessage()));
-			ret = "";
-		}
+		PTD ptd = this.getSelectedPtd();
+		mail.postMail(ptd.getProfessor().getEmail(), "Correção do PTD", "Favor Verificar PTD",
+				"diven@garanhuns.ifpe.edu.br");
+
 		return ret;
 	}
 

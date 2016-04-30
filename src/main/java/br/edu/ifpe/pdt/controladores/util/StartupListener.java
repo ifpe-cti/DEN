@@ -23,7 +23,7 @@ public class StartupListener implements ApplicationListener<ContextRefreshedEven
 		if(p == null) {
 			p = new Professor();
 			p.setSiape("admin");
-			p.setSenha("admin");
+			p.setSenha("adminadmin");
 			p.setNome("Admin");
 			p.setEmail("admin");
 			p.setCoordenacao("admin");
