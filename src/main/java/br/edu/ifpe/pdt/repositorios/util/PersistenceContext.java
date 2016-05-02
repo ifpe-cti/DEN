@@ -48,17 +48,13 @@ public class PersistenceContext {
 	@Value("${db.driver}")
 	private String driver;
 	
-	@Value("${db.backupFolder}")
-	private String backupFolder;	
-	@Value("${db.backupFile}")
-	private String backupFile;	
 	@Value("${db.dumpCommand}")
 	private String dumpCommand;
 	@Value("${db.backupTime}")
 	private String backupTime;
-	@Value("${db.name}")
-	private String name;
-
+	@Value("${db.redirectOutput}")
+	private String redirectOutput;
+	
 	@Bean
 	public DataSource dataSource() {
 
@@ -114,8 +110,7 @@ public class PersistenceContext {
 		try {
 			SchedulerFactory sf = new StdSchedulerFactory();
 			sched = sf.getScheduler(); 
-			BackupBD.configureBackupBD(backupFolder, backupFile, dumpCommand, 
-										databaseUser, databasePassword, name);
+			BackupBD.configureBackupBD(dumpCommand, redirectOutput);
 			JobDetail job = JobBuilder.newJob(BackupBD.class).withIdentity("job1", "group1").build();
 			CronTrigger trigger = TriggerBuilder.newTrigger().withIdentity("trigger1", "group1")
 					.withSchedule(CronScheduleBuilder.cronSchedule(backupTime)).build();

@@ -12,6 +12,8 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import br.edu.ifpe.pdt.controladores.util.AppContext;
+
 public class PTDEmail {
 
 	public void postMail(String recipient, String subject, String message, String from) {
@@ -53,8 +55,8 @@ public class PTDEmail {
 	private class SMTPAuthenticator extends javax.mail.Authenticator {
 
 		public PasswordAuthentication getPasswordAuthentication() {
-			String username = "diven@garanhuns.ifpe.edu.br";
-			String password = "divendiven";
+			String username = AppContext.getEmailAuth();
+			String password = AppContext.getPassAuth();
 			return new PasswordAuthentication(username, password);
 		}
 	}

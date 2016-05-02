@@ -12,6 +12,7 @@ import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import br.edu.ifpe.pdt.controladores.util.AppContext;
 import br.edu.ifpe.pdt.entidades.AAE;
 import br.edu.ifpe.pdt.entidades.AAP;
 import br.edu.ifpe.pdt.entidades.Disciplina;
@@ -167,8 +168,8 @@ public class PTDControlador implements Serializable {
 		String ret = "/restrito/ptd/mostrar.xhtml";
 		PTDEmail mail = new PTDEmail();
 		PTD ptd = this.getSelectedPtd();
-		mail.postMail(ptd.getProfessor().getEmail(), "Correção do PTD", "Favor Verificar PTD",
-				"diven@garanhuns.ifpe.edu.br");
+		mail.postMail(ptd.getProfessor().getEmail(), AppContext.getEmailSubject(), mensagem,
+				AppContext.getEmailAuth());
 
 		return ret;
 	}
