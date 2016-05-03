@@ -155,7 +155,6 @@ public class PTDControlador implements Serializable {
 		ptd.setStatus(s);
 		ptd = ptdRepositorio.saveAndFlush(ptd);
 		this.setSelectedPtd(ptd);
-		this.updateProfessorLogado(ptd.getProfessor());
 
 		if (s == STATUS.CORRECAO) {
 			ret = "/restrito/ptd/enviarCorrecao.xhtml";

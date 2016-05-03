@@ -71,4 +71,9 @@ public class Disciplina {
 	public void setPTD(PTD ptd) {
 		this.ptd = ptd;
 	}
+	
+	@Override
+	public String toString() {
+		return this.nome;
+	}
 }

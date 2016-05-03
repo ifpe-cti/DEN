@@ -29,7 +29,8 @@ public class Professor implements Serializable{
 		CCTIN,
 		DIVEN,
 		DEN,
-		SUPER;
+		SUPER,
+		CRAT;
 		
 		public int getOrdinal() {
 			return this.ordinal();
@@ -67,6 +68,9 @@ public class Professor implements Serializable{
 			case 7:
 				a = SUPER;
 				break;
+			case 8:
+				a = CRAT;
+				break;
 			default:
 				break;
 			}
@@ -101,6 +105,9 @@ public class Professor implements Serializable{
 	@ManagedProperty(value="#{ptds}")
 	@OneToMany(mappedBy="professor", fetch=FetchType.EAGER, orphanRemoval=true, cascade=CascadeType.ALL)
 	private List<PTD> ptds;	
+	
+	@OneToMany(mappedBy="professor", fetch=FetchType.EAGER, orphanRemoval=true, cascade=CascadeType.ALL)
+	private List<Falta> faltas;	
 	
 	public Integer getCodigo() {
 		return codigo;
@@ -164,5 +171,13 @@ public class Professor implements Serializable{
 
 	public void setPtds(List<PTD> ptds) {
 		this.ptds = ptds;
+	}
+
+	public List<Falta> getFaltas() {
+		return faltas;
+	}
+
+	public void setFaltas(List<Falta> faltas) {
+		this.faltas = faltas;
 	}
 }

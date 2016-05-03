@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+<ui:include src="/restrito/menu.xhtml" />
+
+<h:body>
+
+	<p:outputPanel id="panel">
+		<h:form id="formularioEnsino" style="width:500px">
+			<p:panelGrid id="gridEnsino" columns="2"
+				class="table table-bordered table-condensed">
+				<h:outputText value="SIAPE:" />
+				<h:outputText value="#{professorDetalhado.siape}" />
+				<h:outputText value="Coordenação:" />
+				<h:outputText value="#{professorDetalhado.coordenacao}" />
+				<h:outputText value="Nome:" />
+				<h:outputText value="#{professorDetalhado.nome}" />
+				<h:outputText value="Email:" />
+				<h:outputText value="#{professorDetalhado.email}" />
+			</p:panelGrid>
+		</h:form>
+	</p:outputPanel>
+	<br />
+
+	<h:form id="formularioFalta" class="validform">
+		<p:fieldset legend="Planos de Trabalho Docente - PTD">
+			<br />
+			<p:messages />
+			<p:panelGrid columns="2">
+				<p:outputLabel value="Número de Faltas*:" />
+				<p:inputText id="txtnumFaltas" binding="#{numFaltas}"
+					required="true" maxlength="12"
+					requiredMessage="
+                                 O Numero de Faltas precisa ser preenchido!" />
+				<p:outputLabel value="Disciplina*:" />
+				<h:selectOneMenu binding="#{disciplina}">
+					<f:selectItems value="#{ptdFalta.disciplinas}" />
+				</h:selectOneMenu>
+				<p:outputLabel value="Data*:" />
+				<h:inputText styleClass="datepicker" binding="#{data}" ></h:inputText>
+			</p:panelGrid>
+
+
+
+			<div id="div_buttons">
+				<div id="conteudo-left">
+					<br />
+					<p:commandButton class="buscar_button" value="Registrar Falta"
+						action="#{professorControlador.salvarFalta(numFaltas.value, disciplina.value, data.value)}" />
+				</div>
+			</div>
+		</p:fieldset>
+	</h:form>
+</h:body>
+</html>
+

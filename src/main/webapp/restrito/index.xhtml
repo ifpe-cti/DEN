@@ -11,7 +11,7 @@
 
 <h:body>
 
-	<c:if test="${professorLogado.autorizacao.ordinal != 7}">
+	<c:if test="${(professorLogado.autorizacao.ordinal != 7) and (professorLogado.autorizacao.ordinal != 8)}">
 		<h:form id="formularioEditar" class="validform">
 			<p:fieldset legend="Planos de Trabalho Docente - PTD">
 				<br />

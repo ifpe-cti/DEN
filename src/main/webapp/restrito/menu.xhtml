@@ -8,34 +8,53 @@
 <h:head>
 	<title>DEN IFPE</title>
 	<link rel="shortcut icon" href="../resources/images/favicon.ico" />
-	<h:outputStylesheet library="css" name="ptd.css"  />
+	<h:outputStylesheet library="css" name="ptd.css" />
+
+	<script type="text/javascript">
+	$(document).ready(function() {
+		  $(".datepicker").datepicker({
+		    dateFormat: 'yy-mm-dd',
+		    showOn: "button",
+		    buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif",
+		    buttonImageOnly: true})
+		});
+    </script>
 </h:head>
 
 <h:body>
 	<h:graphicImage library="images" name="banner_topo.png"
-		class="img-rounded img-responsive" />	
+		class="img-rounded img-responsive" />
 	<p:growl id="gro" life="3000" />
-	
+
 	<h:form id="formularioMenu" class="validform">
 		<p:menubar>
 			<p:menuitem value="home" url="/restrito/index.xhtml" />
 			<c:if
-				test="${professorLogado.autorizacao.ordinal != 7}">
-				<p:submenu
-					label="Bem vindo, Prof. #{professorLogado.nome}">
+				test="${(professorLogado.autorizacao.ordinal != 7) and (professorLogado.autorizacao.ordinal != 8)}">
+				<p:submenu label="Bem vindo, Prof. #{professorLogado.nome}">
+					<p:menuitem value="Verificar Faltas"
+						action="#{professorControlador.mostrarFaltas()}" />
+					<p:menuitem value="Logout"
+						action="#{professorControlador.realizarLogout()}" />
+
+				</p:submenu>
+			</c:if>
+			<c:if test="${professorLogado.autorizacao.ordinal == 8}">
+				<p:submenu label="#{professorLogado.nome}">
+					<p:menuitem value="Cadastrar Falta"
+						action="#{professorControlador.cadastrarFalta()}" />
 					<p:menuitem value="Logout"
 						action="#{professorControlador.realizarLogout()}" />
 				</p:submenu>
 			</c:if>
-			<c:if
-				test="${professorLogado.autorizacao.ordinal == 7}">
+			<c:if test="${professorLogado.autorizacao.ordinal == 7}">
 				<p:submenu label="#{professorLogado.nome}">
 					<p:menuitem value="Logout"
 						action="#{professorControlador.realizarLogout()}" />
 				</p:submenu>
 			</c:if>
 			<c:if
-				test="${professorLogado.autorizacao.ordinal > 0}">
+				test="${(professorLogado.autorizacao.ordinal > 0) and (professorLogado.autorizacao.ordinal != 8)}">
 				<p:submenu label="Ensino">
 					<p:menuitem value="Buscar Professores"
 						url="/restrito/professor/ensino/buscar.xhtml" />

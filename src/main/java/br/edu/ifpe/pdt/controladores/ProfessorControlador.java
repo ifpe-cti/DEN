@@ -11,6 +11,8 @@ import javax.faces.context.FacesContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import br.edu.ifpe.pdt.entidades.Falta;
+import br.edu.ifpe.pdt.entidades.PTD;
 import br.edu.ifpe.pdt.entidades.Professor;
 import br.edu.ifpe.pdt.entidades.Professor.AUTORIZACAO;
 import br.edu.ifpe.pdt.repositorios.ProfessorRepositorio;
@@ -88,16 +90,22 @@ public class ProfessorControlador implements Serializable {
 
 		if (this.getProfessorLogado().getAutorizacao() == AUTORIZACAO.DIVEN
 				|| this.getProfessorLogado().getAutorizacao() == AUTORIZACAO.DEN
-				|| this.getProfessorLogado().getAutorizacao() == AUTORIZACAO.SUPER) {
+				|| this.getProfessorLogado().getAutorizacao() == AUTORIZACAO.SUPER
+				|| this.getProfessorLogado().getAutorizacao() == AUTORIZACAO.CRAT) {
 			this.setProfessores(professorRepositorio.findAll());
-			Professor pRemove = null;
+			Professor pRemoveSuper = null;
+			Professor pRemoveCrat = null;
 			for (Professor prof : this.getProfessores()) {
 				if (prof.getAutorizacao() == AUTORIZACAO.SUPER) {
-					pRemove = prof;
+					pRemoveSuper = prof;
+				}
+				if (prof.getAutorizacao() == AUTORIZACAO.CRAT) {
+					pRemoveCrat = prof;
 				}
 			}
 			List<Professor> profs = this.getProfessores();
-			profs.remove(pRemove);
+			profs.remove(pRemoveSuper);
+			profs.remove(pRemoveCrat);
 			this.setProfessores(profs);
 		} else {
 			this.setProfessores(professorRepositorio.findByCoordenacao(this.getProfessorLogado().getCoordenacao()));
@@ -170,6 +178,101 @@ public class ProfessorControlador implements Serializable {
 		return ret;
 	}
 
+	public String mostrarFaltas() {
+		return "";
+	}
+
+	public String cadastrarFalta() {
+		return "/restrito/falta/professor/buscar.xhtml";
+	}
+
+	public String adicionarFalta(String siape, Integer ano, Integer semestre) {
+		String ret = "";
+		
+		if (siape != null && ano != null && semestre != null) {
+
+			this.setProfessorDetalhado(this.professorRepositorio.findBySiape(siape));
+
+			for (PTD ptd : this.getProfessorDetalhado().getPtds()) {
+				if (ptd.getAno().equals(ano) && ptd.getSemestre().equals(semestre)) {
+					this.setPtdFalta(ptd);
+					ret = "/restrito/falta/registrar.xhtml";
+					break;
+				}
+			}
+		}
+
+		return ret;
+	}
+
+	public String salvarFalta(Integer numFaltas, String disciplina, String data) {
+		Falta f = new Falta();
+
+		return "";
+	}
+
+	public String atualizarFalta(String siape) {
+
+		this.setProfessorDetalhado(this.professorRepositorio.findBySiape(siape));
+
+		return "/restrito/falta/atualizar.xhtml";
+	}
+
+	public String buscarProfessorPorSIAPEFalta(String siape) {
+		String ret = "";
+
+		initProfessores();
+
+		if (siape != null) {
+			Professor prof = professorRepositorio.findBySiape(siape);
+			if ((prof != null) && (prof.getAutorizacao() != AUTORIZACAO.SUPER)
+					&& (this.getProfessorLogado().getAutorizacao() == AUTORIZACAO.CRAT)) {
+				List<Professor> profs = this.getProfessores();
+				profs.add(prof);
+				this.setProfessores(profs);
+			}
+		}
+
+		return ret;
+	}
+
+	public String buscarProfessorPorCoordenacaoFalta(String coordenacao) {
+
+		initProfessores();
+
+		if (this.getProfessorLogado().getAutorizacao() == AUTORIZACAO.CRAT) {
+			List<Professor> profs = professorRepositorio.findByCoordenacao(coordenacao);
+			this.setProfessores(profs);
+		}
+
+		return "";
+	}
+
+	public String buscarProfessoresFalta() {
+
+		initProfessores();
+
+		if (this.getProfessorLogado().getAutorizacao() == AUTORIZACAO.CRAT) {
+			this.setProfessores(professorRepositorio.findAll());
+			Professor pRemoveSuper = null;
+			Professor pRemoveCrat = null;
+			for (Professor prof : this.getProfessores()) {
+				if (prof.getAutorizacao() == AUTORIZACAO.SUPER) {
+					pRemoveSuper = prof;
+				}
+				if (prof.getAutorizacao() == AUTORIZACAO.CRAT) {
+					pRemoveCrat = prof;
+				}
+			}
+			List<Professor> profs = this.getProfessores();
+			profs.remove(pRemoveSuper);
+			profs.remove(pRemoveCrat);
+			this.setProfessores(profs);
+		}
+
+		return "";
+	}
+
 	// Getters from bean
 	@SuppressWarnings("unchecked")
 	public List<Professor> getProfessores() {
@@ -197,5 +300,13 @@ public class ProfessorControlador implements Serializable {
 
 	private void setProfessorDetalhado(Professor prof) {
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("professorDetalhado", prof);
+	}
+
+	private void setPtdFalta(PTD ptd) {
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("ptdFalta", ptd);
+	}
+
+	public PTD getPtdFalta() {
+		return (PTD) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("ptdFalta");
 	}
 }

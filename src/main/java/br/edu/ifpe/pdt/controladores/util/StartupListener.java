@@ -14,13 +14,13 @@ public class StartupListener implements ApplicationListener<ContextRefreshedEven
 
 	@Autowired
 	private ProfessorRepositorio professorRepositorio;
-	
+
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
-		
+
 		Professor p = professorRepositorio.findBySiape("admin");
-		
-		if(p == null) {
+
+		if (p == null) {
 			p = new Professor();
 			p.setSiape("admin");
 			p.setSenha("adminadmin");
@@ -28,6 +28,19 @@ public class StartupListener implements ApplicationListener<ContextRefreshedEven
 			p.setEmail("admin");
 			p.setCoordenacao("admin");
 			p.setAutorizacao(AUTORIZACAO.SUPER);
+			professorRepositorio.saveAndFlush(p);
+		}
+
+		p = professorRepositorio.findBySiape("crat");
+
+		if (p == null) {
+			p = new Professor();
+			p.setSiape("crat");
+			p.setSenha("cratcrat");
+			p.setNome("CRAT");
+			p.setEmail("crat");
+			p.setCoordenacao("crat");
+			p.setAutorizacao(AUTORIZACAO.CRAT);
 			professorRepositorio.saveAndFlush(p);
 		}
 	}
