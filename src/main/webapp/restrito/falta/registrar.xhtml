@@ -40,19 +40,26 @@
                                  O Numero de Faltas precisa ser preenchido!" />
 				<p:outputLabel value="Disciplina*:" />
 				<h:selectOneMenu binding="#{disciplina}">
-					<f:selectItems value="#{ptdFalta.disciplinas}" />
+					<f:selectItems value="#{ptdFalta.disciplinas}" var="disciplina"
+						itemLabel="#{disciplina.nome}" itemValue="#{disciplina.codigo}" />
 				</h:selectOneMenu>
+				<p:outputLabel value="Turma*:" />
+				<p:inputText id="txtturma" binding="#{turma}"
+					required="true" maxlength="20"
+					requiredMessage="
+                                 A turma precisa ser preenchida!" />
 				<p:outputLabel value="Data*:" />
-				<h:inputText styleClass="datepicker" binding="#{data}" ></h:inputText>
+				<h:inputText styleClass="datepicker" binding="#{data}"></h:inputText>				
+				<p:outputLabel value="Observações:" />
+				<p:inputText id="txtObs" binding="#{observacao}"/>
 			</p:panelGrid>
-
-
-
+			<br/>
 			<div id="div_buttons">
 				<div id="conteudo-left">
 					<br />
 					<p:commandButton class="buscar_button" value="Registrar Falta"
-						action="#{professorControlador.salvarFalta(numFaltas.value, disciplina.value, data.value)}" />
+						action="#{professorControlador.salvarFalta(numFaltas.value, disciplina.value,
+										 data.value,turma.value, observacao.value)}" />
 				</div>
 			</div>
 		</p:fieldset>

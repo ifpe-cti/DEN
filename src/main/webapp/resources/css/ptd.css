@@ -6300,6 +6300,22 @@ button.close {
 		to(#D7D7D0));	
 }
 
+.colStyle1 { 
+	width: 200px;
+	align: center;
+	font-size: 140%
+	
+}
+.colStyle2 { 
+	width: 150px;
+	align: center;
+	font-size: 130%
+}
+.colStyle3 { 
+	width: 200px;
+	align: center;
+}
+
 /*
 .fieldset {
 	padding: 1em;

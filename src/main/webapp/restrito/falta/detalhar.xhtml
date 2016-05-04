@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+<ui:include src="/restrito/menu.xhtml" />
+<h:body>
+
+	<p:outputPanel id="panel">
+		<h:form id="formularioEnsino" style="width:650px" class="validform">
+			<p:panelGrid id="gridEnsino" columns="3"
+				columnClasses="colStyle1,colStyle2,colStyle3"
+				class="table table-bordered table-condensed">
+
+				<p:outputLabel value="Disciplina:" />
+				<h:outputText value="#{faltaDetalhada.disciplina.nome}" />
+				<h:outputText value="" />
+
+				<p:outputLabel value="Número de Faltas:" />
+				<h:outputText value="#{faltaDetalhada.numeroFaltas}" />
+				<p:inputText id="txtnumFaltas" binding="#{numFaltas}" maxlength="12" />
+
+				<p:outputLabel value="Turma:" />
+				<h:outputText value="#{faltaDetalhada.turma}" />
+				<p:inputText id="txtTurma" binding="#{turma}" maxlength="20" />
+
+				<p:outputLabel value="Data:" />
+				<h:outputText value="#{faltaDetalhada.data}" />
+				<h:inputText styleClass="datepicker" binding="#{data}"></h:inputText>
+
+				<p:outputLabel value="Data Reposição:" />
+				<h:outputText value="#{faltaDetalhada.reposicao}" />
+				<h:inputText styleClass="datepicker" binding="#{reposicao}"></h:inputText>
+
+				<p:outputLabel value="Número de Aulas Repostas:" />
+				<h:outputText value="#{faltaDetalhada.numeroAulasRepostas}" />
+				<p:inputText id="txtnumRepos" binding="#{numeroAulasRepostas}"
+					maxlength="12" />
+
+				<p:outputLabel value="Observações:" />
+				<h:outputText value="#{faltaDetalhada.observacao}" />
+				<p:inputText id="txtObs" binding="#{observacao}" />
+			</p:panelGrid>
+			<div id="div_buttons">
+				<div id="conteudo-left">
+					<br />
+					<p:commandButton value="Atualizar Falta" class="buscar_button"
+						action="#{professorControlador.atualizarFalta(numFaltas.value, turma.value, 
+													data.value, reposicao.value, numeroAulasRepostas.value,
+													observacao.value)}" />
+					<h:outputText value="&#160;" />
+					<h:outputText value="&#160;" />
+					<p:commandButton value="Remover Falta" class="buscar_button"
+						action="#{professorControlador.removerFalta()}" />
+				</div>
+			</div>
+		</h:form>
+	</p:outputPanel>
+</h:body>
+</html>
+

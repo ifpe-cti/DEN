@@ -103,10 +103,10 @@ public class Professor implements Serializable{
 	private AUTORIZACAO autorizacao;
 	
 	@ManagedProperty(value="#{ptds}")
-	@OneToMany(mappedBy="professor", fetch=FetchType.EAGER, orphanRemoval=true, cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="professor", fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	private List<PTD> ptds;	
 	
-	@OneToMany(mappedBy="professor", fetch=FetchType.EAGER, orphanRemoval=true, cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="professor", fetch=FetchType.EAGER,  cascade=CascadeType.ALL)
 	private List<Falta> faltas;	
 	
 	public Integer getCodigo() {

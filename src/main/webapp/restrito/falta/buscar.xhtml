@@ -9,32 +9,32 @@
 
 <ui:include src="/restrito/menu.xhtml" />
 <h:body>
-	<h:form id="formularioBusca" class="validform">
+	<h:form id="formularioProf" class="validform">
 		<p:fieldset styleClass="fieldset" legend="Buscar Professor...">
 			<p:panelGrid columns="3">
 				<h:outputText value="SIAPE: " />
 				<p:inputText id="txtSiapeBusca" binding="#{siape}" />
 				<p:commandButton class="buscar_button" value="Buscar"
 					update="formularioLista"
-					action="#{professorControlador.buscarProfessorPorSIAPE(siape.value)}" />
+					action="#{professorControlador.buscarProfessorPorSIAPEFalta(siape.value)}" />
 				<h:outputText value="Coordenação: " />
 				<p:selectOneMenu id="txtCoordenacao" class="select"
 					binding="#{coordenacao}">
-					<f:selectItem itemValue="CCTIN" itemLabel="CCTIN" />
-					<f:selectItem itemValue="CCTEE" itemLabel="CCTEE" />
-					<f:selectItem itemValue="CCTMA" itemLabel="CCTMA" />
-					<f:selectItem itemValue="CCTI" itemLabel="CCTI" />
+					<f:selectItem itemValue="CTIN" itemLabel="CCTIN" />
+					<f:selectItem itemValue="CTEE" itemLabel="CCTEE" />
+					<f:selectItem itemValue="CTMA" itemLabel="CCTMA" />
+					<f:selectItem itemValue="CTI" itemLabel="CCTI" />
 				</p:selectOneMenu>
 				<p:commandButton value="Buscar" class="buscar_button"
 					update="formularioLista"
-					action="#{professorControlador.buscarProfessorPorCoordenacao(coordenacao.value)}" />
+					action="#{professorControlador.buscarProfessorPorCoordenacaoFalta(coordenacao.value)}" />
 			</p:panelGrid>
 			<div id="div_buttons">
 				<div id="conteudo-left">
 					<br />
 					<p:commandButton value="Buscar Todos" class="buscar_button"
 						update="formularioLista"
-						action="#{professorControlador.buscarProfessores()}" />
+						action="#{professorControlador.buscarProfessoresFalta()}" />
 				</div>
 			</div>
 		</p:fieldset>
@@ -61,17 +61,13 @@
 			<p:column headerText="Coordenação">
 		                    #{item.coordenacao}
 		        </p:column>
-			<p:column headerText="Perfil">
-		                    #{item.autorizacao.nome}
-		                </p:column>
 		</p:dataTable>
+		<br />
 		<div id="div_buttons">
 			<div id="conteudo-left">
 				<br />
-				<p:commandButton value="Adicionar Falta." class="buscar_button"
-					action="#{professorControlador.adicionarFalta(selectedProfessor.siape)}" />
-				<p:commandButton value="Remover Falta." class="buscar_button"
-					action="#{professorControlador.removerFalta(selectedProfessor.siape)}" />
+				<p:commandButton value="Listar Faltas." class="buscar_button"
+					action="#{professorControlador.listarFaltas(selectedProfessor.siape)}" /> 
 			</div>
 		</div>
 	</h:form>

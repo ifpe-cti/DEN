@@ -29,7 +29,7 @@ public class Falta implements Serializable{
 	@JoinColumn(name="professor_id", updatable=false)
 	private Professor professor;
 	
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne (cascade=CascadeType.ALL)
 	@JoinColumn(name="disciplina_id")
 	private Disciplina disciplina;
 	
@@ -38,6 +38,18 @@ public class Falta implements Serializable{
 	
 	@Column(name="numeroFaltas")
 	private Integer numeroFaltas;
+	
+	@Column(name="observacao")
+	private String observacao;
+	
+	@Column(name="turma")
+	private String turma;
+	
+	@Column(name="reposicao")
+	private Date reposicao;
+	
+	@Column(name="numeroAulasRepostas")
+	private Integer numeroAulasRepostas;
 
 	public Integer getCodigo() {
 		return codigo;
@@ -78,4 +90,36 @@ public class Falta implements Serializable{
 	public void setNumeroFaltas(Integer numeroFaltas) {
 		this.numeroFaltas = numeroFaltas;
 	}
+
+	public String getObservacao() {
+		return observacao;
+	}
+
+	public void setObservacao(String observacao) {
+		this.observacao = observacao;
+	}
+
+	public String getTurma() {
+		return turma;
+	}
+
+	public void setTurma(String turma) {
+		this.turma = turma;
+	}
+
+	public Date getReposicao() {
+		return reposicao;
+	}
+
+	public void setReposicao(Date reposicao) {
+		this.reposicao = reposicao;
+	}
+
+	public Integer getNumeroAulasRepostas() {
+		return numeroAulasRepostas;
+	}
+
+	public void setNumeroAulasRepostas(Integer numeroAulasRepostas) {
+		this.numeroAulasRepostas = numeroAulasRepostas;
+	}	
 }

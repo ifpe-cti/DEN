@@ -90,7 +90,7 @@ public class PTD implements Serializable {
 	@Column(name="semestre")
 	private Integer semestre;
 	
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name="professor_id")
 	private Professor professor;
 	

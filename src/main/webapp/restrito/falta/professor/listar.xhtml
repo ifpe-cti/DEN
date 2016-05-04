@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+<ui:include src="/restrito/menu.xhtml" />
+<h:body>
+
+	<h:form id="formularioLista" class="validform">
+		<p:dataTable id="tabela" value="#{faltas}" var="item" paginator="true"
+			rows="15" selection="#{selectedFalta}" selectionMode="single"
+			rowKey="#{item.codigo}" sortBy="#{item.codigo}" sortOrder="descending">
+			<p:column headerText="Disciplina">
+		                    #{item.disciplina.nome}
+		    </p:column>
+			<p:column headerText="Turma">
+		                    #{item.turma}
+		        </p:column>
+			<p:column headerText="Data Falta">
+		                    #{item.data}
+		                </p:column>
+			<p:column headerText="Numero de faltas">
+		                    #{item.numeroFaltas}
+		                </p:column>
+			<p:column headerText="Data Reposição">
+		                    #{item.reposicao}
+		        </p:column>
+			<p:column headerText="Aulas Repostas">
+		                    #{item.numeroAulasRepostas}
+		        </p:column>
+			<p:column headerText="Observações">
+		                    #{item.observacao}
+		        </p:column>
+
+		</p:dataTable>		
+	</h:form>
+</h:body>
+</html>
+

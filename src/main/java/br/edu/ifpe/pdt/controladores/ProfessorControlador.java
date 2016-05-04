@@ -1,6 +1,7 @@
 package br.edu.ifpe.pdt.controladores;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,10 +12,12 @@ import javax.faces.context.FacesContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import br.edu.ifpe.pdt.entidades.Disciplina;
 import br.edu.ifpe.pdt.entidades.Falta;
 import br.edu.ifpe.pdt.entidades.PTD;
 import br.edu.ifpe.pdt.entidades.Professor;
 import br.edu.ifpe.pdt.entidades.Professor.AUTORIZACAO;
+import br.edu.ifpe.pdt.repositorios.FaltaRepositorio;
 import br.edu.ifpe.pdt.repositorios.ProfessorRepositorio;
 
 @Component
@@ -26,6 +29,9 @@ public class ProfessorControlador implements Serializable {
 
 	@Autowired
 	private ProfessorRepositorio professorRepositorio;
+	
+	@Autowired
+	private FaltaRepositorio faltaRepositorio;
 
 	public ProfessorControlador() {
 	}
@@ -179,7 +185,10 @@ public class ProfessorControlador implements Serializable {
 	}
 
 	public String mostrarFaltas() {
-		return "";
+		Professor prof = this.getProfessorLogado();
+		this.setFaltas(prof.getFaltas());
+
+		return "/restrito/falta/professor/listar.xhtml";
 	}
 
 	public String cadastrarFalta() {
@@ -188,7 +197,7 @@ public class ProfessorControlador implements Serializable {
 
 	public String adicionarFalta(String siape, Integer ano, Integer semestre) {
 		String ret = "";
-		
+
 		if (siape != null && ano != null && semestre != null) {
 
 			this.setProfessorDetalhado(this.professorRepositorio.findBySiape(siape));
@@ -205,17 +214,124 @@ public class ProfessorControlador implements Serializable {
 		return ret;
 	}
 
-	public String salvarFalta(Integer numFaltas, String disciplina, String data) {
+	public String salvarFalta(Integer numFaltas, Integer disciplina, String data, String turma, String obs) {
 		Falta f = new Falta();
 
-		return "";
+		if (numFaltas != null && disciplina != null && data != null && data.length() > 0 && turma != null
+				&& turma.length() > 0) {
+
+			f.setData(Date.valueOf(data));
+			f.setNumeroFaltas(numFaltas);
+			f.setTurma(turma);
+			f.setObservacao(obs);
+			Professor prof = getProfessorDetalhado();
+			f.setProfessor(prof);
+
+			for (Disciplina disc : this.getPtdFalta().getDisciplinas()) {
+				if (disc.getCodigo().equals(disciplina)) {
+					f.setDisciplina(disc);
+					break;
+				}
+			}
+
+			prof.getFaltas().add(f);
+			professorRepositorio.save(prof);
+		}
+
+		return "/restrito/falta/buscar.xhtml";
 	}
 
-	public String atualizarFalta(String siape) {
+	public String listarFaltas(String siape) {
+		String ret = "";
+		if (siape != null) {
+			Professor prof = this.professorRepositorio.findBySiape(siape);
+			this.setProfessorDetalhado(prof);
+			this.setFaltas(prof.getFaltas());
+			ret = "/restrito/falta/listar.xhtml";
+		}
 
-		this.setProfessorDetalhado(this.professorRepositorio.findBySiape(siape));
+		return ret;
+	}
 
-		return "/restrito/falta/atualizar.xhtml";
+	public String atualizarFalta(Integer numFaltas, String turma, 
+			String data,String reposicao,Integer numeroAulasRepostas,
+			String observacao) {
+
+		Falta f = this.getFalta();
+		if (numFaltas != null) {
+			f.setNumeroFaltas(numFaltas);
+		}
+		
+		if (turma != null && turma.length() > 0) {
+			f.setTurma(turma);
+		}
+		
+		if (data != null && data.length() > 0) {
+			f.setData(Date.valueOf(data));
+		}
+		
+		if (reposicao != null && reposicao.length() > 0) {
+			f.setReposicao(Date.valueOf(reposicao));
+		}
+		
+		if (numeroAulasRepostas != null) {
+			f.setNumeroAulasRepostas(numeroAulasRepostas);
+		}
+		
+		if (observacao != null && observacao.length() > 0) {
+			f.setObservacao(observacao);
+		}
+		
+		this.faltaRepositorio.save(f);
+		
+		List<Falta> faltas = this.getFaltas();
+		
+		Falta rem = null;
+		for (Falta falta: faltas) {
+			if (falta.getCodigo().equals(f.getCodigo())) {
+				rem = falta;
+				break;
+			}
+		}
+		
+		faltas.remove(rem);
+		faltas.add(f);
+		this.setFaltas(faltas);
+		
+		return "/restrito/falta/listar.xhtml";
+	}
+	
+	public String removerFalta(){
+		
+		Falta f = this.getFalta();
+		
+		Professor prof = professorRepositorio.findBySiape(f.getProfessor().getSiape());
+		
+		prof.getFaltas().remove(f);
+		
+		prof = professorRepositorio.save(prof);
+		
+		this.setFaltas(prof.getFaltas());
+		
+		return "/restrito/falta/listar.xhtml";
+	}	
+
+	public String datalharFalta(Integer codigo) {
+		String ret = "";
+
+		if (codigo != null) {
+			List<Falta> faltas = this.getFaltas();
+
+			for (Falta f : faltas) {
+				if (f.getCodigo().equals(codigo)) {
+					this.setFalta(f);
+					ret = "/restrito/falta/detalhar.xhtml";
+					break;
+				}
+			}
+		}
+
+		return ret;
 	}
 
 	public String buscarProfessorPorSIAPEFalta(String siape) {
@@ -308,5 +424,22 @@ public class ProfessorControlador implements Serializable {
 
 	public PTD getPtdFalta() {
 		return (PTD) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("ptdFalta");
+	}
+
+	private void setFaltas(List<Falta> faltas) {
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("faltas", faltas);
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Falta> getFaltas() {
+		return (List<Falta>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("faltas");
+	}
+
+	private void setFalta(Falta f) {
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("faltaDetalhada", f);
+	}
+
+	public Falta getFalta() {
+		return (Falta) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("faltaDetalhada");
 	}
 }

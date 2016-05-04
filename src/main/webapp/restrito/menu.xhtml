@@ -43,6 +43,8 @@
 				<p:submenu label="#{professorLogado.nome}">
 					<p:menuitem value="Cadastrar Falta"
 						action="#{professorControlador.cadastrarFalta()}" />
+					<p:menuitem value="Listar Faltas"
+						url="/restrito/falta/buscar.xhtml" />
 					<p:menuitem value="Logout"
 						action="#{professorControlador.realizarLogout()}" />
 				</p:submenu>
