@@ -307,7 +307,13 @@ public class ProfessorControlador implements Serializable {
 		
 		Professor prof = professorRepositorio.findBySiape(f.getProfessor().getSiape());
 		
-		prof.getFaltas().remove(f);
+		Falta rem = null;
+		for (Falta toRemove : prof.getFaltas()) {
+			if (toRemove.getCodigo().equals(f.getCodigo())) {
+				rem = toRemove;
+			}
+		}
+		prof.getFaltas().remove(rem);
 		
 		prof = professorRepositorio.save(prof);
 		

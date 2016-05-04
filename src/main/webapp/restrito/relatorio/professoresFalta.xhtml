@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+<ui:include src="/restrito/menu.xhtml" />
+
+<h:body>
+
+	<h:form id="formularioBusca" class="validform">
+		<p:fieldset styleClass="fieldset" legend="Buscar por Coordenação...">
+			<p:panelGrid columns="3">
+				<h:outputText value="Coordenação: " />
+				<p:selectOneMenu id="txtCoordenacao" class="select"
+					binding="#{coordenacao}">
+					<f:selectItem itemValue="CTIN" itemLabel="CCTIN" />
+					<f:selectItem itemValue="CTEE" itemLabel="CCTEE" />
+					<f:selectItem itemValue="CTMA" itemLabel="CCTMA" />
+					<f:selectItem itemValue="CTI" itemLabel="CCTI" />
+				</p:selectOneMenu>
+				<p:commandButton value="Buscar" class="buscar_button"
+					update="formularioLista"
+					action="#{relatorioControlador.listarProfessoresFalta(coordenacao.value)}" />
+			</p:panelGrid>
+		</p:fieldset>
+		<div id="div_buttons">
+			<div id="conteudo-left">
+				<br />
+				<p:commandButton value="Buscar Todos" class="buscar_button"
+					update="formularioLista"
+					action="#{relatorioControlador.listarProfessoresFalta()}" />
+
+			</div>
+		</div>
+	</h:form>
+
+	<br />
+	<h:form id="formularioLista" class="validform">
+		<p:dataTable id="tabela" value="#{faltas}" var="item" paginator="true"
+			rows="15" selection="#{falta}" selectionMode="single"
+			rowKey="#{item.codigo}">
+			<p:column>
+				<p align="center">
+					<h:outputText value="#{item.professor.siape}" />
+				</p>
+				<f:facet name="header">
+		                        Siape
+		                    </f:facet>
+			</p:column>
+
+			<p:column headerText="Nome">
+		                    #{item.professor.nome}
+		                </p:column>
+			<p:column headerText="Data da Falta">
+				<p align="center">#{item.data}</p>
+			</p:column>
+
+			<p:column headerText="Numero de Faltas">
+				<p align="center">#{item.numeroFaltas}</p>
+			</p:column>
+
+			<p:column headerText="Data da Reposição">
+				<p align="center">#{item.reposicao}</p>
+			</p:column>
+
+			<p:column headerText="Aulas Repostas">
+				<p align="center">#{item.numeroAulasRepostas}</p>
+			</p:column>
+
+		</p:dataTable>
+		<div id="div_buttons">
+			<div id="conteudo-left">
+				<br />
+				<p:commandButton value="Exportar Resultado" class="buscar_button"
+					update="formularioLista" ajax="false"
+					action="#{relatorioControlador.exportarFaltasProfessores()}" />
+			</div>
+		</div>
+	</h:form>
+</h:body>
+</html>
+

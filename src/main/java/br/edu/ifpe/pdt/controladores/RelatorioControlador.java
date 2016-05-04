@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -17,8 +18,11 @@ import org.springframework.stereotype.Component;
 
 import br.edu.ifpe.pdt.controladores.relatorio.XLSExport;
 import br.edu.ifpe.pdt.entidades.Disciplina;
+import br.edu.ifpe.pdt.entidades.Falta;
 import br.edu.ifpe.pdt.entidades.PTD;
+import br.edu.ifpe.pdt.entidades.Professor;
 import br.edu.ifpe.pdt.repositorios.PTDRepositorio;
+import br.edu.ifpe.pdt.repositorios.ProfessorRepositorio;
 import br.edu.ifpe.pdt.util.LoggerPTD;
 
 @Component
@@ -29,16 +33,23 @@ public class RelatorioControlador implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public static final int LISTAR_CARGA_HORARIA_SEMESTRE = 1;
+	public static final int LISTAR_FALTA_PROFESSORES = 2;
 
 	@Autowired
 	private PTDRepositorio ptdRepositorio;
 
+	@Autowired
+	private ProfessorRepositorio professorRepositorio;
+	
 	public String emitirRelatorio(Integer relatorioID) {
 		String ret = "";
 
 		switch (relatorioID) {
 		case LISTAR_CARGA_HORARIA_SEMESTRE:
 			ret = "/restrito/relatorio/professorCargaHoraria.xhtml";
+			break;
+		case LISTAR_FALTA_PROFESSORES:
+			ret = "/restrito/relatorio/professoresFalta.xhtml";
 			break;
 		default:
 			break;
@@ -72,6 +83,10 @@ public class RelatorioControlador implements Serializable {
 				.get("selectedPtds");
 
 		File f = XLSExport.exportarCargaHorariaSemestre(ptds);
+		setXLSResponse(f);
+	}
+
+	private void setXLSResponse(File f) {
 		if (f != null) { 
 			FacesContext fc = FacesContext.getCurrentInstance();
 			ExternalContext ec = fc.getExternalContext();
@@ -98,4 +113,43 @@ public class RelatorioControlador implements Serializable {
 			}
 		}
 	}
+	
+	public String listarProfessoresFalta(String coordenacao){
+		
+		List<Professor> professores = professorRepositorio.findByCoordenacao(coordenacao); 
+		List<Falta> faltas = new ArrayList<Falta>();
+		
+		for (Professor prof: professores) {
+			faltas.addAll(prof.getFaltas());
+		}	
+		
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("faltas", faltas);
+		
+		return "";
+	}
+	
+	public String listarProfessoresFalta(){
+		
+		List<Professor> professores = professorRepositorio.findAll();
+		List<Falta> faltas = new ArrayList<Falta>();
+		
+		for (Professor prof: professores) {
+			faltas.addAll(prof.getFaltas());
+		}	
+		
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("faltas", faltas);
+		
+		return "";
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void exportarFaltasProfessores() {
+		List<Falta> faltas = (List<Falta>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+				.get("faltas");
+		
+		File f = XLSExport.exportarFaltaProfessores(faltas);
+		
+		setXLSResponse(f);
+	}
+	
 }
