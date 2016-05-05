@@ -78,12 +78,14 @@ public class RelatorioControlador implements Serializable {
 	}
 
 	@SuppressWarnings("unchecked")
-	public void exportarCargaHorariaSemestre() {
+	public String exportarCargaHorariaSemestre() {
 		List<PTD> ptds = (List<PTD>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
 				.get("selectedPtds");
 
 		File f = XLSExport.exportarCargaHorariaSemestre(ptds);
 		setXLSResponse(f);
+		
+		return "/restrito/relatorio/listar.xhtml";
 	}
 
 	private void setXLSResponse(File f) {
@@ -106,6 +108,7 @@ public class RelatorioControlador implements Serializable {
 				output.flush();
 				output.close();
 				fis.close();
+				ec.redirect("/restrito/relatorio/listar.xhtml");
 				fc.responseComplete();
 				
 			} catch (IOException e) {
@@ -143,13 +146,15 @@ public class RelatorioControlador implements Serializable {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void exportarFaltasProfessores() {
+	public String exportarFaltasProfessores() {
 		List<Falta> faltas = (List<Falta>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
 				.get("faltas");
 		
 		File f = XLSExport.exportarFaltaProfessores(faltas);
 		
 		setXLSResponse(f);
+		
+		return "/restrito/relatorio/listar.xhtml";
 	}
 	
 }

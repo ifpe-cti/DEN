@@ -32,35 +32,35 @@
 			<c:if
 				test="${(professorLogado.autorizacao.ordinal != 7) and (professorLogado.autorizacao.ordinal != 8)}">
 				<p:submenu label="Bem vindo, Prof. #{professorLogado.nome}">
-					<p:menuitem value="Verificar Faltas"
+					<p:menuitem value="Verificar Faltas" ajax="true"
 						action="#{professorControlador.mostrarFaltas()}" />
-					<p:menuitem value="Logout"
+					<p:menuitem value="Logout" ajax="true"
 						action="#{professorControlador.realizarLogout()}" />
 
 				</p:submenu>
 			</c:if>
 			<c:if test="${professorLogado.autorizacao.ordinal == 8}">
 				<p:submenu label="#{professorLogado.nome}">
-					<p:menuitem value="Cadastrar Falta"
+					<p:menuitem value="Cadastrar Falta" ajax="true"
 						action="#{professorControlador.cadastrarFalta()}" />
-					<p:menuitem value="Listar Faltas"
+					<p:menuitem value="Listar Faltas" ajax="true"
 						url="/restrito/falta/buscar.xhtml" />
-					<p:menuitem value="Logout"
+					<p:menuitem value="Logout" ajax="true"
 						action="#{professorControlador.realizarLogout()}" />
 				</p:submenu>
 			</c:if>
 			<c:if test="${professorLogado.autorizacao.ordinal == 7}">
 				<p:submenu label="#{professorLogado.nome}">
-					<p:menuitem value="Logout"
+					<p:menuitem value="Logout" ajax="true"
 						action="#{professorControlador.realizarLogout()}" />
 				</p:submenu>
 			</c:if>
 			<c:if
 				test="${(professorLogado.autorizacao.ordinal > 0) and (professorLogado.autorizacao.ordinal != 8)}">
 				<p:submenu label="Ensino">
-					<p:menuitem value="Buscar Professores"
+					<p:menuitem value="Buscar Professores" ajax="true"
 						url="/restrito/professor/ensino/buscar.xhtml" />
-					<p:menuitem value="Relatórios"
+					<p:menuitem value="Relatórios" ajax="true"
 						url="/restrito/relatorio/listar.xhtml" />
 				</p:submenu>
 			</c:if>
