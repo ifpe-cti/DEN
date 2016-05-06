@@ -16,17 +16,19 @@
 			<p:dataTable id="tabela"
 				value="${selectedPtd.disciplinas}" var="item"
 				paginator="true" rows="7" editable="true" rowKey="${item.id}">
-				<p:column style="width:70%; align:center">
+				<p:column style="width:60%; align:center">
 					<h:outputText value="${item.nome}" />
 					<f:facet name="header">
 		                        Nome
 		                    </f:facet>
 				</p:column>
-
+				<p:column headerText="Turma" style="width:20%; align:center">
+					<p align="center">${item.turma}</p>
+				</p:column>
 				<p:column headerText="Curso" style="width:10%; align:center">
 					<p align="center">${item.curso}</p>
 				</p:column>
-				<p:column style="width:20%; align:center" headerText="Carga Horária">
+				<p:column style="width:10%; align:center" headerText="Carga Horária">
 					<p align="center">${item.cargaHoraria}</p>
 				</p:column>
 			</p:dataTable>

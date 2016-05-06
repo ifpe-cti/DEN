@@ -24,6 +24,9 @@ public class Disciplina {
 	
 	@Column(name="curso", nullable=false, length=10)
 	private String curso;
+
+	@Column(name="turma", nullable=false, length=100)
+	private String turma;
 	
 	@Column(name="carga_horaria")
 	private Integer cargaHoraria;
@@ -31,6 +34,7 @@ public class Disciplina {
 	@ManyToOne (cascade=CascadeType.ALL)
 	@JoinColumn(name="ptd_id", updatable=false)
 	private PTD ptd;
+	
 
 	public Integer getCodigo() {
 		return codigo;
@@ -63,17 +67,25 @@ public class Disciplina {
 	public void setCargaHoraria(Integer cargaHoraria) {
 		this.cargaHoraria = cargaHoraria;
 	}
-
-	public PTD getPTD() {
+	
+	public PTD getPtd() {
 		return ptd;
 	}
 
-	public void setPTD(PTD ptd) {
+	public void setPtd(PTD ptd) {
 		this.ptd = ptd;
 	}
-	
+
 	@Override
 	public String toString() {
-		return this.nome;
+		return this.nome + " - " + this.turma;
+	}
+
+	public String getTurma() {
+		return turma;
+	}
+
+	public void setTurma(String turma) {
+		this.turma = turma;
 	}
 }

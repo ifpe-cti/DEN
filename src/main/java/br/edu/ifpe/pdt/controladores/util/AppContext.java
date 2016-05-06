@@ -25,7 +25,12 @@ public class AppContext {
 	
 	@Value("${app.emailSubject}")
 	private String emailSubject;
-
+	
+	@Value("${app.emailCturSubject}")
+	private String emailCturSubject;
+	
+	@Value("${app.emailCturMessage}")
+	private String emailCturMessage;
 
 	public static String getRelatorioPath(){
 		AppContext appc = getAppContextBean();
@@ -68,4 +73,22 @@ public class AppContext {
 	private String getEmailSubjectInternal() {
 		return this.emailSubject;
 	}
+
+	public static String getEmailCturMessage() {
+		AppContext appc = getAppContextBean();
+		return appc.getEmailCturMessageInternal();
+	}
+	
+	private String getEmailCturMessageInternal() {
+		return this.emailCturMessage;
+	}
+	
+	public static String getEmailCturSubject() {
+		AppContext appc = getAppContextBean();
+		return appc.getEmailCturSubjectInternal();
+	}
+
+	private String getEmailCturSubjectInternal() {
+		return this.emailCturSubject;
+	}	
 }

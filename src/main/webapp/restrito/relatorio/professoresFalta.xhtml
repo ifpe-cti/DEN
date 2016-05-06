@@ -41,8 +41,8 @@
 	<br />
 	<h:form id="formularioLista" class="validform">
 		<p:dataTable id="tabela" value="#{faltas}" var="item" paginator="true"
-			rows="15" selection="#{falta}" selectionMode="single"
-			rowKey="#{item.codigo}">
+			rows="15" selection="#{falta}" selectionMode="single" sortBy="#{item.codigo}"
+			sortOrder="descending" rowKey="#{item.codigo}">
 			<p:column>
 				<p align="center">
 					<h:outputText value="#{item.professor.siape}" />
@@ -69,6 +69,9 @@
 
 			<p:column headerText="Aulas Repostas">
 				<p align="center">#{item.numeroAulasRepostas}</p>
+			</p:column>
+			<p:column headerText="Status da Falta">
+				<p align="center">#{item.faltaStatus}</p>
 			</p:column>
 
 		</p:dataTable>

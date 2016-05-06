@@ -34,24 +34,19 @@
 			<p:messages />
 			<p:panelGrid columns="2">
 				<p:outputLabel value="Número de Faltas*:" />
-				<p:inputText id="txtnumFaltas" binding="#{numFaltas}"
+				<p:inputText id="txtnumFaltas" binding="#{numFaltas}"  style="width:300px;"
 					required="true" maxlength="12"
 					requiredMessage="
                                  O Numero de Faltas precisa ser preenchido!" />
 				<p:outputLabel value="Disciplina*:" />
-				<h:selectOneMenu binding="#{disciplina}">
+				<h:selectOneMenu binding="#{disciplina}" style="width:300px;">
 					<f:selectItems value="#{ptdFalta.disciplinas}" var="disciplina"
-						itemLabel="#{disciplina.nome}" itemValue="#{disciplina.codigo}" />
+						itemLabel="#{disciplina}" itemValue="#{disciplina.codigo}" />
 				</h:selectOneMenu>
-				<p:outputLabel value="Turma*:" />
-				<p:inputText id="txtturma" binding="#{turma}"
-					required="true" maxlength="20"
-					requiredMessage="
-                                 A turma precisa ser preenchida!" />
 				<p:outputLabel value="Data*:" />
-				<h:inputText styleClass="datepicker" binding="#{data}"></h:inputText>				
+				<h:inputText styleClass="datepicker" binding="#{data}"  style="width:300px;"></h:inputText>				
 				<p:outputLabel value="Observações:" />
-				<p:inputText id="txtObs" binding="#{observacao}"/>
+				<p:inputText id="txtObs" binding="#{observacao}"  style="width:300px;"/>
 			</p:panelGrid>
 			<br/>
 			<div id="div_buttons">
@@ -59,7 +54,7 @@
 					<br />
 					<p:commandButton class="buscar_button" value="Registrar Falta"
 						action="#{professorControlador.salvarFalta(numFaltas.value, disciplina.value,
-										 data.value,turma.value, observacao.value)}" />
+										 data.value, observacao.value)}" /> 
 				</div>
 			</div>
 		</p:fieldset>

@@ -12,13 +12,16 @@ import javax.faces.context.FacesContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import br.edu.ifpe.pdt.controladores.util.AppContext;
 import br.edu.ifpe.pdt.entidades.Disciplina;
 import br.edu.ifpe.pdt.entidades.Falta;
+import br.edu.ifpe.pdt.entidades.Falta.FALTA_STATUS;
 import br.edu.ifpe.pdt.entidades.PTD;
 import br.edu.ifpe.pdt.entidades.Professor;
 import br.edu.ifpe.pdt.entidades.Professor.AUTORIZACAO;
 import br.edu.ifpe.pdt.repositorios.FaltaRepositorio;
 import br.edu.ifpe.pdt.repositorios.ProfessorRepositorio;
+import br.edu.ifpe.pdt.util.PTDEmail;
 
 @Component
 @ManagedBean(name = "professorControlador", eager = true)
@@ -214,18 +217,18 @@ public class ProfessorControlador implements Serializable {
 		return ret;
 	}
 
-	public String salvarFalta(Integer numFaltas, Integer disciplina, String data, String turma, String obs) {
+	public String salvarFalta(String numFaltas, Integer disciplina, String data, String obs) {
 		Falta f = new Falta();
+		String ret = "";
 
-		if (numFaltas != null && disciplina != null && data != null && data.length() > 0 && turma != null
-				&& turma.length() > 0) {
+		if (numFaltas != null && disciplina != null && data != null && data.length() > 0 ) {
 
 			f.setData(Date.valueOf(data));
-			f.setNumeroFaltas(numFaltas);
-			f.setTurma(turma);
+			f.setNumeroFaltas(Integer.parseInt(numFaltas));
 			f.setObservacao(obs);
 			Professor prof = getProfessorDetalhado();
 			f.setProfessor(prof);
+			f.setFaltaStatus(FALTA_STATUS.CRIADA);
 
 			for (Disciplina disc : this.getPtdFalta().getDisciplinas()) {
 				if (disc.getCodigo().equals(disciplina)) {
@@ -236,9 +239,19 @@ public class ProfessorControlador implements Serializable {
 
 			prof.getFaltas().add(f);
 			professorRepositorio.save(prof);
+			PTDEmail email = new PTDEmail();
+			String message = AppContext.getEmailCturMessage();
+			
+			message = message.replaceFirst("%p", prof.getNome());
+			message = message.replaceFirst("%d", f.getData().toString());
+			message = message.replaceFirst("%s", f.getDisciplina().getNome());
+			message = message.replaceFirst("%t", f.getDisciplina().getTurma());
+			email.postMail(prof.getEmail(), AppContext.getEmailCturSubject(),
+					message, AppContext.getEmailAuth());
+			ret = "/restrito/falta/buscar.xhtml";
 		}
 
-		return "/restrito/falta/buscar.xhtml";
+		return ret;
 	}
 
 	public String listarFaltas(String siape) {
@@ -253,17 +266,13 @@ public class ProfessorControlador implements Serializable {
 		return ret;
 	}
 
-	public String atualizarFalta(Integer numFaltas, String turma, 
+	public String atualizarFalta(Integer numFaltas,
 			String data,String reposicao,Integer numeroAulasRepostas,
-			String observacao) {
+			String observacao, Integer statusFalta) {
 
 		Falta f = this.getFalta();
-		if (numFaltas != null) {
+		if (numFaltas != null && numFaltas > 0) {
 			f.setNumeroFaltas(numFaltas);
-		}
-		
-		if (turma != null && turma.length() > 0) {
-			f.setTurma(turma);
 		}
 		
 		if (data != null && data.length() > 0) {
@@ -274,12 +283,16 @@ public class ProfessorControlador implements Serializable {
 			f.setReposicao(Date.valueOf(reposicao));
 		}
 		
-		if (numeroAulasRepostas != null) {
+		if (numeroAulasRepostas != null && numeroAulasRepostas > 0) {
 			f.setNumeroAulasRepostas(numeroAulasRepostas);
 		}
 		
 		if (observacao != null && observacao.length() > 0) {
 			f.setObservacao(observacao);
+		}
+		
+		if (statusFalta != null) {
+			f.setFaltaStatus(FALTA_STATUS.getFaltaStatus(statusFalta));
 		}
 		
 		this.faltaRepositorio.save(f);

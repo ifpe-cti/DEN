@@ -19,6 +19,44 @@ public class Falta implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
+	public static enum FALTA_STATUS{
+		CRIADA,
+		ATA_ENTREGUE,
+		REPOSTA,
+		NAO_REPOSTA;
+		
+		public int getOrdinal() {
+			return this.ordinal();
+		}
+		
+		public String getNome() {
+			return this.name();
+		}
+		
+		public static FALTA_STATUS getFaltaStatus(Integer auto) {
+			FALTA_STATUS a = null;
+			
+			switch (auto) {
+			case 0:
+				a = CRIADA;
+				break;
+			case 1:
+				a = ATA_ENTREGUE;
+				break;
+			case 2:
+				a = REPOSTA;
+				break;
+			case 3:
+				a = NAO_REPOSTA;
+				break;			
+			default:
+				break;
+			}
+			
+			return a;
+		}
+	};
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id", updatable=false)
@@ -40,15 +78,15 @@ public class Falta implements Serializable{
 	
 	@Column(name="observacao")
 	private String observacao;
-	
-	@Column(name="turma")
-	private String turma;
-	
+
 	@Column(name="reposicao")
 	private Date reposicao;
 	
 	@Column(name="numeroAulasRepostas")
 	private Integer numeroAulasRepostas;
+	
+	@Column(name="faltaStatus")
+	private FALTA_STATUS faltaStatus;
 
 	public Integer getCodigo() {
 		return codigo;
@@ -98,14 +136,6 @@ public class Falta implements Serializable{
 		this.observacao = observacao;
 	}
 
-	public String getTurma() {
-		return turma;
-	}
-
-	public void setTurma(String turma) {
-		this.turma = turma;
-	}
-
 	public Date getReposicao() {
 		return reposicao;
 	}
@@ -120,5 +150,13 @@ public class Falta implements Serializable{
 
 	public void setNumeroAulasRepostas(Integer numeroAulasRepostas) {
 		this.numeroAulasRepostas = numeroAulasRepostas;
-	}	
+	}
+
+	public FALTA_STATUS getFaltaStatus() {
+		return faltaStatus;
+	}
+
+	public void setFaltaStatus(FALTA_STATUS faltaStatus) {
+		this.faltaStatus = faltaStatus;
+	}		
 }

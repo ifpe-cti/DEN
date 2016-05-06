@@ -17,16 +17,12 @@
 				class="table table-bordered table-condensed">
 
 				<p:outputLabel value="Disciplina:" />
-				<h:outputText value="#{faltaDetalhada.disciplina.nome}" />
+				<h:outputText value="#{faltaDetalhada.disciplina}" />
 				<h:outputText value="" />
 
 				<p:outputLabel value="Número de Faltas:" />
 				<h:outputText value="#{faltaDetalhada.numeroFaltas}" />
 				<p:inputText id="txtnumFaltas" binding="#{numFaltas}" maxlength="12" />
-
-				<p:outputLabel value="Turma:" />
-				<h:outputText value="#{faltaDetalhada.turma}" />
-				<p:inputText id="txtTurma" binding="#{turma}" maxlength="20" />
 
 				<p:outputLabel value="Data:" />
 				<h:outputText value="#{faltaDetalhada.data}" />
@@ -44,14 +40,24 @@
 				<p:outputLabel value="Observações:" />
 				<h:outputText value="#{faltaDetalhada.observacao}" />
 				<p:inputText id="txtObs" binding="#{observacao}" />
+				
+				<p:outputLabel value="Status da Falta:" />
+				<h:outputText value="#{faltaDetalhada.faltaStatus.nome}" />
+				<p:selectOneMenu id="txtStatus" class="select"
+					binding="#{status}">
+					<f:selectItem itemValue="0" itemLabel="CRIADA" />
+					<f:selectItem itemValue="1" itemLabel="ATA_ENTREGUE" />
+					<f:selectItem itemValue="2" itemLabel="REPOSTA" />
+					<f:selectItem itemValue="3" itemLabel="NAO_RESPOSTA" />
+				</p:selectOneMenu>
 			</p:panelGrid>
 			<div id="div_buttons">
 				<div id="conteudo-left">
 					<br />
 					<p:commandButton value="Atualizar Falta" class="buscar_button"
-						action="#{professorControlador.atualizarFalta(numFaltas.value, turma.value, 
+						action="#{professorControlador.atualizarFalta(numFaltas.value,
 													data.value, reposicao.value, numeroAulasRepostas.value,
-													observacao.value)}" />
+													observacao.value, status.value)}" />
 					<h:outputText value="&#160;" />
 					<h:outputText value="&#160;" />
 					<p:commandButton value="Remover Falta" class="buscar_button"

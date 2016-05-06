@@ -29,12 +29,13 @@
 	<h:form id="formularioLista" class="validform">
 		<p:dataTable id="tabela" value="#{faltas}" var="item" paginator="true"
 			rows="15" selection="#{selectedFalta}" selectionMode="single"
-			rowKey="#{item.codigo}" sortBy="#{item.codigo}" sortOrder="descending">
+			rowKey="#{item.codigo}" sortBy="#{item.codigo}"
+			sortOrder="descending">
 			<p:column headerText="Disciplina">
 		                    #{item.disciplina.nome}
 		    </p:column>
 			<p:column headerText="Turma">
-		                    #{item.turma}
+		                    #{item.disciplina.turma}
 		        </p:column>
 			<p:column headerText="Data Falta">
 		                    #{item.data}
@@ -51,13 +52,16 @@
 			<p:column headerText="Observações">
 		                    #{item.observacao}
 		        </p:column>
-
+			<p:column headerText="Status da Falta">
+		                    #{item.faltaStatus.nome}
+		        </p:column>
 		</p:dataTable>
 		<br />
 		<div id="div_buttons">
 			<div id="conteudo-left">
 				<br />
-				<p:commandButton value="Detalhar Falta" class="buscar_button" update="formularioLista"
+				<p:commandButton value="Detalhar Falta" class="buscar_button"
+					update="formularioLista"
 					action="#{professorControlador.datalharFalta(selectedFalta.codigo)}" />
 			</div>
 		</div>

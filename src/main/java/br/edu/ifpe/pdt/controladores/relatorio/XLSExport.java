@@ -109,7 +109,7 @@ public class XLSExport {
 			cell = row.createCell(cellid++);
 			cell.setCellValue(falta.getDisciplina().getNome());
 			cell = row.createCell(cellid++);
-			cell.setCellValue(falta.getTurma());
+			cell.setCellValue(falta.getDisciplina().getTurma());
 			cell = row.createCell(cellid++);
 			cell.setCellValue(falta.getData().toString());
 			cell = row.createCell(cellid++);

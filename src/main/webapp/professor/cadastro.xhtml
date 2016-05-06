@@ -55,9 +55,11 @@
 
 			</p:panelGrid>
 			<br />
-			<h:commandButton value="cadastrar" class="buscar_button"
+			<p:commandButton value="cadastrar" class="buscar_button"
 				action="#{professorControlador.adicionaProfessor(siape.value,senha.value,coordenacao.value,nome.value,email.value)}"
 				update="formularioCadastro" />
+			<p:button value="Voltar" class="buscar_button" 
+				href="/login.xhtml" />
 
 		</p:fieldset>
 

@@ -11,20 +11,23 @@
 	<h:form id="formularioDisciplina" class="validform">
 		<p:fieldset legend="ATIVIDADES DE ENSINO (DISCIPLINAS)">
 
-			<p:panelGrid columns="6">
+			<p:panelGrid columns="8">
 				<h:outputLabel style="width:70px;" value="Nome: " />
-				<p:inputText style="width:500px;"
+				<p:inputText style="width:400px;"
 					value="#{PTDControlador.disciplina.nome}" />
+				<h:outputLabel style="width:90px;" value="Turma: " />
+				<p:inputText style="width:100px;"
+					value="#{PTDControlador.disciplina.turma}" />
 				<h:outputLabel style="width:70px;" value="Curso: " />
-				<p:selectOneMenu id="txtCoordenacao" style="width:150px;"
+				<p:selectOneMenu id="txtCoordenacao" style="width:85px;"
 					class="select" value="#{PTDControlador.disciplina.curso}">
 					<f:selectItem itemValue="CCTIN" itemLabel="CCTIN" />
 					<f:selectItem itemValue="CTEE" itemLabel="CTEE" />
 					<f:selectItem itemValue="CTMA" itemLabel="CTMA" />
 					<f:selectItem itemValue="CTI" itemLabel="CTI" />
 				</p:selectOneMenu>
-				<h:outputLabel style="width:90px;" value="Carga Horária: " />
-				<p:inputText style="width:150px;"
+				<h:outputLabel style="width:80px;" value="Carga Horária: " />
+				<p:inputText style="width:95px;"
 					value="#{PTDControlador.disciplina.cargaHoraria}" />
 				<f:facet name="footer">
 					<p:commandButton value="Adicionar" class="buscar_button"
@@ -42,9 +45,11 @@
 		                        Nome
 		                    </f:facet>
 				</p:column>
-
+				<p:column headerText="Turma" style="width:20%; align:center">
+					<p align="center">${item.turma}</p>
+				</p:column>
 				<p:column headerText="Curso">
-		                    ${item.curso}
+		                  <p align="center">  ${item.curso} </p>
 		                </p:column>
 				<p:column style="width:20%; align:center" headerText="Carga Horária">
 					<p align="center">${item.cargaHoraria}</p>

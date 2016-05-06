@@ -187,7 +187,8 @@ public class PTDControlador implements Serializable {
 		d.setNome(this.disciplina.getNome());
 		d.setCurso(this.disciplina.getCurso());
 		d.setCargaHoraria(this.disciplina.getCargaHoraria());
-		d.setPTD(ptd);
+		d.setTurma(this.disciplina.getTurma());
+		d.setPtd(ptd);
 		ptd.getDisciplinas().add(d);
 		this.setSelectedPtd(ptd);
 		return "";
