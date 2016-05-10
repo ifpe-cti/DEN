@@ -28,7 +28,7 @@
 
 	<h:form id="formularioMenu" class="validform">
 		<p:menubar>
-			<p:menuitem value="home" url="/restrito/index.xhtml" />
+			<p:menuitem value="home" url="#{professorControlador.mostrarIndex()}"/> 
 			<c:if
 				test="${(professorLogado.autorizacao.ordinal != 7) and (professorLogado.autorizacao.ordinal != 8)}">
 				<p:submenu label="Bem vindo, Prof. #{professorLogado.nome}">
@@ -44,7 +44,7 @@
 					<p:menuitem value="Cadastrar Falta" ajax="true"
 						action="#{professorControlador.cadastrarFalta()}" />
 					<p:menuitem value="Listar Faltas" ajax="true"
-						url="/restrito/falta/buscar.xhtml" />
+						url="/restrito/falta/buscar.xhtml?faces-redirect=true" />
 					<p:menuitem value="Logout" ajax="true"
 						action="#{professorControlador.realizarLogout()}" />
 				</p:submenu>
@@ -59,9 +59,9 @@
 				test="${(professorLogado.autorizacao.ordinal > 0) and (professorLogado.autorizacao.ordinal != 8)}">
 				<p:submenu label="Ensino">
 					<p:menuitem value="Buscar Professores" ajax="true"
-						url="/restrito/professor/ensino/buscar.xhtml" />
+						url="/restrito/professor/ensino/buscar.xhtml?faces-redirect=true" />
 					<p:menuitem value="Relatórios" ajax="true"
-						url="/restrito/relatorio/listar.xhtml" />
+						url="/restrito/relatorio/listar.xhtml?faces-redirect=true" />
 				</p:submenu>
 			</c:if>
 		</p:menubar>

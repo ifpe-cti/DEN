@@ -87,7 +87,7 @@ public class Professor implements Serializable{
 	@Column(name="siape", nullable=false, length=12, unique=true)
 	private String siape;
 	
-	@Column(name="senha", nullable=false, length=12)
+	@Column(name="senha", nullable=false)
 	private String senha;
 	
 	@Column(name="coordenacao", nullable=false, length=10)

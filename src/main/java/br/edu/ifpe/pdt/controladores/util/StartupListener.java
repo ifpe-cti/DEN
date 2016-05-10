@@ -23,7 +23,8 @@ public class StartupListener implements ApplicationListener<ContextRefreshedEven
 		if (p == null) {
 			p = new Professor();
 			p.setSiape("admin");
-			p.setSenha("adminadmin");
+			String senha = MD5Hash.md5("adminadmin");
+			p.setSenha(senha);
 			p.setNome("Admin");
 			p.setEmail("admin");
 			p.setCoordenacao("admin");
@@ -36,7 +37,8 @@ public class StartupListener implements ApplicationListener<ContextRefreshedEven
 		if (p == null) {
 			p = new Professor();
 			p.setSiape("crat");
-			p.setSenha("cratcrat");
+			String senha = MD5Hash.md5("cratcrat");
+			p.setSenha(senha);
 			p.setNome("CRAT");
 			p.setEmail("crat");
 			p.setCoordenacao("crat");

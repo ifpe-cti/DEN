@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.edu.ifpe.pdt.controladores.util.AppContext;
+import br.edu.ifpe.pdt.controladores.util.MD5Hash;
 import br.edu.ifpe.pdt.entidades.Disciplina;
 import br.edu.ifpe.pdt.entidades.Falta;
 import br.edu.ifpe.pdt.entidades.Falta.FALTA_STATUS;
@@ -32,7 +34,7 @@ public class ProfessorControlador implements Serializable {
 
 	@Autowired
 	private ProfessorRepositorio professorRepositorio;
-	
+
 	@Autowired
 	private FaltaRepositorio faltaRepositorio;
 
@@ -42,10 +44,18 @@ public class ProfessorControlador implements Serializable {
 	public String redirectCadastro() {
 		return "/professor/cadastro.xhtml";
 	}
+	
+	public String mostrarIndex() {
+		
+		Professor prof = professorRepositorio.findBySiape(this.getProfessorLogado().getSiape());
+		this.setProfessorLogado(prof);
+		return "/restrito/index.xhtml";
+	}
 
 	public String adicionaProfessor(String siape, String senha, String coordenacao, String nome, String email) {
 		Professor p = new Professor();
 		p.setSiape(siape);
+		senha = MD5Hash.md5(senha);
 		p.setSenha(senha);
 		p.setCoordenacao(coordenacao);
 		p.setNome(nome);
@@ -73,7 +83,6 @@ public class ProfessorControlador implements Serializable {
 					this.setProfessores(profs);
 				}
 			}
-			ret = "/restrito/professor/ensino/buscar.xhtml";
 		}
 
 		return ret;
@@ -90,7 +99,7 @@ public class ProfessorControlador implements Serializable {
 			this.setProfessores(professorRepositorio.findByCoordenacao(coordenacao));
 		}
 
-		return "/restrito/professor/ensino/buscar.xhtml";
+		return "";
 	}
 
 	public String buscarProfessores() {
@@ -120,7 +129,7 @@ public class ProfessorControlador implements Serializable {
 			this.setProfessores(professorRepositorio.findByCoordenacao(this.getProfessorLogado().getCoordenacao()));
 		}
 
-		return "/restrito/professor/ensino/buscar.xhtml";
+		return "";
 	}
 
 	private void initProfessores() {
@@ -140,11 +149,15 @@ public class ProfessorControlador implements Serializable {
 		prof = this.professorRepositorio.findBySiape(siape);
 
 		if (prof != null) {
+			senha = MD5Hash.md5(senha);
 			if (prof.getSenha().equals(senha)) {
 				this.setProfessorLogado(prof);
-				ret = "/restrito/index.xhtml";
+				ret = "/restrito/index.xhtml?faces-redirect=true";
 			} else {
 				prof = null;
+				FacesContext.getCurrentInstance().addMessage(null, 
+						new FacesMessage(FacesMessage.SEVERITY_ERROR,
+						"Falha no Login!", "SIAPE ou Senha Inválidos!"));
 			}
 		}
 
@@ -155,7 +168,7 @@ public class ProfessorControlador implements Serializable {
 
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 
-		return "/login.xhtml";
+		return "/login.xhtml?faces-redirect=true";
 	}
 
 	public String mostrarProfessor(String siape) {
@@ -163,7 +176,7 @@ public class ProfessorControlador implements Serializable {
 
 		if (siape != null) {
 			this.setProfessorDetalhado(this.professorRepositorio.findBySiape(siape));
-			ret = "/restrito/professor/ensino/mostrar.xhtml";
+			ret = "/restrito/professor/ensino/mostrar.xhtml?faces-redirect=true";
 		}
 
 		return ret;
@@ -181,7 +194,7 @@ public class ProfessorControlador implements Serializable {
 					prof.setAutorizacao(AUTORIZACAO.getAutorizacao(autorizacao));
 				}
 			}
-			ret = "/restrito/professor/ensino/buscar.xhtml";
+			ret = "/restrito/professor/ensino/buscar.xhtml?faces-redirect=true";
 		}
 
 		return ret;
@@ -191,11 +204,11 @@ public class ProfessorControlador implements Serializable {
 		Professor prof = this.getProfessorLogado();
 		this.setFaltas(prof.getFaltas());
 
-		return "/restrito/falta/professor/listar.xhtml";
+		return "/restrito/falta/professor/listar.xhtml?faces-redirect=true";
 	}
 
 	public String cadastrarFalta() {
-		return "/restrito/falta/professor/buscar.xhtml";
+		return "/restrito/falta/professor/buscar.xhtml?faces-redirect=true";
 	}
 
 	public String adicionarFalta(String siape, Integer ano, Integer semestre) {
@@ -208,7 +221,7 @@ public class ProfessorControlador implements Serializable {
 			for (PTD ptd : this.getProfessorDetalhado().getPtds()) {
 				if (ptd.getAno().equals(ano) && ptd.getSemestre().equals(semestre)) {
 					this.setPtdFalta(ptd);
-					ret = "/restrito/falta/registrar.xhtml";
+					ret = "/restrito/falta/registrar.xhtml?faces-redirect=true";
 					break;
 				}
 			}
@@ -221,7 +234,7 @@ public class ProfessorControlador implements Serializable {
 		Falta f = new Falta();
 		String ret = "";
 
-		if (numFaltas != null && disciplina != null && data != null && data.length() > 0 ) {
+		if (numFaltas != null && disciplina != null && data != null && data.length() > 0) {
 
 			f.setData(Date.valueOf(data));
 			f.setNumeroFaltas(Integer.parseInt(numFaltas));
@@ -241,14 +254,13 @@ public class ProfessorControlador implements Serializable {
 			professorRepositorio.save(prof);
 			PTDEmail email = new PTDEmail();
 			String message = AppContext.getEmailCturMessage();
-			
+
 			message = message.replaceFirst("%p", prof.getNome());
 			message = message.replaceFirst("%d", f.getData().toString());
 			message = message.replaceFirst("%s", f.getDisciplina().getNome());
 			message = message.replaceFirst("%t", f.getDisciplina().getTurma());
-			email.postMail(prof.getEmail(), AppContext.getEmailCturSubject(),
-					message, AppContext.getEmailAuth());
-			ret = "/restrito/falta/buscar.xhtml";
+			email.postMail(prof.getEmail(), AppContext.getEmailCturSubject(), message, AppContext.getEmailAuth());
+			ret = "/restrito/falta/buscar.xhtml?faces-redirect=true";
 		}
 
 		return ret;
@@ -260,66 +272,65 @@ public class ProfessorControlador implements Serializable {
 			Professor prof = this.professorRepositorio.findBySiape(siape);
 			this.setProfessorDetalhado(prof);
 			this.setFaltas(prof.getFaltas());
-			ret = "/restrito/falta/listar.xhtml";
+			ret = "/restrito/falta/listar.xhtml?faces-redirect=true";
 		}
 
 		return ret;
 	}
 
-	public String atualizarFalta(Integer numFaltas,
-			String data,String reposicao,Integer numeroAulasRepostas,
+	public String atualizarFalta(Integer numFaltas, String data, String reposicao, Integer numeroAulasRepostas,
 			String observacao, Integer statusFalta) {
 
 		Falta f = this.getFalta();
 		if (numFaltas != null && numFaltas > 0) {
 			f.setNumeroFaltas(numFaltas);
 		}
-		
+
 		if (data != null && data.length() > 0) {
 			f.setData(Date.valueOf(data));
 		}
-		
+
 		if (reposicao != null && reposicao.length() > 0) {
 			f.setReposicao(Date.valueOf(reposicao));
 		}
-		
+
 		if (numeroAulasRepostas != null && numeroAulasRepostas > 0) {
 			f.setNumeroAulasRepostas(numeroAulasRepostas);
 		}
-		
+
 		if (observacao != null && observacao.length() > 0) {
 			f.setObservacao(observacao);
 		}
-		
+
 		if (statusFalta != null) {
 			f.setFaltaStatus(FALTA_STATUS.getFaltaStatus(statusFalta));
 		}
-		
+
 		this.faltaRepositorio.save(f);
-		
+
 		List<Falta> faltas = this.getFaltas();
-		
+
 		Falta rem = null;
-		for (Falta falta: faltas) {
+		for (Falta falta : faltas) {
 			if (falta.getCodigo().equals(f.getCodigo())) {
 				rem = falta;
 				break;
 			}
 		}
-		
+
 		faltas.remove(rem);
 		faltas.add(f);
 		this.setFaltas(faltas);
-		
-		return "/restrito/falta/listar.xhtml";
+
+		return "/restrito/falta/listar.xhtml?faces-redirect=true";
 	}
-	
-	public String removerFalta(){
-		
+
+	public String removerFalta() {
+
 		Falta f = this.getFalta();
-		
+
 		Professor prof = professorRepositorio.findBySiape(f.getProfessor().getSiape());
-		
+
 		Falta rem = null;
 		for (Falta toRemove : prof.getFaltas()) {
 			if (toRemove.getCodigo().equals(f.getCodigo())) {
@@ -327,13 +338,13 @@ public class ProfessorControlador implements Serializable {
 			}
 		}
 		prof.getFaltas().remove(rem);
-		
+
 		prof = professorRepositorio.save(prof);
-		
+
 		this.setFaltas(prof.getFaltas());
-		
-		return "/restrito/falta/listar.xhtml";
-	}	
+
+		return "/restrito/falta/listar.xhtml?faces-redirect=true";
+	}
 
 	public String datalharFalta(Integer codigo) {
 		String ret = "";
@@ -344,7 +355,7 @@ public class ProfessorControlador implements Serializable {
 			for (Falta f : faltas) {
 				if (f.getCodigo().equals(codigo)) {
 					this.setFalta(f);
-					ret = "/restrito/falta/detalhar.xhtml";
+					ret = "/restrito/falta/detalhar.xhtml?faces-redirect=true";
 					break;
 				}
 			}

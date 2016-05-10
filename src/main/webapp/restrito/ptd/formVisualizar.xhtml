@@ -13,9 +13,9 @@
 		<p:fieldset legend="ATIVIDADES DE ENSINO (AULAS)">
 
 			<br />
-			<p:dataTable id="tabela"
-				value="${selectedPtd.disciplinas}" var="item"
-				paginator="true" rows="7" editable="true" rowKey="${item.id}">
+			<p:dataTable id="tabela" value="${selectedPtd.disciplinas}"
+				var="item" paginator="true" rows="7" editable="true"
+				rowKey="${item.id}">
 				<p:column style="width:60%; align:center">
 					<h:outputText value="${item.nome}" />
 					<f:facet name="header">
@@ -39,9 +39,8 @@
 	<h:form id="formularioAAE" class="validform">
 		<p:fieldset legend="ATIVIDADES DE APOIO AO ENSINO">
 
-			<p:dataTable id="tabela" value="${selectedPtd.aaes}"
-				var="item" paginator="true" rows="7" editable="true"
-				rowKey="${item.id}">
+			<p:dataTable id="tabela" value="${selectedPtd.aaes}" var="item"
+				paginator="true" rows="7" editable="true" rowKey="${item.id}">
 				<p:column style="width:80%">
 					<h:outputText value="${item.atividade}" />
 					<f:facet name="header">
@@ -60,8 +59,7 @@
 		<p:fieldset legend="ATIVIDADES DE PESQUISA">
 
 			<br />
-			<p:dataTable id="tabela"
-				value="${selectedPtd.pesquisas}" var="item"
+			<p:dataTable id="tabela" value="${selectedPtd.pesquisas}" var="item"
 				paginator="true" rows="7" editable="true" rowKey="${item.id}">
 				<p:column>
 					<h:outputText value="${item.atividade}" />
@@ -78,8 +76,7 @@
 		<p:fieldset legend="ATIVIDADES DE EXTENSÃO">
 
 			<br />
-			<p:dataTable id="tabela"
-				value="${selectedPtd.extensoes}" var="item"
+			<p:dataTable id="tabela" value="${selectedPtd.extensoes}" var="item"
 				paginator="true" rows="7" editable="true" rowKey="${item.id}">
 				<p:column>
 					<h:outputText value="${item.atividade}" />
@@ -96,9 +93,8 @@
 		<p:fieldset legend="ATIVIDADES ADMINISTRATIVO-PEDAGÓGICAS">
 
 			<br />
-			<p:dataTable id="tabela" value="${selectedPtd.aaps}"
-				var="item" paginator="true" rows="7" editable="true"
-				rowKey="${item.id}">
+			<p:dataTable id="tabela" value="${selectedPtd.aaps}" var="item"
+				paginator="true" rows="7" editable="true" rowKey="${item.id}">
 				<p:column style="width:70%">
 					<h:outputText value="${item.atividade}" />
 					<f:facet name="header">
@@ -130,6 +126,14 @@
 				action="#{PTDControlador.atualizaPTDEnsino(status.value)}" />
 		</p:panelGrid>
 		<br />
+		<br />
+	</h:form>
+</c:if>
+<c:if test="${selectedPtd.status.ordinal == 5}">
+	<h:form id="formularioVisualizar" class="validform" style="width:100%;">
+		<br />
+		<h:commandButton value="Visualizar Relatório Semestral" class="buscar_button"
+			action="#{PTDControlador.visualizarRelatorioSemestral()}" />
 		<br />
 	</h:form>
 </c:if>

@@ -18,7 +18,7 @@
 	<p:growl id="gro" life="3000" />
 	<h:form id="formularioMenu" class="loginform">
 		<p:fieldset legend="Realizar Login.">
-			<p:messages />
+			<p:messages showDetail="true"/>
 			<p:panelGrid columns="2">
 
 				<p:outputLabel value="SIAPE*: " />
@@ -29,6 +29,7 @@
 				<p:password id="txtSenha" binding="#{senhaLogin}" required="true"
 					maxlength="12" requiredMessage="A senha precisa ser preenchido!" />
 			</p:panelGrid>
+			<br/>
 			<p:commandButton value="Login" update="formularioMenu"
 				action="#{professorControlador.realizarLogin(siapeLogin.value, senhaLogin.value)}" />
 		</p:fieldset>

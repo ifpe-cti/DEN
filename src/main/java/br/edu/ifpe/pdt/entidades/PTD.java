@@ -232,6 +232,7 @@ public class PTD implements Serializable {
 			Disciplina clone = new Disciplina();
 			clone.setNome(d.getNome());
 			clone.setCurso(d.getCurso());
+			clone.setTurma(d.getTurma());
 			clone.setCargaHoraria(d.getCargaHoraria());
 			clone.setPtd(ptd);
 			ptd.getDisciplinas().add(clone);

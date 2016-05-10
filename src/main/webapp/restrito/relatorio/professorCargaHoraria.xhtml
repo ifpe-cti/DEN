@@ -10,8 +10,9 @@
 <ui:include src="/restrito/menu.xhtml" />
 
 <h:body>
-
+	
 	<h:form id="formularioBusca" class="validform">
+		<p:messages showDetail="true"/>
 		<p:fieldset styleClass="fieldset" legend="Buscar por Semestre...">
 			<p:panelGrid columns="4">
 				<h:outputText value="Ano*: " />
@@ -25,7 +26,7 @@
 				<div id="conteudo-left">
 					<br />
 					<p:commandButton value="Buscar" class="buscar_button"
-						update="formularioLista" ajax="true"
+						update="@all" ajax="true"
 						action="#{relatorioControlador.listarCargaHorariaSemestre(ano.value, semestre.value)}" />
 				</div>
 			</div>
