@@ -109,7 +109,7 @@
 	</h:form>
 </p:fieldset>
 
-<c:if test="${selectedPtd.status.ordinal != 5}">
+<c:if test="${selectedPtd.status.ordinal != 5 and selectedPtd.status.ordinal != 6}">
 	<h:form id="formularioVisualizar" class="validform" style="width:100%;">
 		<br />
 		<p:panelGrid columns="3" style="width:40%;">

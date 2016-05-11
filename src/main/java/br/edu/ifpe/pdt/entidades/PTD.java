@@ -35,7 +35,8 @@ public class PTD implements Serializable {
 		HOMOLOGADO,
 		APROVADO,
 		CORRECAO,
-		FECHADO;
+		FECHADO,
+		RELATORIO_HOMOLOGADO;
 		
 		public int getOrdinal() {
 			return this.ordinal();
@@ -62,6 +63,9 @@ public class PTD implements Serializable {
 				break;
 			case 5:
 				a = FECHADO;
+				break;
+			case 6:
+				a = RELATORIO_HOMOLOGADO;
 				break;
 			default:
 				break;

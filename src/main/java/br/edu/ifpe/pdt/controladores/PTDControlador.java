@@ -168,12 +168,11 @@ public class PTDControlador implements Serializable {
 		String ret = "/restrito/ptd/mostrar.xhtml?faces-redirect=true";
 		PTDEmail mail = new PTDEmail();
 		PTD ptd = this.getSelectedPtd();
-		mail.postMail(ptd.getProfessor().getEmail(), AppContext.getEmailSubject(), mensagem,
-				AppContext.getEmailAuth());
+		mail.postMail(ptd.getProfessor().getEmail(), AppContext.getEmailSubject(), mensagem, AppContext.getEmailAuth());
 
 		return ret;
 	}
-	
+
 	public String editarRelatorioSemestral(Integer ptdId) {
 		String ret = "";
 		if (ptdId != null) {
@@ -182,15 +181,14 @@ public class PTDControlador implements Serializable {
 				this.setSelectedPtd(ptd);
 				ret = "/restrito/ptd/editarRelatorioSemestral.xhtml?faces-redirect=true";
 			} else {
-				FacesContext.getCurrentInstance().addMessage(null, 
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Status Inválido", 
-								"O PTD precisa estar homologado!"));
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+						"Status Inválido", "O PTD precisa estar homologado!"));
 			}
-		} 
+		}
 
 		return ret;
 	}
-	
+
 	public String entregarRelatorioSemestral(String resultado) {
 		String ret = "/restrito/index.xhtml?faces-redirect=true";
 
@@ -201,21 +199,21 @@ public class PTDControlador implements Serializable {
 		ptd = ptdRepositorio.saveAndFlush(ptd);
 		this.setSelectedPtd(ptd);
 		this.updateProfessorLogado(ptd.getProfessor());
-		
+
 		return ret;
 	}
-	
+
 	public String visualizarRelatorioSemestral() {
 		String ret = "/restrito/professor/ensino/relatorioSemestral.xhtml?faces-redirect=true";
-		PTD ptd = this.getSelectedPtd();		
+		PTD ptd = this.getSelectedPtd();
 		this.setSelectedPtd(ptd);
 
 		return ret;
 	}
-	
+
 	public String corrigirRelatorioSemestral(String correcoes) {
 		String ret = "";
-		if (correcoes != null && correcoes.length()>0) {
+		if (correcoes != null && correcoes.length() > 0) {
 			ret = "/restrito/professor/ensino/mostrar.xhtml?faces-redirect=true";
 			PTD ptd = this.getSelectedPtd();
 			ptd.setStatus(STATUS.HOMOLOGADO);
@@ -228,15 +226,25 @@ public class PTDControlador implements Serializable {
 					AppContext.getEmailAuth());
 		} else {
 
-			FacesContext.getCurrentInstance().addMessage(null, 
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Correção não pode estar em branco!", 
-							""));
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Correção não pode estar em branco!", ""));
 		}
 
 		return ret;
 	}
-	
-	
+
+	public String homologarRelatorioSemestral() {
+		String ret = "";
+		ret = "/restrito/professor/ensino/mostrar.xhtml?faces-redirect=true";
+		PTD ptd = this.getSelectedPtd();
+		ptd.setStatus(STATUS.RELATORIO_HOMOLOGADO);
+		ptd.setLastUpdate(Date.valueOf(LocalDate.now().toString()));
+		ptd = ptdRepositorio.saveAndFlush(ptd);
+		this.setSelectedPtd(ptd);
+		this.updateProfessorDetalhado(ptd.getProfessor());
+		
+		return ret;
+	}
 
 	// Métodos de apoio a tela editar.
 	public String addDisciplina() {
@@ -395,8 +403,8 @@ public class PTDControlador implements Serializable {
 
 	private void updateProfessorLogado(Professor prof) {
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("professorLogado", prof);
-	}	
-	
+	}
+
 	private void updateProfessorDetalhado(Professor prof) {
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("professorDetalhado", prof);
 	}

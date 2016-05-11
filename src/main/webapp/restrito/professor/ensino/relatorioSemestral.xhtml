@@ -19,19 +19,21 @@
 				readonly="true" rows="15" title="Relatório" />
 			<br />
 			<br />
-			<p:commandButton value="Reabrir para correções" class="buscar_button"
-				type="button" onclick="PF('dlg1').show();" />
+			<h:panelGrid id="gridEnsino" columns="3" class="table">
+				<h:commandButton value="Homologar Relatório" class="buscar_button"
+					action="#{PTDControlador.homologarRelatorioSemestral()}" />
 
-			<p:dialog header="Correções:" widgetVar="dlg1" modal="true"
-				height="400" width="400">
-				<h:inputTextarea binding="#{correcoes}" cols="50" rows="19" required="true" 
-				requiredMessage="Correção não pode estar em branco!"/>
-				<br />
-				<br />
-				<p:commandButton value="Enviar correções" class="buscar_button"
-					action="#{PTDControlador.corrigirRelatorioSemestral(correcoes.value)}" />
-			</p:dialog>
-
+				<h:commandButton value="Reabrir para correções"
+					class="buscar_button" type="button" onclick="PF('dlg1').show();" />
+				<p:dialog header="Correções:" widgetVar="dlg1" modal="true"
+					height="400" width="400">
+					<h:inputTextarea binding="#{correcoes}" cols="50" rows="19" />
+					<br />
+					<br />
+					<p:commandButton value="Enviar correções" class="buscar_button"
+						action="#{PTDControlador.corrigirRelatorioSemestral(correcoes.value)}" />
+				</p:dialog>
+			</h:panelGrid>
 		</h:form>
 	</p:outputPanel>
 	<br />
