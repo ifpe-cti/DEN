@@ -2,7 +2,7 @@ package br.edu.ifpe.pdt.controladores;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.LinkedHashSet;
+import java.util.ArrayList;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -250,7 +250,7 @@ public class PTDControlador implements Serializable {
 	public String addDisciplina() {
 		PTD ptd = this.getSelectedPtd();
 		if (ptd.getDisciplinas() == null) {
-			ptd.setDisciplinas(new LinkedHashSet<Disciplina>());
+			ptd.setDisciplinas(new ArrayList<Disciplina>());
 		}
 		Disciplina d = new Disciplina();
 		d.setNome(this.disciplina.getNome());
@@ -273,7 +273,7 @@ public class PTDControlador implements Serializable {
 	public String addAAE() {
 		PTD ptd = this.getSelectedPtd();
 		if (ptd.getAaes() == null) {
-			ptd.setAaes(new LinkedHashSet<AAE>());
+			ptd.setAaes(new ArrayList<AAE>());
 		}
 		AAE aae = new AAE();
 		aae.setAtividade(this.aae.getAtividade());
@@ -294,7 +294,7 @@ public class PTDControlador implements Serializable {
 	public String addPesquisa() {
 		PTD ptd = this.getSelectedPtd();
 		if (ptd.getPesquisas() == null) {
-			ptd.setPesquisas(new LinkedHashSet<Pesquisa>());
+			ptd.setPesquisas(new ArrayList<Pesquisa>());
 		}
 		Pesquisa p = new Pesquisa();
 		p.setAtividade(this.pesquisa.getAtividade());
@@ -314,7 +314,7 @@ public class PTDControlador implements Serializable {
 	public String addExtensao() {
 		PTD ptd = this.getSelectedPtd();
 		if (ptd.getExtensoes() == null) {
-			ptd.setExtensoes(new LinkedHashSet<Extensao>());
+			ptd.setExtensoes(new ArrayList<Extensao>());
 		}
 		Extensao e = new Extensao();
 		e.setAtividade(this.extensao.getAtividade());
@@ -334,7 +334,7 @@ public class PTDControlador implements Serializable {
 	public String addAAP() {
 		PTD ptd = this.getSelectedPtd();
 		if (ptd.getAaps() == null) {
-			ptd.setAaps(new LinkedHashSet<AAP>());
+			ptd.setAaps(new ArrayList<AAP>());
 		}
 		AAP a = new AAP();
 		a.setAtividade(this.aap.getAtividade());

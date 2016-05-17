@@ -2,8 +2,8 @@ package br.edu.ifpe.pdt.entidades;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
@@ -103,23 +103,23 @@ public class PTD implements Serializable {
 
 	@ManagedProperty(value="#{disciplinas}")
 	@OneToMany(mappedBy="ptd", fetch=FetchType.EAGER, orphanRemoval=true, cascade=CascadeType.ALL)
-	private Set<Disciplina> disciplinas;
+	private List<Disciplina> disciplinas;
 	
 	@ManagedProperty(value="#{aaes}")
 	@OneToMany(mappedBy="ptd", fetch=FetchType.EAGER, orphanRemoval=true, cascade=CascadeType.ALL)
-	private Set<AAE> aaes;
+	private List<AAE> aaes;
 	
 	@ManagedProperty(value="#{pesquisas}")
 	@OneToMany(mappedBy="ptd", fetch=FetchType.EAGER, orphanRemoval=true, cascade=CascadeType.ALL)
-	private Set<Pesquisa> pesquisas;
+	private List<Pesquisa> pesquisas;
 	
 	@ManagedProperty(value="#{extensoes}")
 	@OneToMany(mappedBy="ptd", fetch=FetchType.EAGER, orphanRemoval=true, cascade=CascadeType.ALL)
-	private Set<Extensao> extensoes;
+	private List<Extensao> extensoes;
 	
 	@ManagedProperty(value="#{aaps}")
 	@OneToMany(mappedBy="ptd", fetch=FetchType.EAGER, orphanRemoval=true, cascade=CascadeType.ALL)
-	private Set<AAP> aaps;
+	private List<AAP> aaps;
 
 	@Transient
 	private Integer cargaHoraria;
@@ -180,43 +180,43 @@ public class PTD implements Serializable {
 		this.resultado = resultado;
 	}	
 	
-	public Set<Disciplina> getDisciplinas() {
+	public List<Disciplina> getDisciplinas() {
 		return disciplinas;
 	}
 
-	public void setDisciplinas(Set<Disciplina> disciplinas) {
+	public void setDisciplinas(List<Disciplina> disciplinas) {
 		this.disciplinas = disciplinas;
 	}
 
-	public Set<AAE> getAaes() {
+	public List<AAE> getAaes() {
 		return aaes;
 	}
 
-	public void setAaes(Set<AAE> aaes) {
+	public void setAaes(List<AAE> aaes) {
 		this.aaes = aaes;
 	}
 
-	public Set<Pesquisa> getPesquisas() {
+	public List<Pesquisa> getPesquisas() {
 		return pesquisas;
 	}
 
-	public void setPesquisas(Set<Pesquisa> pesquisas) {
+	public void setPesquisas(List<Pesquisa> pesquisas) {
 		this.pesquisas = pesquisas;
 	}
 
-	public Set<Extensao> getExtensoes() {
+	public List<Extensao> getExtensoes() {
 		return extensoes;
 	}
 
-	public void setExtensoes(Set<Extensao> extensoes) {
+	public void setExtensoes(List<Extensao> extensoes) {
 		this.extensoes = extensoes;
 	}
 
-	public Set<AAP> getAaps() {
+	public List<AAP> getAaps() {
 		return aaps;
 	}
 
-	public void setAaps(Set<AAP> aaps) {
+	public void setAaps(List<AAP> aaps) {
 		this.aaps = aaps;
 	}
 	
@@ -231,7 +231,7 @@ public class PTD implements Serializable {
 	public PTD clone() {
 		PTD ptd = new PTD();
 		
-		ptd.setDisciplinas(new LinkedHashSet<Disciplina>());
+		ptd.setDisciplinas(new ArrayList<Disciplina>());
 		for (Disciplina d: this.disciplinas) {
 			Disciplina clone = new Disciplina();
 			clone.setNome(d.getNome());
@@ -242,7 +242,7 @@ public class PTD implements Serializable {
 			ptd.getDisciplinas().add(clone);
 		}
 		
-		ptd.setAaes(new LinkedHashSet<AAE>());
+		ptd.setAaes(new ArrayList<AAE>());
 		for (AAE aae: this.aaes) {
 			AAE clone = new AAE();
 			clone.setAtividade(aae.getAtividade());
@@ -251,7 +251,7 @@ public class PTD implements Serializable {
 			ptd.getAaes().add(clone);
 		}
 		
-		ptd.setAaps(new LinkedHashSet<AAP>());
+		ptd.setAaps(new ArrayList<AAP>());
 		for (AAP aap: this.aaps) {
 			AAP clone = new AAP();
 			clone.setAtividade(aap.getAtividade());
@@ -260,7 +260,7 @@ public class PTD implements Serializable {
 			ptd.getAaps().add(clone);
 		}
 		
-		ptd.setExtensoes(new LinkedHashSet<Extensao>());
+		ptd.setExtensoes(new ArrayList<Extensao>());
 		for (Extensao e: this.extensoes) {
 			Extensao clone = new Extensao();
 			clone.setAtividade(e.getAtividade());
@@ -268,7 +268,7 @@ public class PTD implements Serializable {
 			ptd.getExtensoes().add(clone);
 		}
 		
-		ptd.setPesquisas(new LinkedHashSet<Pesquisa>());
+		ptd.setPesquisas(new ArrayList<Pesquisa>());
 		for (Pesquisa p: this.pesquisas) {
 			Pesquisa clone = new Pesquisa();
 			clone.setAtividade(p.getAtividade());

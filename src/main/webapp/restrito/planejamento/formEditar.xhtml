@@ -1,0 +1,247 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+
+<h:form id="formButtomImport" class="validform" style="width:20%;">
+	<p:messages />
+	<br />
+	<h:commandButton value="Importar Planejamento" class="buscar_button"
+		update="@all" type="button" onclick="PF('dlg1').show();" />
+
+	<p:dialog header="Importar Planejamento:" widgetVar="dlg1" modal="true"
+		height="400" width="750">
+		<p:fieldset styleClass="fieldset" legend="Buscar por Semestre...">
+			<p:panelGrid columns="4">
+				<h:outputText value="Ano*: " />
+				<p:inputText id="txtAno" binding="#{ano}" required="true"
+					requiredMessage="Ano é obrigatório!" />
+				<h:outputText value="Semestre*: " />
+				<p:inputText id="txtSemestre" binding="#{semestre}" required="true"
+					requiredMessage="Semestre é obrigatório!" />
+			</p:panelGrid>
+			<div id="div_buttons">
+				<div id="conteudo-left">
+					<br />
+					<p:commandButton value="Listar Disciplinas" class="buscar_button"
+						update="tabelaDisciplinas"
+						action="#{planejamentoSemestralControlador.listarDisciplinas(ano.value, semestre.value)}"
+						onsuccess="PF('dlg1').show();" />
+				</div>
+			</div>
+			<br />
+			<p:dataTable id="tabelaDisciplinas"
+				value="#{selectedPtdPlanImport.disciplinas}" var="item"
+				paginator="true" rows="10" selection="#{disciplina}"
+				selectionMode="single" rowKey="${item.codigo}">
+
+				<p:column headerText="Nome">
+					<p>${item.nome}</p>
+				</p:column>
+
+				<p:column headerText="Turma">
+					<p align="center">${item.turma}</p>
+				</p:column>
+				<p:column headerText="Status Planejamento">
+					<p align="center">${item.planejamentoSemestral.status.nome}</p>
+				</p:column>
+			</p:dataTable>
+			<br />
+			<p:commandButton value="Importar Disciplina" class="buscar_button"
+				update="@all" ajax="true"
+				action="#{planejamentoSemestralControlador.importarDisciplina(disciplina.codigo)}" />
+		</p:fieldset>
+	</p:dialog>
+	<br />
+	<br />
+</h:form>
+
+<p:fieldset legend="Criar Planejamento">
+
+	<h:form id="formularioCompetencias" style="width:100%">
+		<p:messages />
+		<p:fieldset legend="Competências">
+			<p align="center">
+				<p:inputTextarea
+					value="#{selectedDisciplina.planejamentoSemestral.competencias}"
+					cols="100" rows="10" title="competencias"
+					onblur="verificarEmail();">
+				</p:inputTextarea>
+				<p:remoteCommand name="verificarEmail"
+					update="formularioCompetencias" />
+			</p>
+		</p:fieldset>
+
+		<br />
+	</h:form>
+	<h:form id="formularioSemana" class="validform" style="width:100%;">
+		<p:messages />
+		<p:fieldset legend="SEMANAS">
+			<p:panelGrid columns="8"
+				columnClasses="colStyle4,colStyle5,colStyle4,
+			colStyle5,colStyle4,colStyle6,colStyle4,colStyle6">
+				<h:outputLabel value="Semana: " />
+				<p:inputText style="width:100%;"
+					value="#{planejamentoSemestralControlador.semana.numero}" />
+				<h:outputLabel value="Numero de Aulas: " />
+				<p:inputText style="width:100%;"
+					value="#{planejamentoSemestralControlador.semana.numAulas}" />
+				<h:outputLabel value="Conteúdo: " />
+				<p:inputText style="width:100%;"
+					value="#{planejamentoSemestralControlador.semana.conteudo}" />
+				<h:outputLabel value="Estratégia: " />
+				<p:inputText style="width:100%;"
+					value="#{planejamentoSemestralControlador.semana.estrategia}" />
+
+				<f:facet name="footer">
+					<p:commandButton value="Adicionar" icon="ui-icon-add"
+						class="buscar_button" update="formularioSemana"
+						action="#{planejamentoSemestralControlador.addSemana()}" />
+				</f:facet>
+			</p:panelGrid>
+			<br />
+			<p:dataTable id="tabela"
+				value="${selectedDisciplina.planejamentoSemestral.semanas}"
+				var="item" paginator="true" rows="7" editable="true"
+				rowKey="${item.id}">
+
+				<p:ajax event="rowEdit"
+					listener="#{planejamentoSemestralControlador.onRowEdit}"
+					update="tabela" />
+
+				<p:ajax event="rowEditCancel" update="tabela" />
+
+				<p:column headerText="Semana" style="width:10%; align:center">
+					<p align="center">${item.numero}</p>
+				</p:column>
+				<p:column headerText="Numero de Aulas"
+					style="width:10%; align:center">
+					<p align="center">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{item.numAulas}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText id="modelInput3" value="#{item.numAulas}"
+									style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p>
+				</p:column>
+				<p:column style="width:40%; align:center" headerText="Conteúdo">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{item.conteudo}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText id="modelInput2" value="#{item.conteudo}"
+								style="width:100%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="Estratégia" style="width:40%; align:center">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{item.estrategia}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText id="modelInput" value="#{item.estrategia}"
+								style="width:100%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column style="width:15%" headerText="">
+					<p:rowEditor />
+					<p:commandButton icon="ui-icon-delete" alt="Remover"
+						update="formularioSemana"
+						action="#{planejamentoSemestralControlador.removeSemana(item)}" />
+				</p:column>
+			</p:dataTable>
+		</p:fieldset>
+	</h:form>
+
+	<br />
+	<h:form id="formularioAvaliacoes" class="validform">
+		<p:fieldset legend="Avaliações">
+			<p:panelGrid columns="8"
+				columnClasses="colStyle4,colStyle7,colStyle4,
+			colStyle4,colStyle4,colStyle7,colStyle4,colStyle7">
+				<h:outputLabel value="Atividade: " />
+				<p:inputText style="width:100%;"
+					value="#{planejamentoSemestralControlador.avaliacao.atividade}" />
+
+				<h:outputLabel value="Unidade: " />
+				<p:inputText style="width:100%;"
+					value="#{planejamentoSemestralControlador.avaliacao.unidade}" />
+
+				<h:outputLabel value="Data da prova: " />
+				<h:inputText styleClass="datepicker" binding="#{dataProva}"
+					style="width:80%;"></h:inputText>
+
+				<h:outputLabel value="Data da Recuperação:" />
+				<h:inputText styleClass="datepicker" binding="#{dataRecuperacao}"
+					style="width:80%;"></h:inputText>
+
+				<f:facet name="footer">
+					<p:commandButton value="Adicionar" icon="ui-icon-add"
+						class="buscar_button" update="@form"
+						oncomplete="applyDatePicker();"						
+						action="#{planejamentoSemestralControlador.addAvaliacao(dataProva.value, dataRecuperacao.value)}" />
+				</f:facet>
+			</p:panelGrid>
+			<br />
+			<p:dataTable id="tabela"
+				value="${selectedDisciplina.planejamentoSemestral.avaliacoes}"
+				var="item" paginator="true" rows="7" editable="true"
+				rowKey="${item.id}">
+
+				<p:column headerText="Atividade" style="width:25%; align:center">
+					<p align="center">${item.atividade}</p>
+				</p:column>
+				<p:column headerText="Unidade" style="width:15%; align:center">
+					<p align="center">${item.unidade}</p>
+				</p:column>
+				<p:column style="width:30%; align:center" headerText="Data da Prova">
+					<p align="center">${item.dataProva}</p>
+				</p:column>
+				<p:column headerText="Data da Recuperação"
+					style="width:30%; align:center">
+					<p align="center">${item.dataRecuperacao}</p>
+				</p:column>
+
+				<p:column style="width:10%" headerText="">
+					<p:commandButton icon="ui-icon-delete" alt="Remover"
+						update="@form"
+						oncomplete="applyDatePicker();"			
+						action="#{planejamentoSemestralControlador.removeAvaliacao(item)}" />
+				</p:column>
+			</p:dataTable>
+		</p:fieldset>
+	</h:form>
+	<br />
+</p:fieldset>
+<h:form id="formButtons" class="validform" style="width:20%;">
+	<p:messages />
+	<br />
+	<c:if test="${selectedDisciplina.planejamentoSemestral.codigo == null}">
+		<h:commandButton value="Registrar Planejamento" class="buscar_button"
+			update="@all"
+			action="#{planejamentoSemestralControlador.registrarPlanejamento()}" />
+		<br />
+	</c:if>
+	<c:if test="${selectedDisciplina.planejamentoSemestral.codigo != null}">
+		<h:commandButton value="Editar Planejamento" class="buscar_button"
+			update="@all"
+			action="#{planejamentoSemestralControlador.atualizaPlanejamento()}" />
+		<br />
+	</c:if>
+	<br />
+	<br />
+</h:form>
+</html>

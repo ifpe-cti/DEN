@@ -12,12 +12,16 @@
 
 	<script type="text/javascript">
 	$(document).ready(function() {
-		  $(".datepicker").datepicker({
+		applyDatePicker();
+		});
+	
+	function applyDatePicker(){
+		$(".datepicker").datepicker({
 		    dateFormat: 'yy-mm-dd',
 		    showOn: "button",
 		    buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif",
 		    buttonImageOnly: true})
-		});
+	}
     </script>
 </h:head>
 
@@ -32,6 +36,8 @@
 			<c:if
 				test="${(professorLogado.autorizacao.ordinal != 7) and (professorLogado.autorizacao.ordinal != 8)}">
 				<p:submenu label="Bem vindo, Prof. #{professorLogado.nome}">
+				<p:menuitem value="Planejamento Semestral"
+						url="/restrito/planejamento/ptd/listar.xhtml?faces-redirect=true" />
 					<p:menuitem value="Verificar Faltas" ajax="true"
 						action="#{professorControlador.mostrarFaltas()}" />
 					<p:menuitem value="Logout" ajax="true"

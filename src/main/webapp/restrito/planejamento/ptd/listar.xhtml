@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+<ui:include src="/restrito/menu.xhtml" />
+<h:body>
+
+	<h:form id="formularioEditar" class="validform">
+		<p:fieldset legend="Planos de Trabalho Docente - PTD">
+			<br />
+			<p:dataTable id="tabela" value="#{professorLogado.ptds}" var="item"
+				paginator="true" rows="3" selection="#{selectedPtd}"
+				selectionMode="single" rowKey="${item.codigo}" sortBy="item.codigo"
+				sortOrder="descending">
+
+				<p:ajax event="rowSelect"
+					listener="#{planejamentoSemestralControlador.onRowSelect}"
+					update="formularioEditar" />
+
+				<p:column>
+					<p align="center">
+
+						<h:outputText value="${item.ano}" />
+					</p>
+					<f:facet name="header">
+		                        Ano
+		                    </f:facet>
+				</p:column>
+
+				<p:column headerText="Semestre">
+					<p align="center">${item.semestre}</p>
+				</p:column>
+
+				<p:column headerText="Status">
+					<p align="center">${item.status}</p>
+				</p:column>
+				<p:column headerText="Atualizado em">
+					<p align="center">${item.lastUpdate}</p>
+				</p:column>
+
+			</p:dataTable>
+
+			<br />
+			<!-- 			<h:selectOneMenu binding="#{disciplina}" style="width:300px;" > -->
+			<!-- 				<f:selectItems value="#{selectedPtdPlan.disciplinas}" var="disciplina"  -->
+			<!-- 					itemLabel="#{disciplina}" itemValue="#{disciplina.codigo}" /> -->
+			<!-- 			</h:selectOneMenu> -->
+
+			<p:dataTable id="tabelaDisciplinas"
+				value="#{selectedPtdPlan.disciplinas}" var="item" paginator="true"
+				rows="10" selection="#{disciplina}" selectionMode="single"
+				rowKey="${item.codigo}">
+
+				<p:column headerText="Nome">
+					<p>${item.nome}</p>
+				</p:column>
+
+				<p:column headerText="Turma">
+					<p align="center">${item.turma}</p>
+				</p:column>
+				<p:column headerText="Status Planejamento">
+					<p align="center">${item.planejamentoSemestral.status.nome}</p>
+				</p:column>
+
+			</p:dataTable>
+
+			<div id="div_buttons">
+				<div id="conteudo-left">
+					<br />
+					<p:commandButton class="buscar_button"
+						value="Editar Planejamento" update="formularioEditar"
+						action="#{planejamentoSemestralControlador.criarPlanejamento(disciplina.codigo)}" />
+				</div>
+			</div>
+		</p:fieldset>
+	</h:form>
+</h:body>
+</html>
+
