@@ -40,7 +40,7 @@ public class RelatorioControlador implements Serializable {
 
 	@Autowired
 	private ProfessorRepositorio professorRepositorio;
-	
+
 	public String emitirRelatorio(Integer relatorioID) {
 		String ret = "";
 
@@ -60,17 +60,18 @@ public class RelatorioControlador implements Serializable {
 
 	public String listarCargaHorariaSemestre(Integer ano, Integer semestre) {
 
-		List<PTD> ptds = this.ptdRepositorio.findByAnoAndSemestre(ano, semestre);
+		List<PTD> ptds = new ArrayList<PTD>();
 
-		for (PTD ptd : ptds) {
-			Integer cargaHoraria = 0;
+		PTD ptd = this.ptdRepositorio.findByAnoAndSemestre(ano, semestre);
 
-			for (Disciplina disciplina : ptd.getDisciplinas()) {
-				cargaHoraria += disciplina.getCargaHoraria();
-			}
+		Integer cargaHoraria = 0;
 
-			ptd.setCargaHoraria(cargaHoraria);
+		for (Disciplina disciplina : ptd.getDisciplinas()) {
+			cargaHoraria += disciplina.getCargaHoraria();
 		}
+
+		ptd.setCargaHoraria(cargaHoraria);
+		ptds.add(ptd);
 
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedPtds", ptds);
 
@@ -84,15 +85,15 @@ public class RelatorioControlador implements Serializable {
 
 		File f = XLSExport.exportarCargaHorariaSemestre(ptds);
 		setXLSResponse(f);
-		
+
 		return "/restrito/relatorio/listar.xhtml";
 	}
 
 	private void setXLSResponse(File f) {
-		if (f != null) { 
+		if (f != null) {
 			FacesContext fc = FacesContext.getCurrentInstance();
 			ExternalContext ec = fc.getExternalContext();
-			
+
 			ec.responseReset();
 			ec.setResponseContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 			ec.setResponseContentLength((int) f.length());
@@ -104,57 +105,57 @@ public class RelatorioControlador implements Serializable {
 				while (fis.available() > -1) {
 					output.write(fis.read());
 				}
-				
+
 				output.flush();
 				output.close();
 				fis.close();
 				ec.redirect("/restrito/relatorio/listar.xhtml");
 				fc.responseComplete();
-				
+
 			} catch (IOException e) {
 				LoggerPTD.getLoggerInstance().logError(e.getMessage());
 			}
 		}
 	}
-	
-	public String listarProfessoresFalta(String coordenacao){
-		
-		List<Professor> professores = professorRepositorio.findByCoordenacao(coordenacao); 
+
+	public String listarProfessoresFalta(String coordenacao) {
+
+		List<Professor> professores = professorRepositorio.findByCoordenacao(coordenacao);
 		List<Falta> faltas = new ArrayList<Falta>();
-		
-		for (Professor prof: professores) {
+
+		for (Professor prof : professores) {
 			faltas.addAll(prof.getFaltas());
-		}	
-		
+		}
+
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("faltas", faltas);
-		
+
 		return "";
 	}
-	
-	public String listarProfessoresFalta(){
-		
+
+	public String listarProfessoresFalta() {
+
 		List<Professor> professores = professorRepositorio.findAll();
 		List<Falta> faltas = new ArrayList<Falta>();
-		
-		for (Professor prof: professores) {
+
+		for (Professor prof : professores) {
 			faltas.addAll(prof.getFaltas());
-		}	
-		
+		}
+
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("faltas", faltas);
-		
+
 		return "";
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public String exportarFaltasProfessores() {
 		List<Falta> faltas = (List<Falta>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
 				.get("faltas");
-		
+
 		File f = XLSExport.exportarFaltaProfessores(faltas);
-		
+
 		setXLSResponse(f);
-		
+
 		return "/restrito/relatorio/listar.xhtml";
 	}
-	
+
 }

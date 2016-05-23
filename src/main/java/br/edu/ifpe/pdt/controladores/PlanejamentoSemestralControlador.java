@@ -3,7 +3,6 @@ package br.edu.ifpe.pdt.controladores;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -78,11 +77,7 @@ public class PlanejamentoSemestralControlador implements Serializable {
 
 	public void listarDisciplinas(Integer ano, Integer semestre) {
 
-		List<PTD> ptds = ptdRepositorio.findByAnoAndSemestre(ano, semestre);
-		PTD ptd = null;
-		if (ptds.size() > 0) {
-			ptd = ptds.get(0);
-		}
+		PTD ptd = ptdRepositorio.findByAnoAndSemestre(ano, semestre);
 
 		this.setSelectedPtdImport(ptd);
 

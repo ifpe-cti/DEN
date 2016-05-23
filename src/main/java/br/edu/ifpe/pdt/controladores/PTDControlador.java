@@ -61,7 +61,7 @@ public class PTDControlador implements Serializable {
 	public String cadastrarNovoPTDFromSelected(Integer ptdId) {
 		String ret = "";
 		if (ptdId != null) {
-			PTD ptd = ptdRepositorio.findOne(ptdId);
+			PTD ptd = ptdRepositorio.findByCodigo(ptdId);
 
 			this.setSelectedPtd(ptd.clone());
 			ret = "/restrito/ptd/cadastro.xhtml?faces-redirect=true";
@@ -73,7 +73,7 @@ public class PTDControlador implements Serializable {
 	public String editarPTD(Integer ptdId) {
 		String ret = "/restrito/ptd/editar.xhtml?faces-redirect=true";
 		if (ptdId != null) {
-			this.setSelectedPtd(ptdRepositorio.findOne(ptdId));
+			this.setSelectedPtd(ptdRepositorio.findByCodigo(ptdId));
 		} else {
 			ret = "";
 		}
@@ -83,6 +83,15 @@ public class PTDControlador implements Serializable {
 
 	public String atualizaPTD() {
 		PTD ptd = this.getSelectedPtd();
+		
+		PTD ptdRep = this.ptdRepositorio.findByAnoAndSemestre(ptd.getAno(), ptd.getSemestre());
+		
+		if ((ptdRep != null) && !ptdRep.getCodigo().equals(ptd.getCodigo())) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+					FacesMessage.SEVERITY_ERROR, "Não é permitido ter 2 PTDs no mesmo semestre", ""));
+			return "";
+		}		
+		
 		ptd.setStatus(PTD.STATUS.AGUARDO);
 		ptd.setLastUpdate(Date.valueOf(LocalDate.now().toString()));
 		ptd = ptdRepositorio.saveAndFlush(ptd);
@@ -93,7 +102,16 @@ public class PTDControlador implements Serializable {
 	}
 
 	public String criarPTD(String siape, Integer ano, Integer semestre) {
-		PTD ptd = this.getSelectedPtd();
+		
+		PTD ptd = this.ptdRepositorio.findByAnoAndSemestre(ano, semestre);
+		
+		if (ptd != null) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+					FacesMessage.SEVERITY_ERROR, "Não é permitido criar 2 PTDs no mesmo semestre", ""));
+			return "";
+		}
+		
+		ptd = this.getSelectedPtd();
 		ptd.setStatus(PTD.STATUS.AGUARDO);
 		ptd.setLastUpdate(Date.valueOf(LocalDate.now().toString()));
 		ptd.setAno(ano);
@@ -140,7 +158,7 @@ public class PTDControlador implements Serializable {
 		String ret = "";
 
 		if (ptdId != null) {
-			this.setSelectedPtd(ptdRepositorio.findOne(ptdId));
+			this.setSelectedPtd(ptdRepositorio.findByCodigo(ptdId));
 			ret = "/restrito/ptd/mostrar.xhtml?faces-redirect=true";
 		}
 
@@ -176,7 +194,7 @@ public class PTDControlador implements Serializable {
 	public String editarRelatorioSemestral(Integer ptdId) {
 		String ret = "";
 		if (ptdId != null) {
-			PTD ptd = ptdRepositorio.findOne(ptdId);
+			PTD ptd = ptdRepositorio.findByCodigo(ptdId);
 			if (ptd.getStatus() == STATUS.HOMOLOGADO) {
 				this.setSelectedPtd(ptd);
 				ret = "/restrito/ptd/editarRelatorioSemestral.xhtml?faces-redirect=true";
