@@ -17,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -103,22 +104,27 @@ public class PTD implements Serializable {
 
 	@ManagedProperty(value="#{disciplinas}")
 	@OneToMany(mappedBy="ptd", fetch=FetchType.EAGER, orphanRemoval=true, cascade=CascadeType.ALL)
+	@OrderBy
 	private List<Disciplina> disciplinas;
 	
 	@ManagedProperty(value="#{aaes}")
 	@OneToMany(mappedBy="ptd", fetch=FetchType.EAGER, orphanRemoval=true, cascade=CascadeType.ALL)
+	@OrderBy
 	private List<AAE> aaes;
 	
 	@ManagedProperty(value="#{pesquisas}")
 	@OneToMany(mappedBy="ptd", fetch=FetchType.EAGER, orphanRemoval=true, cascade=CascadeType.ALL)
+	@OrderBy
 	private List<Pesquisa> pesquisas;
 	
 	@ManagedProperty(value="#{extensoes}")
 	@OneToMany(mappedBy="ptd", fetch=FetchType.EAGER, orphanRemoval=true, cascade=CascadeType.ALL)
+	@OrderBy
 	private List<Extensao> extensoes;
 	
 	@ManagedProperty(value="#{aaps}")
 	@OneToMany(mappedBy="ptd", fetch=FetchType.EAGER, orphanRemoval=true, cascade=CascadeType.ALL)
+	@OrderBy
 	private List<AAP> aaps;
 
 	@Transient

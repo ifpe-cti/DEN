@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 
@@ -104,9 +105,11 @@ public class Professor implements Serializable{
 	
 	@ManagedProperty(value="#{ptds}")
 	@OneToMany(mappedBy="professor", fetch=FetchType.EAGER, orphanRemoval=true, cascade=CascadeType.ALL)
+	@OrderBy("lastUpdate DESC")
 	private List<PTD> ptds;	
 	
 	@OneToMany(mappedBy="professor", fetch=FetchType.EAGER, orphanRemoval=true, cascade=CascadeType.ALL)
+	@OrderBy
 	private List<Falta> faltas;	
 	
 	public Integer getCodigo() {

@@ -15,8 +15,7 @@
 			<br />
 			<p:dataTable id="tabela" value="#{professorLogado.ptds}" var="item"
 				paginator="true" rows="3" selection="#{selectedPtd}"
-				selectionMode="single" rowKey="${item.codigo}" sortBy="item.codigo"
-				sortOrder="descending">
+				selectionMode="single" rowKey="${item.codigo}">
 
 				<p:ajax event="rowSelect"
 					listener="#{planejamentoSemestralControlador.onRowSelect}"
@@ -46,11 +45,7 @@
 			</p:dataTable>
 
 			<br />
-			<!-- 			<h:selectOneMenu binding="#{disciplina}" style="width:300px;" > -->
-			<!-- 				<f:selectItems value="#{selectedPtdPlan.disciplinas}" var="disciplina"  -->
-			<!-- 					itemLabel="#{disciplina}" itemValue="#{disciplina.codigo}" /> -->
-			<!-- 			</h:selectOneMenu> -->
-
+			
 			<p:dataTable id="tabelaDisciplinas"
 				value="#{selectedPtdPlan.disciplinas}" var="item" paginator="true"
 				rows="10" selection="#{disciplina}" selectionMode="single"
