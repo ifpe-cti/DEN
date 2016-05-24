@@ -44,5 +44,16 @@
 		<filter-name>LoginFilter</filter-name> 
 		<url-pattern>/restrito/*</url-pattern> 
 	</filter-mapping>
-
+	<error-page>
+		<error-code>404</error-code>
+		<location>/restrito/error/error.xhtml</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/restrito/error/error.xhtml</location>
+	</error-page>
+	<error-page>
+		<exception-type>java.lang.Exception</exception-type>
+		<location>/restrito/error/error.xhtml</location>
+	</error-page>
 </web-app>

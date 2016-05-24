@@ -11,6 +11,7 @@ public interface PTDRepositorio extends JpaRepository<PTD, Integer> {
 	
 	List<PTD> findByProfessorSiape(String siape);
 	List<PTD> findByProfessorCoordenacao(String coordenacao);
-	PTD findByAnoAndSemestre(Integer ano, Integer semestre);
+	List<PTD> findByAnoAndSemestre(Integer ano, Integer semestre);
+	PTD findByAnoAndSemestreAndProfessorSiape(Integer ano, Integer semestre, String siape);
 	PTD findByCodigo(Integer codigo);
 }

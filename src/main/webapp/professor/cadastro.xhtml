@@ -36,13 +36,13 @@
                                  A Senha precisa ser preenchida" />
 
 				<p:outputLabel value="Coordenação*:" />
-				<h:selectOneMenu id="txtCoordenacao" style="class:select"
+				<p:selectOneMenu id="txtCoordenacao" style="class:select"
 					binding="#{coordenacao}">
 					<f:selectItem itemValue="CCTIN" itemLabel="CCTIN" />
-					<f:selectItem itemValue="CTEE" itemLabel="CTEE" />
-					<f:selectItem itemValue="CTMA" itemLabel="CTMA" />
-					<f:selectItem itemValue="CTI" itemLabel="CTI" />
-				</h:selectOneMenu>
+					<f:selectItem itemValue="CTEE" itemLabel="CCTEE" />
+					<f:selectItem itemValue="CTMA" itemLabel="CCTMA" />
+					<f:selectItem itemValue="CTI" itemLabel="CCTI" />
+				</p:selectOneMenu>
 
 				<p:outputLabel value="Nome*:" />
 				<p:inputText id="txtNome" binding="#{nome}" required="true"

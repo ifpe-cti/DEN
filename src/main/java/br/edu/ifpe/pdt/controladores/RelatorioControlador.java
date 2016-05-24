@@ -60,18 +60,17 @@ public class RelatorioControlador implements Serializable {
 
 	public String listarCargaHorariaSemestre(Integer ano, Integer semestre) {
 
-		List<PTD> ptds = new ArrayList<PTD>();
-
-		PTD ptd = this.ptdRepositorio.findByAnoAndSemestre(ano, semestre);
+		List<PTD> ptds = this.ptdRepositorio.findByAnoAndSemestre(ano, semestre);
 
 		Integer cargaHoraria = 0;
 
-		for (Disciplina disciplina : ptd.getDisciplinas()) {
-			cargaHoraria += disciplina.getCargaHoraria();
-		}
+		for (PTD ptd : ptds) {
+			for (Disciplina disciplina : ptd.getDisciplinas()) {
+				cargaHoraria += disciplina.getCargaHoraria();
+			}
 
-		ptd.setCargaHoraria(cargaHoraria);
-		ptds.add(ptd);
+			ptd.setCargaHoraria(cargaHoraria);
+		}
 
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedPtds", ptds);
 

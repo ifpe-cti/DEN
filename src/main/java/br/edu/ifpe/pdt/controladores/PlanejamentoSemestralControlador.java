@@ -18,6 +18,7 @@ import br.edu.ifpe.pdt.entidades.Avaliacao;
 import br.edu.ifpe.pdt.entidades.Disciplina;
 import br.edu.ifpe.pdt.entidades.PTD;
 import br.edu.ifpe.pdt.entidades.PlanejamentoSemestral;
+import br.edu.ifpe.pdt.entidades.Professor;
 import br.edu.ifpe.pdt.entidades.PlanejamentoSemestral.STATUS_PS;
 import br.edu.ifpe.pdt.entidades.Semana;
 import br.edu.ifpe.pdt.repositorios.DisciplinaRepositorio;
@@ -77,7 +78,11 @@ public class PlanejamentoSemestralControlador implements Serializable {
 
 	public void listarDisciplinas(Integer ano, Integer semestre) {
 
-		PTD ptd = ptdRepositorio.findByAnoAndSemestre(ano, semestre);
+		Professor prof = (Professor) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+		.get("professorLogado");
+		
+		PTD ptd = ptdRepositorio.findByAnoAndSemestreAndProfessorSiape(ano, semestre, prof.getSiape());
+		
 
 		this.setSelectedPtdImport(ptd);
 

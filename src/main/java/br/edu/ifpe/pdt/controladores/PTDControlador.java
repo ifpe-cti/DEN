@@ -84,7 +84,8 @@ public class PTDControlador implements Serializable {
 	public String atualizaPTD() {
 		PTD ptd = this.getSelectedPtd();
 		
-		PTD ptdRep = this.ptdRepositorio.findByAnoAndSemestre(ptd.getAno(), ptd.getSemestre());
+		PTD ptdRep = this.ptdRepositorio.findByAnoAndSemestreAndProfessorSiape(ptd.getAno(), 
+				ptd.getSemestre(), ptd.getProfessor().getSiape());
 		
 		if ((ptdRep != null) && !ptdRep.getCodigo().equals(ptd.getCodigo())) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
@@ -103,7 +104,7 @@ public class PTDControlador implements Serializable {
 
 	public String criarPTD(String siape, Integer ano, Integer semestre) {
 		
-		PTD ptd = this.ptdRepositorio.findByAnoAndSemestre(ano, semestre);
+		PTD ptd = this.ptdRepositorio.findByAnoAndSemestreAndProfessorSiape(ano, semestre, siape);
 		
 		if (ptd != null) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(

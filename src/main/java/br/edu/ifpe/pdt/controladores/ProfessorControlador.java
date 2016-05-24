@@ -235,6 +235,15 @@ public class ProfessorControlador implements Serializable {
 		String ret = "";
 
 		if (numFaltas != null && disciplina != null && data != null && data.length() > 0) {
+			
+			Falta existe = this.faltaRepositorio.findByDisciplinaCodigoAndData(disciplina, Date.valueOf(data));
+			
+			if (existe != null) {
+				FacesContext.getCurrentInstance().addMessage(null, 
+						new FacesMessage(FacesMessage.SEVERITY_ERROR,
+						"Falta Já cadastrada!", ""));
+				return "";
+			}
 
 			f.setData(Date.valueOf(data));
 			f.setNumeroFaltas(Integer.parseInt(numFaltas));
@@ -251,7 +260,7 @@ public class ProfessorControlador implements Serializable {
 			}
 
 			prof.getFaltas().add(f);
-			professorRepositorio.save(prof);
+			professorRepositorio.saveAndFlush(prof);
 			PTDEmail email = new PTDEmail();
 			String message = AppContext.getEmailCturMessage();
 
@@ -261,6 +270,10 @@ public class ProfessorControlador implements Serializable {
 			message = message.replaceFirst("%t", f.getDisciplina().getTurma());
 			email.postMail(prof.getEmail(), AppContext.getEmailCturSubject(), message, AppContext.getEmailAuth());
 			ret = "/restrito/falta/buscar.xhtml?faces-redirect=true";
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null, 
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					"Preencher campos obrigatórios!", ""));
 		}
 
 		return ret;
