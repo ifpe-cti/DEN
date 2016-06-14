@@ -44,9 +44,9 @@ public class ProfessorControlador implements Serializable {
 	public String redirectCadastro() {
 		return "/professor/cadastro.xhtml";
 	}
-	
+
 	public String mostrarIndex() {
-		
+
 		Professor prof = professorRepositorio.findBySiape(this.getProfessorLogado().getSiape());
 		this.setProfessorLogado(prof);
 		return "/restrito/index.xhtml";
@@ -64,6 +64,59 @@ public class ProfessorControlador implements Serializable {
 		this.setProfessorLogado(professorRepositorio.saveAndFlush(p));
 
 		return "/login.xhtml";
+	}
+
+	public String editarProfessor(String siape, String coordenacao, String nome, String email) {
+		Professor p = this.getProfessorLogado();
+		p.setSiape(siape);
+		p.setCoordenacao(coordenacao);
+		p.setNome(nome);
+		p.setEmail(email);
+		this.setProfessorLogado(professorRepositorio.saveAndFlush(p));
+
+		return "/restrito/index.xhtml";
+	}
+
+	public String enviarSenha(String siape) {
+
+		Professor prof = professorRepositorio.findBySiape(siape);
+
+		PTDEmail email = new PTDEmail();
+		String message = AppContext.getEmailCturMessage();
+
+		String hash = MD5Hash.md5(prof.getSiape());
+
+		message = "http://sisdiven.intranet/DEN/mudarSenha.xhtml?siape=" + prof.getSiape() + "&hash=" + hash;
+
+		email.postMail(prof.getEmail(), "Mudar Senha", message, AppContext.getEmailAuth());
+		return "/login.xhtml";
+	}
+
+	public String enviarNovaSenha(String novaSenha) throws Exception {
+		String ret = "";
+		
+		String siape = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("siape");
+		String hash = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("hash");
+		
+		
+		if (!(MD5Hash.md5(siape).equals(hash))) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Hash Não confere!", ""));
+		} else {
+			Professor prof = professorRepositorio.findBySiape(siape);
+
+			if (prof != null) {
+				novaSenha = MD5Hash.md5(novaSenha);
+				prof.setSenha(novaSenha);
+				this.setProfessorLogado(professorRepositorio.saveAndFlush(prof));
+				ret = "/login.xhtml";
+			} else {
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Siape Inválido!", ""));
+
+			}
+		}
+		return ret;
 	}
 
 	public String buscarProfessorPorSIAPE(String siape) {
@@ -155,9 +208,8 @@ public class ProfessorControlador implements Serializable {
 				ret = "/restrito/index.xhtml?faces-redirect=true";
 			} else {
 				prof = null;
-				FacesContext.getCurrentInstance().addMessage(null, 
-						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-						"Falha no Login!", "SIAPE ou Senha Inválidos!"));
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falha no Login!", "SIAPE ou Senha Inválidos!"));
 			}
 		}
 
@@ -235,13 +287,12 @@ public class ProfessorControlador implements Serializable {
 		String ret = "";
 
 		if (numFaltas != null && disciplina != null && data != null && data.length() > 0) {
-			
+
 			Falta existe = this.faltaRepositorio.findByDisciplinaCodigoAndData(disciplina, Date.valueOf(data));
-			
+
 			if (existe != null) {
-				FacesContext.getCurrentInstance().addMessage(null, 
-						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-						"Falta Já cadastrada!", ""));
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falta Já cadastrada!", ""));
 				return "";
 			}
 
@@ -271,9 +322,8 @@ public class ProfessorControlador implements Serializable {
 			email.postMail(prof.getEmail(), AppContext.getEmailCturSubject(), message, AppContext.getEmailAuth());
 			ret = "/restrito/falta/buscar.xhtml?faces-redirect=true";
 		} else {
-			FacesContext.getCurrentInstance().addMessage(null, 
-					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					"Preencher campos obrigatórios!", ""));
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Preencher campos obrigatórios!", ""));
 		}
 
 		return ret;

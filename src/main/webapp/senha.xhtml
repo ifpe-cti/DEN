@@ -17,31 +17,21 @@
 		class="img-rounded img-responsive" />
 	<p:growl id="gro" life="3000" />
 	<h:form id="formularioMenu" class="loginform">
-		<p:fieldset legend="Realizar Login.">
+		<p:fieldset legend="Enviar senha por email.">
 			<p:messages showDetail="true"/>
 			<p:panelGrid columns="2">
 
 				<p:outputLabel value="SIAPE*: " />
 				<p:inputText id="txtSiape" binding="#{siapeLogin}" required="true"
 					maxlength="12" requiredMessage="O SIAPE precisa ser preenchido!" />
-
-				<p:outputLabel value="Senha*: " />
-				<p:password id="txtSenha" binding="#{senhaLogin}" required="true"
-					maxlength="12" requiredMessage="A senha precisa ser preenchido!" />
 			</p:panelGrid>
 			<br/>
-			<p:commandButton value="Login" update="formularioMenu"
-				action="#{professorControlador.realizarLogin(siapeLogin.value, senhaLogin.value)}" />
+			<p:commandButton value="Enviar Senha" update="formularioMenu"
+				action="#{professorControlador.enviarSenha(siapeLogin.value)}" /> 
 			
 		</p:fieldset>
 	</h:form>
-	<br />
-	<h:form id="form" class="loginform2">
-		<p:commandButton value="Cadastrar Professor"
-			action="#{professorControlador.redirectCadastro()}" />
-		<p:commandButton value="Esqueceu a Senha?" update="form" 
-				action="/senha.xhtml?faces-redirect=true" />
-	</h:form>
+	
 </h:body>
 </html>
 

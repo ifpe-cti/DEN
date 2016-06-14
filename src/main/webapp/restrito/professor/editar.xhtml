@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:include src="/restrito/menu.xhtml" />
+
+<h:body>
+	
+	<h:form id="formularioCadastro" class="validform">
+
+		<p:fieldset legend="Editar Professor">
+			<p:messages />
+			<p:panelGrid columns="2">
+				<p:outputLabel value="SIAPE*:" />
+				<p:inputText id="txtSiape" binding="#{siape}" required="true"
+					maxlength="12"
+					requiredMessage="
+                                 O Siape precisa ser preenchido"                                  
+                                 value="#{professorLogado.siape}"/>
+				
+				<p:outputLabel value="Coordenação*:" />
+				<p:selectOneMenu id="txtCoordenacao" style="class:select"
+					binding="#{coordenacao}" value="#{professorLogado.coordenacao}">
+					<f:selectItem itemValue="CCTIN" itemLabel="CCTIN" />
+					<f:selectItem itemValue="CTEE" itemLabel="CCTEE" />
+					<f:selectItem itemValue="CTMA" itemLabel="CCTMA" />
+					<f:selectItem itemValue="CTI" itemLabel="CCTI" />
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Nome*:" />
+				<p:inputText id="txtNome" binding="#{nome}" required="true"
+					requiredMessage="
+                                 O Nome precisa ser preenchido" 
+                                 value="#{professorLogado.nome}"/>
+				<p:outputLabel value="Email*:" />
+				<p:inputText id="txtEmail" binding="#{email}" required="true"
+					requiredMessage="
+                                 O Email precisa ser preenchido" 
+                                 value="#{professorLogado.email}"/>
+
+			</p:panelGrid>
+			<br />
+			<p:commandButton value="Editar" class="buscar_button"
+				action="#{professorControlador.editarProfessor(siape.value,coordenacao.value,nome.value,email.value)}"
+				update="formularioCadastro" />
+			<p:button value="Voltar" class="buscar_button" 
+				href="/login.xhtml" />
+
+		</p:fieldset>
+
+	</h:form>
+</h:body>
+</html>
+

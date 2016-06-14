@@ -10,38 +10,35 @@
 <h:head>
 	<title>DEN IFPE</title>
 	<link rel="shortcut icon" href="./resources/images/favicon.ico" />
-	<h:outputStylesheet library="css" name="ptd.css"  />
+	<h:outputStylesheet library="css" name="ptd.css" />
 </h:head>
 <h:body>
 	<h:graphicImage library="images" name="banner_topo.png"
 		class="img-rounded img-responsive" />
 	<p:growl id="gro" life="3000" />
+	<br />
+	<br />
 	<h:form id="formularioMenu" class="loginform">
-		<p:fieldset legend="Realizar Login.">
-			<p:messages showDetail="true"/>
+		<p:fieldset legend="Nova Senha.">
+			<p:messages showDetail="true" />
 			<p:panelGrid columns="2">
 
-				<p:outputLabel value="SIAPE*: " />
-				<p:inputText id="txtSiape" binding="#{siapeLogin}" required="true"
+				<p:outputLabel value="Nova Senha*: " />
+				<p:password id="txtPass" binding="#{senha}" required="true"
 					maxlength="12" requiredMessage="O SIAPE precisa ser preenchido!" />
 
-				<p:outputLabel value="Senha*: " />
-				<p:password id="txtSenha" binding="#{senhaLogin}" required="true"
-					maxlength="12" requiredMessage="A senha precisa ser preenchido!" />
+
 			</p:panelGrid>
-			<br/>
-			<p:commandButton value="Login" update="formularioMenu"
-				action="#{professorControlador.realizarLogin(siapeLogin.value, senhaLogin.value)}" />
-			
+			<br />
+			<p:commandButton value="Nova Senha" update="formularioMenu"
+				action="#{professorControlador.enviarNovaSenha(senha.value)}">
+				<f:param name="siape" value="#{param['siape']}" />
+				<f:param name="hash" value="#{param['hash']}" />
+			</p:commandButton>
+
 		</p:fieldset>
 	</h:form>
-	<br />
-	<h:form id="form" class="loginform2">
-		<p:commandButton value="Cadastrar Professor"
-			action="#{professorControlador.redirectCadastro()}" />
-		<p:commandButton value="Esqueceu a Senha?" update="form" 
-				action="/senha.xhtml?faces-redirect=true" />
-	</h:form>
+
 </h:body>
 </html>
 
