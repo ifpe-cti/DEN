@@ -6,4 +6,6 @@ import br.edu.ifpe.pdt.entidades.Disciplina;
 
 public interface DisciplinaRepositorio extends JpaRepository<Disciplina, Integer> {
 
+	Disciplina findByCodigo(Integer codigo);
+
 }

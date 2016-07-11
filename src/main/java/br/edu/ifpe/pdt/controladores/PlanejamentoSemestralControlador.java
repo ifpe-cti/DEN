@@ -47,11 +47,19 @@ public class PlanejamentoSemestralControlador implements Serializable {
 
 	public String criarPlanejamento(Integer disciplinaId) {
 
+		String ret = "";
+		
 		Disciplina disciplina = this.getDisciplinaFromSelectedPTD(disciplinaId);
 
-		this.setDisciplina(disciplina);
+		if (disciplina != null) {
+			this.setDisciplina(disciplina);
+			ret = "/restrito/planejamento/cadastro.xhtml?faces-redirect=true";
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Selecione uma disciplina!", ""));
+		}
 
-		return "/restrito/planejamento/cadastro.xhtml?faces-redirect=true";
+		return ret;
 	}
 
 	private Disciplina getDisciplinaFromSelectedPTD(Integer disciplinaId) {
@@ -90,7 +98,7 @@ public class PlanejamentoSemestralControlador implements Serializable {
 
 	public String importarDisciplina(Integer disciplinaId) {
 		String ret = "";
-		Disciplina d = disciplinaRepositorio.findOne(disciplinaId);
+		Disciplina d = disciplinaRepositorio.findByCodigo(disciplinaId);
 		if (d.getPlanejamentoSemestral() != null) {
 
 			Disciplina disciplina = this.getDisciplina();

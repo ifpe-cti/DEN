@@ -11,18 +11,21 @@
 	<h:outputStylesheet library="css" name="ptd.css" />
 
 	<script type="text/javascript">
-	$(document).ready(function() {
-		applyDatePicker();
+		$(document).ready(function() {
+			applyDatePicker();
 		});
-	
-	function applyDatePicker(){
-		$(".datepicker").datepicker({
-		    dateFormat: 'yy-mm-dd',
-		    showOn: "button",
-		    buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif",
-		    buttonImageOnly: true})
-	}
-    </script>
+
+		function applyDatePicker() {
+			$(".datepicker")
+					.datepicker(
+							{
+								dateFormat : 'yy-mm-dd',
+								showOn : "button",
+								buttonImage : "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif",
+								buttonImageOnly : true
+							})
+		}
+	</script>
 </h:head>
 
 <h:body>
@@ -32,19 +35,20 @@
 
 	<h:form id="formularioMenu" class="validform">
 		<p:menubar>
-			<p:menuitem value="home" url="#{professorControlador.mostrarIndex()}"/> 
+			<p:menuitem value="home" url="#{professorControlador.mostrarIndex()}" />
 			<c:if
 				test="${(professorLogado.autorizacao.ordinal != 7) and (professorLogado.autorizacao.ordinal != 8)}">
 				<p:submenu label="Bem vindo, Prof. #{professorLogado.nome}">
-				<p:menuitem value="Planejamento Semestral"
+					<p:menuitem value="Planos de Trabalho"
+						action="#{professorControlador.mostrarIndex()}" />
+					<p:menuitem value="Planejamento Semestral"
 						url="/restrito/planejamento/ptd/listar.xhtml?faces-redirect=true" />
 					<p:menuitem value="Verificar Faltas" ajax="true"
 						action="#{professorControlador.mostrarFaltas()}" />
-						<p:menuitem value="Atualizar Dados"
+					<p:menuitem value="Atualizar Dados"
 						url="/restrito/professor/editar.xhtml?faces-redirect=true" />
 					<p:menuitem value="Logout" ajax="true"
 						action="#{professorControlador.realizarLogout()}" />
-
 				</p:submenu>
 			</c:if>
 			<c:if test="${professorLogado.autorizacao.ordinal == 8}">
