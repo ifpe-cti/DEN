@@ -86,4 +86,19 @@ public class Semana implements Serializable{
 	public void setPlanejamentoSemestral(PlanejamentoSemestral planejamentoSemestral) {
 		this.planejamentoSemestral = planejamentoSemestral;
 	}
+	
+	@Override
+	public int hashCode() {
+		return this.codigo;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {		
+		boolean ret = false;
+		if (obj != null && ((Semana)obj).getNumero() != null) {
+			ret = ((Semana)obj).getNumero().equals(this.getNumero());
+		}
+		
+		return ret;
+	}
 }

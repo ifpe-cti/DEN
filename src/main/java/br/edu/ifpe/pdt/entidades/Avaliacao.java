@@ -87,4 +87,22 @@ public class Avaliacao implements Serializable{
 	public void setPlanejamentoSemestral(PlanejamentoSemestral planejamentoSemestral) {
 		this.planejamentoSemestral = planejamentoSemestral;
 	}
+	
+	@Override
+	public int hashCode() {
+		return this.codigo;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		boolean ret = false;
+		if (obj != null && ((Avaliacao)obj).getDataProva() != null) {
+			ret = ((Avaliacao)obj).getDataProva().equals(this.getDataProva());
+			if (ret && ((Avaliacao)obj).getAtividade() != null) {
+				ret = ((Avaliacao)obj).getAtividade().equals(this.getAtividade());
+			}
+		}
+		
+		return ret;
+	}
 }

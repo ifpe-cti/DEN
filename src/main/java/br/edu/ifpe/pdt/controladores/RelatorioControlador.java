@@ -62,9 +62,9 @@ public class RelatorioControlador implements Serializable {
 
 		List<PTD> ptds = this.ptdRepositorio.findByAnoAndSemestre(ano, semestre);
 
-		Integer cargaHoraria = 0;
-
 		for (PTD ptd : ptds) {
+			Integer cargaHoraria = 0;
+			
 			for (Disciplina disciplina : ptd.getDisciplinas()) {
 				cargaHoraria += disciplina.getCargaHoraria();
 			}
