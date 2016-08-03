@@ -110,25 +110,29 @@ public class PlanejamentoSemestralControlador implements Serializable {
 			disciplina.getPlanejamentoSemestral().setCompetencias(d.getPlanejamentoSemestral().getCompetencias());
 
 			for (Avaliacao a : d.getPlanejamentoSemestral().getAvaliacoes()) {
-				Avaliacao nova = new Avaliacao();
-				nova.setAtividade(a.getAtividade());
-				nova.setUnidade(a.getUnidade());
-				nova.setDataProva(a.getDataProva());
-				nova.setDataRecuperacao(a.getDataRecuperacao());
-				nova.setPlanejamentoSemestral(disciplina.getPlanejamentoSemestral());
-				disciplina.getPlanejamentoSemestral().getAvaliacoes().add(nova);
+				if (!(disciplina.getPlanejamentoSemestral().getAvaliacoes().contains(a))) {
+					Avaliacao nova = new Avaliacao();
+					nova.setAtividade(a.getAtividade());
+					nova.setUnidade(a.getUnidade());
+					nova.setDataProva(a.getDataProva());
+					nova.setDataRecuperacao(a.getDataRecuperacao());
+					nova.setPlanejamentoSemestral(disciplina.getPlanejamentoSemestral());
+					disciplina.getPlanejamentoSemestral().getAvaliacoes().add(nova);
+				}
 			}
 
 			for (Semana s : d.getPlanejamentoSemestral().getSemanas()) {
-				Semana nova = new Semana();
-				nova.setConteudo(s.getConteudo());
-				nova.setEstrategia(s.getEstrategia());
-				nova.setNumAulas(s.getNumAulas());
-				nova.setNumero(s.getNumero());
-				nova.setPlanejamentoSemestral(disciplina.getPlanejamentoSemestral());
-				disciplina.getPlanejamentoSemestral().getSemanas().add(nova);
+				if (!(disciplina.getPlanejamentoSemestral().getSemanas().contains(s))) {
+					Semana nova = new Semana();
+					nova.setConteudo(s.getConteudo());
+					nova.setEstrategia(s.getEstrategia());
+					nova.setNumAulas(s.getNumAulas());
+					nova.setNumero(s.getNumero());
+					nova.setPlanejamentoSemestral(disciplina.getPlanejamentoSemestral());
+					disciplina.getPlanejamentoSemestral().getSemanas().add(nova);
+				}
 			}
-
+			this.setDisciplina(disciplina);
 			ret = "/restrito/planejamento/cadastro.xhtml?faces-redirect=true";
 		}
 		this.setSelectedPtdImport(null);

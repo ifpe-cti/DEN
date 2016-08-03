@@ -17,10 +17,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.edu.ifpe.pdt.controladores.relatorio.XLSExport;
+import br.edu.ifpe.pdt.controladores.relatorio.bean.EntregaPTDProfessor;
 import br.edu.ifpe.pdt.entidades.Disciplina;
 import br.edu.ifpe.pdt.entidades.Falta;
 import br.edu.ifpe.pdt.entidades.PTD;
 import br.edu.ifpe.pdt.entidades.Professor;
+import br.edu.ifpe.pdt.entidades.Professor.AUTORIZACAO;
 import br.edu.ifpe.pdt.repositorios.PTDRepositorio;
 import br.edu.ifpe.pdt.repositorios.ProfessorRepositorio;
 import br.edu.ifpe.pdt.util.LoggerPTD;
@@ -34,6 +36,7 @@ public class RelatorioControlador implements Serializable {
 
 	public static final int LISTAR_CARGA_HORARIA_SEMESTRE = 1;
 	public static final int LISTAR_FALTA_PROFESSORES = 2;
+	public static final int RELATORIO_PTD = 3;
 
 	@Autowired
 	private PTDRepositorio ptdRepositorio;
@@ -51,6 +54,9 @@ public class RelatorioControlador implements Serializable {
 		case LISTAR_FALTA_PROFESSORES:
 			ret = "/restrito/relatorio/professoresFalta.xhtml";
 			break;
+		case RELATORIO_PTD:
+			ret = "/restrito/relatorio/relatorioPTD.xhtml";
+			break;
 		default:
 			break;
 		}
@@ -64,7 +70,7 @@ public class RelatorioControlador implements Serializable {
 
 		for (PTD ptd : ptds) {
 			Integer cargaHoraria = 0;
-			
+
 			for (Disciplina disciplina : ptd.getDisciplinas()) {
 				cargaHoraria += disciplina.getCargaHoraria();
 			}
@@ -155,6 +161,35 @@ public class RelatorioControlador implements Serializable {
 		setXLSResponse(f);
 
 		return "/restrito/relatorio/listar.xhtml";
+	}
+
+	public String listarPTDProfessor(Integer ano, Integer semestre) {
+
+		List<Professor> professores = this.professorRepositorio.findAll();
+
+		List<EntregaPTDProfessor> entregas = new ArrayList<EntregaPTDProfessor>();
+
+		for (Professor p : professores) {
+			if (!(p.getAutorizacao().equals(AUTORIZACAO.SUPER) 
+					|| p.getAutorizacao().equals(AUTORIZACAO.CRAT)
+					|| p.getSiape().equals("aspe"))) {
+				boolean found = false;
+				for (PTD ptd : p.getPtds()) {
+					if (ptd.getAno().equals(ano) && ptd.getSemestre().equals(semestre)) {
+						entregas.add(new EntregaPTDProfessor(p.getSiape(), p.getNome(), ptd.getStatus().name()));
+						found = true;
+						break;
+					}
+				}
+				if (!found) {
+					entregas.add(new EntregaPTDProfessor(p.getSiape(), p.getNome(), "NAO_ENTREGUE"));
+				}
+			}
+		}
+
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("ptdProfessores", entregas);
+
+		return "";
 	}
 
 }

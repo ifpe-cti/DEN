@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+<ui:include src="/restrito/menu.xhtml" />
+
+<h:body>
+	
+	<h:form id="formularioBuscaPTD" class="validform">
+		<p:messages showDetail="true"/>
+		<p:fieldset styleClass="fieldset" legend="Buscar por Semestre...">
+			<p:panelGrid columns="4">
+				<h:outputText value="Ano*: " />
+				<p:inputText id="txtAno" binding="#{ano}" required="true"
+					requiredMessage="Ano é obrigatório!" />
+				<h:outputText value="Semestre*: " />
+				<p:inputText id="txtSemestre" binding="#{semestre}" required="true"
+					requiredMessage="Semestre é obrigatório!" />
+			</p:panelGrid>
+			<div id="div_buttons">
+				<div id="conteudo-left">
+					<br />
+					<p:commandButton value="Buscar" class="buscar_button"
+						update="@all" ajax="true"
+						action="#{relatorioControlador.listarPTDProfessor(ano.value, semestre.value)}" />
+				</div>
+			</div>
+		</p:fieldset>
+	</h:form>
+
+	<br />
+	<h:form id="formularioLista" class="validform">
+		<p:dataTable id="tabela" value="#{ptdProfessores}" var="item"
+			paginator="true" rows="20" 
+			selectionMode="single" rowKey="#{item.siape}">
+			<p:column>
+				<p align="center">
+					<h:outputText value="#{item.siape}" />
+				</p>
+				<f:facet name="header">
+		                        Siape
+		                    </f:facet>
+			</p:column>
+			<p:column headerText="Nome">
+		                    #{item.nome}
+		                </p:column>
+			<p:column headerText="Situação">
+				<p align="center">#{item.situacao}</p>
+			</p:column>
+			
+		</p:dataTable>
+	</h:form>
+</h:body>
+</html>
+

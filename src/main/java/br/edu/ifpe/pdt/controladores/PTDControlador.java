@@ -1,5 +1,9 @@
 package br.edu.ifpe.pdt.controladores;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -7,12 +11,14 @@ import java.util.ArrayList;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import br.edu.ifpe.pdt.controladores.relatorio.PTDExport;
 import br.edu.ifpe.pdt.controladores.util.AppContext;
 import br.edu.ifpe.pdt.entidades.AAE;
 import br.edu.ifpe.pdt.entidades.AAP;
@@ -24,6 +30,7 @@ import br.edu.ifpe.pdt.entidades.Pesquisa;
 import br.edu.ifpe.pdt.entidades.Professor;
 import br.edu.ifpe.pdt.repositorios.PTDRepositorio;
 import br.edu.ifpe.pdt.repositorios.ProfessorRepositorio;
+import br.edu.ifpe.pdt.util.LoggerPTD;
 import br.edu.ifpe.pdt.util.PTDEmail;
 
 @Component
@@ -207,6 +214,23 @@ public class PTDControlador implements Serializable {
 
 		return ret;
 	}
+	
+	public String exportarPtd(Integer ptdId) {
+		String ret = "";
+		if (ptdId != null) {
+			PTD ptd = ptdRepositorio.findByCodigo(ptdId);
+			
+			
+			File f = PTDExport.exportarPTD(ptd);
+			setPDFResponse(f);
+			
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					"Selecione um PTD!", ""));
+		}
+
+		return ret;
+	}
 
 	public String entregarRelatorioSemestral(String resultado) {
 		String ret = "/restrito/index.xhtml?faces-redirect=true";
@@ -358,8 +382,8 @@ public class PTDControlador implements Serializable {
 		AAP a = new AAP();
 		a.setAtividade(this.aap.getAtividade());
 		a.setPortaria(this.aap.getPortaria());
-		aap.setPTD(ptd);
-		ptd.getAaps().add(this.aap);
+		a.setPTD(ptd);
+		ptd.getAaps().add(a);
 		this.setSelectedPtd(ptd);
 		return "";
 	}
@@ -426,5 +450,33 @@ public class PTDControlador implements Serializable {
 
 	private void updateProfessorDetalhado(Professor prof) {
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("professorDetalhado", prof);
+	}
+	
+	private void setPDFResponse(File f) {
+		if (f != null) {
+			FacesContext fc = FacesContext.getCurrentInstance();
+			ExternalContext ec = fc.getExternalContext();
+
+			ec.responseReset();
+			ec.setResponseContentType("application/pdf");
+			ec.setResponseContentLength((int) f.length());
+			ec.setResponseHeader("Content-Disposition", "attachment; filename=\"" + f.getName() + "\"");
+			try {
+				OutputStream output = ec.getResponseOutputStream();
+
+				FileInputStream fis = new FileInputStream(f);
+				while (fis.available() > -1) {
+					output.write(fis.read());
+				}
+
+				output.flush();
+				output.close();
+				fis.close();
+				fc.responseComplete();
+
+			} catch (IOException e) {
+				LoggerPTD.getLoggerInstance().logError(e.getMessage());
+			}
+		}
 	}
 }

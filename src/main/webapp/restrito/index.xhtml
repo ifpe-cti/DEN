@@ -11,9 +11,10 @@
 
 <h:body>
 
-	<c:if test="${(professorLogado.autorizacao.ordinal != 7) and (professorLogado.autorizacao.ordinal != 8)}">
+	<c:if
+		test="${(professorLogado.autorizacao.ordinal != 7) and (professorLogado.autorizacao.ordinal != 8)}">
 		<h:form id="formularioEditar" class="validform">
-		<p:messages showDetail="true"/>
+			<p:messages showDetail="true" />
 			<p:fieldset legend="Planos de Trabalho Docente - PTD">
 				<br />
 				<div id="div_buttons">
@@ -60,10 +61,11 @@
 						<p:commandButton class="buscar_button" value="Editar PTD"
 							update="formularioEditar"
 							action="#{PTDControlador.editarPTD(selectedPtd.codigo)}" />
-							
 						<p:commandButton class="buscar_button" value="Relatório Semestral"
 							update="formularioEditar"
 							action="#{PTDControlador.editarRelatorioSemestral(selectedPtd.codigo)}" />
+
+
 					</div>
 				</div>
 			</p:fieldset>

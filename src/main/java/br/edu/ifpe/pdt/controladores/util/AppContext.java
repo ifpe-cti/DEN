@@ -31,6 +31,12 @@ public class AppContext {
 	
 	@Value("${app.emailCturMessage}")
 	private String emailCturMessage;
+	
+	@Value("${app.ptdReport}")
+	private String ptdReport;
+	
+	@Value("${app.ptdReportPdf}")
+	private String ptdReportPdf;
 
 	public static String getRelatorioPath(){
 		AppContext appc = getAppContextBean();
@@ -90,5 +96,23 @@ public class AppContext {
 
 	private String getEmailCturSubjectInternal() {
 		return this.emailCturSubject;
-	}	
+	}
+	
+	public static String getPtdReport() {
+		AppContext appc = getAppContextBean();
+		return appc.getPtdReportInternal();
+	}
+
+	private String getPtdReportInternal() {
+		return this.ptdReport;
+	}
+	
+	public static String getPtdReportPdf() {
+		AppContext appc = getAppContextBean();
+		return appc.getPtdReportPdfInternal();
+	}
+
+	private String getPtdReportPdfInternal() {
+		return this.ptdReportPdf;
+	}
 }
