@@ -37,6 +37,7 @@ public class RelatorioControlador implements Serializable {
 	public static final int LISTAR_CARGA_HORARIA_SEMESTRE = 1;
 	public static final int LISTAR_FALTA_PROFESSORES = 2;
 	public static final int RELATORIO_PTD = 3;
+	public static final int RELATORIO_PLANEJAMENTO = 4;
 
 	@Autowired
 	private PTDRepositorio ptdRepositorio;
@@ -56,6 +57,9 @@ public class RelatorioControlador implements Serializable {
 			break;
 		case RELATORIO_PTD:
 			ret = "/restrito/relatorio/relatorioPTD.xhtml";
+			break;			
+		case RELATORIO_PLANEJAMENTO:
+			ret = "/restrito/relatorio/relatorioPlanejamento.xhtml";
 			break;
 		default:
 			break;
@@ -177,6 +181,47 @@ public class RelatorioControlador implements Serializable {
 				for (PTD ptd : p.getPtds()) {
 					if (ptd.getAno().equals(ano) && ptd.getSemestre().equals(semestre)) {
 						entregas.add(new EntregaPTDProfessor(p.getSiape(), p.getNome(), ptd.getStatus().name()));
+						found = true;
+						break;
+					}
+				}
+				if (!found) {
+					entregas.add(new EntregaPTDProfessor(p.getSiape(), p.getNome(), "NAO_ENTREGUE"));
+				}
+			}
+		}
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("ptdProfessores", entregas);
+
+		return "";
+	}
+	
+	public String listarPlanejamentoProfessor(Integer ano, Integer semestre) {
+
+		List<Professor> professores = this.professorRepositorio.findAll();
+
+		List<EntregaPTDProfessor> entregas = new ArrayList<EntregaPTDProfessor>();
+
+		for (Professor p : professores) {
+			if (!(p.getAutorizacao().equals(AUTORIZACAO.SUPER) 
+					|| p.getAutorizacao().equals(AUTORIZACAO.CRAT)
+					|| p.getSiape().equals("aspe"))) {
+				boolean found = false;
+				for (PTD ptd : p.getPtds()) {
+					if (ptd.getAno().equals(ano) && ptd.getSemestre().equals(semestre)) {
+						
+						int numPlaPreenchidos = 0;
+						for (Disciplina d: ptd.getDisciplinas()){
+							if (d.getPlanejamentoSemestral() != null) {
+								numPlaPreenchidos++;
+							}
+						}
+						if (numPlaPreenchidos == 0) {
+							entregas.add(new EntregaPTDProfessor(p.getSiape(), p.getNome(), "NAO_ENTREGUE"));														
+						} else if (numPlaPreenchidos < ptd.getDisciplinas().size()) {
+							entregas.add(new EntregaPTDProfessor(p.getSiape(), p.getNome(), "ENTREGUE_PARCIALMENTE"));
+						} else if (numPlaPreenchidos == ptd.getDisciplinas().size()){
+							entregas.add(new EntregaPTDProfessor(p.getSiape(), p.getNome(), "ENTREGUE"));
+						}						
 						found = true;
 						break;
 					}
