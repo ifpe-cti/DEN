@@ -22,7 +22,7 @@ public class AAP {
 	@Column(name="id", updatable=false)
 	private Integer codigo;
 	
-	@Column(name="atividade", nullable=false, length=100)
+	@Column(name="atividade", nullable=false, length=500)
 	private String atividade;
 	
 	@Column(name="portaria", nullable=false, length=20)

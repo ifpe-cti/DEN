@@ -24,7 +24,7 @@ public class Disciplina implements Serializable{
 	@Column(name="id", updatable=false)
 	private Integer codigo;
 	
-	@Column(name="nome", nullable=false, length=100)
+	@Column(name="nome", nullable=false, length=200)
 	private String nome;
 	
 	@Column(name="curso", nullable=false, length=10)

@@ -64,11 +64,13 @@ public class PlanejamentoSemestralControlador implements Serializable {
 
 	private Disciplina getDisciplinaFromSelectedPTD(Integer disciplinaId) {
 		Disciplina d = null;
-
-		for (Disciplina disciplina : this.getSelectedPtd().getDisciplinas()) {
-			if (disciplina.getCodigo().equals(disciplinaId)) {
-				d = disciplina;
-				break;
+		
+		if (this.getSelectedPtd() != null) {
+			for (Disciplina disciplina : this.getSelectedPtd().getDisciplinas()) {
+				if (disciplina.getCodigo().equals(disciplinaId)) {
+					d = disciplina;
+					break;
+				}
 			}
 		}
 
@@ -203,9 +205,23 @@ public class PlanejamentoSemestralControlador implements Serializable {
 		if (plan.getSemanas() == null) {
 			plan.setSemanas(new ArrayList<Semana>());
 		}
-		plan.getSemanas().add(s);
-		d.setPlanejamentoSemestral(plan);
-		this.setDisciplina(d);
+		
+		boolean exists = false;
+		for (Semana sem : plan.getSemanas()) {
+			if (sem.getNumero().equals(this.semana.getNumero())) {
+				exists = true;
+				break;
+			}
+		}
+		
+		if (!exists) {
+			plan.getSemanas().add(s);
+			d.setPlanejamentoSemestral(plan);
+			this.setDisciplina(d);
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Semana já cadastrada!", ""));
+		}
 
 		return "";
 	}
