@@ -86,7 +86,7 @@ public class ProfessorControlador implements Serializable {
 
 		String hash = MD5Hash.md5(prof.getSiape());
 
-		message = "http://sisdiven.intranet/DEN/mudarSenha.xhtml?siape=" + prof.getSiape() + "&hash=" + hash;
+		message = "http://sisdiven.garanhuns.ifpe.edu.br/DEN/mudarSenha.xhtml?siape=" + prof.getSiape() + "&hash=" + hash;
 
 		email.postMail(prof.getEmail(), "Mudar Senha", message, AppContext.getEmailAuth());
 		return "/login.xhtml";
