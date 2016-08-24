@@ -36,7 +36,7 @@ public class Disciplina implements Serializable{
 	@Column(name="carga_horaria")
 	private Integer cargaHoraria;
 	
-	@ManyToOne (cascade=CascadeType.ALL)
+	@ManyToOne (cascade=CascadeType.MERGE)
 	@JoinColumn(name="ptd_id", updatable=false)
 	private PTD ptd;
 	

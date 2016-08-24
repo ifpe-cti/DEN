@@ -56,7 +56,7 @@ public class Falta implements Serializable{
 			
 			return a;
 		}
-	};
+	}
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

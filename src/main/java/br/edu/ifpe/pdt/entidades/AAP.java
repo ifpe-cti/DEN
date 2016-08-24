@@ -28,7 +28,7 @@ public class AAP {
 	@Column(name="portaria", nullable=false, length=20)
 	private String portaria;
 	
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne(cascade=CascadeType.MERGE)
 	@JoinColumn(name="ptd_id", updatable=false)
 	private PTD ptd;
 	

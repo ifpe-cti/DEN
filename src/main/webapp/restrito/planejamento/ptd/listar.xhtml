@@ -14,7 +14,7 @@
 		<p:fieldset legend="Planos de Trabalho Docente - PTD">
 			<br />
 			<p:dataTable id="tabela" value="#{professorLogado.ptds}" var="item"
-				paginator="true" rows="3" selection="#{selectedPtd}"
+				paginator="true" rows="5" selection="#{selectedPtd}"
 				selectionMode="single" rowKey="${item.codigo}">
 
 				<p:ajax event="rowSelect"

@@ -36,7 +36,7 @@ public class Avaliacao implements Serializable{
 	@Column(name="dataRecuperacao", nullable=false)
 	private Date dataRecuperacao;
 	
-	@ManyToOne (cascade=CascadeType.ALL)
+	@ManyToOne (cascade=CascadeType.MERGE)
 	@JoinColumn(name="planejamentoSemestral_id", updatable=false)
 	private PlanejamentoSemestral planejamentoSemestral;
 

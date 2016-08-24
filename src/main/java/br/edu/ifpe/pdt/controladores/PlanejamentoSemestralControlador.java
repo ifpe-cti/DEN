@@ -240,21 +240,28 @@ public class PlanejamentoSemestralControlador implements Serializable {
 		if (d.getPlanejamentoSemestral() == null) {
 			d.setPlanejamentoSemestral(new PlanejamentoSemestral());
 		}
+		
+		if (((dataProva != null) && !dataProva.equals("")) &&
+				((dataRecuperacao != null) && !dataRecuperacao.equals(""))) {
 
-		Avaliacao a = new Avaliacao();
-		a.setAtividade(this.avaliacao.getAtividade());
-		a.setDataProva(Date.valueOf(dataProva));
-		a.setDataRecuperacao(Date.valueOf(dataRecuperacao));
-		a.setUnidade(this.avaliacao.getUnidade());
-
-		a.setPlanejamentoSemestral(d.getPlanejamentoSemestral());
-		PlanejamentoSemestral plan = d.getPlanejamentoSemestral();
-		if (plan.getAvaliacoes() == null) {
-			plan.setAvaliacoes(new ArrayList<Avaliacao>());
+			Avaliacao a = new Avaliacao();
+			a.setAtividade(this.avaliacao.getAtividade());
+			a.setDataProva(Date.valueOf(dataProva));
+			a.setDataRecuperacao(Date.valueOf(dataRecuperacao));
+			a.setUnidade(this.avaliacao.getUnidade());
+	
+			a.setPlanejamentoSemestral(d.getPlanejamentoSemestral());
+			PlanejamentoSemestral plan = d.getPlanejamentoSemestral();
+			if (plan.getAvaliacoes() == null) {
+				plan.setAvaliacoes(new ArrayList<Avaliacao>());
+			}
+			plan.getAvaliacoes().add(a);
+			d.setPlanejamentoSemestral(plan);
+			this.setDisciplina(d);
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Especificar Datas!", ""));
 		}
-		plan.getAvaliacoes().add(a);
-		d.setPlanejamentoSemestral(plan);
-		this.setDisciplina(d);
 
 		return "";
 	}
@@ -287,7 +294,7 @@ public class PlanejamentoSemestralControlador implements Serializable {
 		Disciplina d = this.getDisciplina();
 		if (d.getPlanejamentoSemestral() != null) {
 			d.getPlanejamentoSemestral().setStatus(STATUS_PS.AGUARDO);
-			disciplinaRepositorio.save(d);
+			d = disciplinaRepositorio.saveAndFlush(d);
 			this.setDisciplina(null);
 			this.setSelectedPtd(null);
 			ret = "/restrito/planejamento/ptd/listar.xhtml?faces-redirect=true";

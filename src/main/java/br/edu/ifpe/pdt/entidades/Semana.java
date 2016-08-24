@@ -35,7 +35,7 @@ public class Semana implements Serializable{
 	@Column(name="estrategia", nullable=false)
 	private String estrategia;
 	
-	@ManyToOne (cascade=CascadeType.ALL)
+	@ManyToOne (cascade=CascadeType.MERGE)
 	@JoinColumn(name="planejamentoSemestral_id", updatable=false)
 	private PlanejamentoSemestral planejamentoSemestral;
 

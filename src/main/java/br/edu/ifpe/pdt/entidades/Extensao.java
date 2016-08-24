@@ -23,7 +23,7 @@ public class Extensao {
 	@Column(name="atividade", nullable=false, length=500)
 	private String atividade;
 	
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne(cascade=CascadeType.MERGE)
 	@JoinColumn(name="ptd_id", updatable=false)
 	private PTD ptd;
 

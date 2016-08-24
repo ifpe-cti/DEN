@@ -108,7 +108,7 @@
 			<p:dataTable id="tabela"
 				value="${selectedDisciplina.planejamentoSemestral.semanas}"
 				var="item" paginator="true" rows="20" editable="true"
-				rowKey="${item.id}">
+				rowKey="${item.id}" sortBy="#{item.numero}">
 
 				<p:ajax event="rowEdit"
 					listener="#{planejamentoSemestralControlador.onRowEdit}"
