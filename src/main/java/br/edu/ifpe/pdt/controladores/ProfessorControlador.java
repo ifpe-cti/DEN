@@ -82,11 +82,10 @@ public class ProfessorControlador implements Serializable {
 		Professor prof = professorRepositorio.findBySiape(siape);
 
 		PTDEmail email = new PTDEmail();
-		String message = AppContext.getEmailCturMessage();
 
 		String hash = MD5Hash.md5(prof.getSiape());
 
-		message = "http://sisdiven.garanhuns.ifpe.edu.br/DEN/mudarSenha.xhtml?siape=" + prof.getSiape() + "&hash=" + hash;
+		String message = "http://sisdiven.garanhuns.ifpe.edu.br/DEN/mudarSenha.xhtml?siape=" + prof.getSiape() + "&hash=" + hash;
 
 		email.postMail(prof.getEmail(), "Mudar Senha", message, AppContext.getEmailAuth());
 		return "/login.xhtml";
@@ -229,6 +228,17 @@ public class ProfessorControlador implements Serializable {
 		if (siape != null) {
 			this.setProfessorDetalhado(this.professorRepositorio.findBySiape(siape));
 			ret = "/restrito/professor/ensino/mostrar.xhtml?faces-redirect=true";
+		}
+
+		return ret;
+	}
+	
+	public String mostrarProfessorPlanejamento(String siape) {
+		String ret = "";
+
+		if (siape != null) {
+			this.setProfessorPlanejamento(this.professorRepositorio.findBySiape(siape));
+			ret = "/restrito/planejamento/ensino/mostrar.xhtml?faces-redirect=true";
 		}
 
 		return ret;
@@ -534,5 +544,14 @@ public class ProfessorControlador implements Serializable {
 
 	public Falta getFalta() {
 		return (Falta) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("faltaDetalhada");
+	}
+	
+	public Professor getProfessorPlanejamento() {
+		return (Professor) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+				.get("professorPlanejamento");
+	}
+
+	private void setProfessorPlanejamento(Professor prof) {
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("professorPlanejamento", prof);
 	}
 }

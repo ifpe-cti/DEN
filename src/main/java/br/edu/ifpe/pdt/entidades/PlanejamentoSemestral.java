@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 
@@ -67,6 +68,7 @@ public class PlanejamentoSemestral implements Serializable {
 	private STATUS_PS status;
 
 	@OneToMany(mappedBy="planejamentoSemestral", fetch=FetchType.EAGER, orphanRemoval=true, cascade=CascadeType.ALL)
+	@OrderBy ("numero DESC")
 	private List<Semana> semanas;
 	
 	@OneToMany(mappedBy="planejamentoSemestral", fetch=FetchType.EAGER, orphanRemoval=true, cascade=CascadeType.ALL)

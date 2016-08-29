@@ -8,59 +8,6 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
 
-<h:form id="formButtomImport" class="validform" style="width:20%;">
-	<p:messages />
-	<br />
-	<p:commandButton value="Importar Planejamento" class="buscar_button"
-		update="@all" type="button" onclick="PF('dlg1').show();" />
-
-	<p:dialog header="Importar Planejamento:" widgetVar="dlg1" modal="true"
-		height="400" width="750">
-		<p:fieldset styleClass="fieldset" legend="Buscar por Semestre...">
-			<p:panelGrid columns="4">
-				<h:outputText value="Ano*: " />
-				<p:inputText id="txtAno" binding="#{ano}" required="true"
-					requiredMessage="Ano é obrigatório!" />
-				<h:outputText value="Semestre*: " />
-				<p:inputText id="txtSemestre" binding="#{semestre}" required="true"
-					requiredMessage="Semestre é obrigatório!" />
-			</p:panelGrid>
-			<div id="div_buttons">
-				<div id="conteudo-left">
-					<br />
-					<p:commandButton value="Listar Disciplinas" class="buscar_button"
-						update="tabelaDisciplinas"
-						action="#{planejamentoSemestralControlador.listarDisciplinas(ano.value, semestre.value)}"
-						onsuccess="PF('dlg1').show();" />
-				</div>
-			</div>
-			<br />
-			<p:dataTable id="tabelaDisciplinas"
-				value="#{selectedPtdPlanImport.disciplinas}" var="item"
-				paginator="true" rows="10" selection="#{disciplina}"
-				selectionMode="single" rowKey="${item.codigo}">
-
-				<p:column headerText="Nome">
-					<p>${item.nome}</p>
-				</p:column>
-
-				<p:column headerText="Turma">
-					<p align="center">${item.turma}</p>
-				</p:column>
-				<p:column headerText="Status Planejamento">
-					<p align="center">${item.planejamentoSemestral.status.nome}</p>
-				</p:column>
-			</p:dataTable>
-			<br />
-			<p:commandButton value="Importar Disciplina" class="buscar_button"
-				update="@all" ajax="true"
-				action="#{planejamentoSemestralControlador.importarDisciplina(disciplina.codigo)}" />
-		</p:fieldset>
-	</p:dialog>
-	<br />
-	<br />
-</h:form>
-
 <p:fieldset legend="Criar Planejamento">
 
 	<h:form id="formularioCompetencias" style="width:100%">
@@ -228,19 +175,9 @@
 </p:fieldset>
 <h:form id="formButtons" class="validform" style="width:20%;">
 	<p:messages />
-	<br />
-	<c:if test="${selectedDisciplina.planejamentoSemestral.codigo == null}">
-		<h:commandButton value="Registrar Planejamento" class="buscar_button"
+	<h:commandButton value="Registrar Planejamento" class="buscar_button"
 			update="@all"
 			action="#{planejamentoSemestralControlador.registrarPlanejamento()}" />
-		<br />
-	</c:if>
-	<c:if test="${selectedDisciplina.planejamentoSemestral.codigo != null}">
-		<h:commandButton value="Editar Planejamento" class="buscar_button"
-			update="@all"
-			action="#{planejamentoSemestralControlador.atualizaPlanejamento()}" />
-		<br />
-	</c:if>
 	<br />
 	<br />
 </h:form>

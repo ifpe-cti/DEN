@@ -9,5 +9,7 @@ public interface DisciplinaRepositorio extends JpaRepository<Disciplina, Integer
 
 	@Query("from Disciplina d where d.codigo = ?1")
 	Disciplina findByCodigo(Integer codigo);
+	
+	Disciplina findByPlanejamentoSemestralCodigo(Integer codigo);
 
 }

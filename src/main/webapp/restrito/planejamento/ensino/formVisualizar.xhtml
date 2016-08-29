@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+<ui:include src="/restrito/menu.xhtml" />
+
+<h:body>
+
+	<br />
+	<div>
+
+		<p:fieldset legend="Visualizar Planejamento">
+
+			<h:form id="formularioCompetencias" style="width:100%">
+				<p align="center">
+					<p:outputLabel value="#{planejamentoSemestral.status.nome}" />
+
+				</p>
+				<p:messages />
+				<p:fieldset legend="Competências/Ementa">
+					<p align="center">
+						<p:inputTextarea value="#{planejamentoSemestral.competencias}"
+							cols="100" rows="10" title="competencias" readonly="true">
+						</p:inputTextarea>
+					</p>
+				</p:fieldset>
+
+				<br />
+			</h:form>
+			<h:form id="formularioSemana" class="validform" style="width:100%;">
+				<p:messages />
+				<p:fieldset legend="SEMANAS">
+
+					<br />
+					<p:dataTable id="tabela" value="${planejamentoSemestral.semanas}"
+						var="item" paginator="true" rows="20" editable="false"
+						rowKey="${item.id}" sortBy="#{item.numero}" sortOrder="descending">
+
+						<p:ajax event="rowEdit"
+							listener="#{planejamentoSemestralControlador.onRowEdit}"
+							update="tabela" />
+
+						<p:ajax event="rowEditCancel" update="tabela" />
+
+						<p:column headerText="Semana" style="width:10%; align:center">
+							<p align="center">${item.numero}</p>
+						</p:column>
+						<p:column headerText="Numero de Aulas"
+							style="width:10%; align:center">
+							<p align="center">
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText value="#{item.numAulas}" />
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText id="modelInput3" value="#{item.numAulas}"
+											style="width:100%" />
+									</f:facet>
+								</p:cellEditor>
+							</p>
+						</p:column>
+						<p:column style="width:40%; align:center" headerText="Conteúdo">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{item.conteudo}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText id="modelInput2" value="#{item.conteudo}"
+										style="width:100%" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+						<p:column headerText="Estratégia" style="width:40%; align:center">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{item.estrategia}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText id="modelInput" value="#{item.estrategia}"
+										style="width:100%" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+						<p:column style="width:15%" headerText="">
+							<p:rowEditor />
+							<p:commandButton icon="ui-icon-delete" alt="Remover"
+								update="formularioSemana"
+								action="#{planejamentoSemestralControlador.removeSemana(item)}" />
+						</p:column>
+					</p:dataTable>
+				</p:fieldset>
+			</h:form>
+
+			<br />
+			<h:form id="formularioAvaliacoes" class="validform">
+				<p:fieldset legend="Avaliações">
+
+					<br />
+					<p:dataTable id="tabela"
+						value="${planejamentoSemestral.avaliacoes}" var="item"
+						paginator="true" rows="7" editable="false" rowKey="${item.id}">
+
+						<p:column headerText="Atividade" style="width:25%; align:center">
+							<p align="center">${item.atividade}</p>
+						</p:column>
+						<p:column headerText="Unidade" style="width:15%; align:center">
+							<p align="center">${item.unidade}</p>
+						</p:column>
+						<p:column style="width:30%; align:center"
+							headerText="Data da Prova">
+							<p align="center">${item.dataProva}</p>
+						</p:column>
+						<p:column headerText="Data da Recuperação"
+							style="width:30%; align:center">
+							<p align="center">${item.dataRecuperacao}</p>
+						</p:column>
+
+						<p:column style="width:10%" headerText="">
+							<p:commandButton icon="ui-icon-delete" alt="Remover"
+								update="@form" oncomplete="applyDatePicker();"
+								action="#{planejamentoSemestralControlador.removeAvaliacao(item)}" />
+						</p:column>
+					</p:dataTable>
+				</p:fieldset>
+			</h:form>
+			<br />
+		</p:fieldset>
+		<h:form id="formButtons" class="validform" style="width:20%;">
+			<p:messages />
+			<div id="div_buttons">
+				<br />
+				<div id="conteudo-left">
+					<p:commandButton class="buscar_button" value="Aprovar"
+						update="formularioCompetencias"
+						action="#{planejamentoSemestralControlador.aprovarPlanejamento(planejamentoSemestral.codigo)}" />
+					<p:commandButton class="buscar_button" value="Enviar para correção"
+						update="formularioCompetencias"
+						action="#{planejamentoSemestralControlador.abrirCorrecaoPlanejamento(planejamentoSemestral.codigo)}" />
+				</div>
+			</div>
+		</h:form>
+	</div>
+
+</h:body>
+</html>

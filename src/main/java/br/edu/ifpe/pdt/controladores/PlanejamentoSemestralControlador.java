@@ -14,6 +14,7 @@ import org.primefaces.event.SelectEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import br.edu.ifpe.pdt.controladores.util.AppContext;
 import br.edu.ifpe.pdt.entidades.Avaliacao;
 import br.edu.ifpe.pdt.entidades.Disciplina;
 import br.edu.ifpe.pdt.entidades.PTD;
@@ -23,6 +24,8 @@ import br.edu.ifpe.pdt.entidades.PlanejamentoSemestral.STATUS_PS;
 import br.edu.ifpe.pdt.entidades.Semana;
 import br.edu.ifpe.pdt.repositorios.DisciplinaRepositorio;
 import br.edu.ifpe.pdt.repositorios.PTDRepositorio;
+import br.edu.ifpe.pdt.repositorios.PlanejamentoSemestralRepositorio;
+import br.edu.ifpe.pdt.util.PTDEmail;
 
 @Component
 @ManagedBean(name = "planejamentoSemestralControlador", eager = true)
@@ -33,6 +36,9 @@ public class PlanejamentoSemestralControlador implements Serializable {
 
 	@Autowired
 	private DisciplinaRepositorio disciplinaRepositorio;
+	
+	@Autowired
+	private PlanejamentoSemestralRepositorio planejamentoSemestralRepositorio;
 
 	@Autowired
 	private PTDRepositorio ptdRepositorio;
@@ -45,15 +51,20 @@ public class PlanejamentoSemestralControlador implements Serializable {
 		this.avaliacao = new Avaliacao();
 	}
 
-	public String criarPlanejamento(Integer disciplinaId) {
+	public String criarPlanejamento(Integer disciplinaId, Integer ensino) {
 
 		String ret = "";
-		
+
 		Disciplina disciplina = this.getDisciplinaFromSelectedPTD(disciplinaId);
 
 		if (disciplina != null) {
-			this.setDisciplina(disciplina);
-			ret = "/restrito/planejamento/cadastro.xhtml?faces-redirect=true";
+			if (ensino == 0) {
+				this.setDisciplina(disciplina);
+				ret = "/restrito/planejamento/cadastro.xhtml?faces-redirect=true";
+			} else {
+				this.setDisciplina(disciplina);
+				ret = "/restrito/planejamento/ensino/cadastro.xhtml?faces-redirect=true";
+			}
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Selecione uma disciplina!", ""));
@@ -64,7 +75,7 @@ public class PlanejamentoSemestralControlador implements Serializable {
 
 	private Disciplina getDisciplinaFromSelectedPTD(Integer disciplinaId) {
 		Disciplina d = null;
-		
+
 		if (this.getSelectedPtd() != null) {
 			for (Disciplina disciplina : this.getSelectedPtd().getDisciplinas()) {
 				if (disciplina.getCodigo().equals(disciplinaId)) {
@@ -89,10 +100,9 @@ public class PlanejamentoSemestralControlador implements Serializable {
 	public void listarDisciplinas(Integer ano, Integer semestre) {
 
 		Professor prof = (Professor) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
-		.get("professorLogado");
-		
+				.get("professorLogado");
+
 		PTD ptd = ptdRepositorio.findByAnoAndSemestreAndProfessorSiape(ano, semestre, prof.getSiape());
-		
 
 		this.setSelectedPtdImport(ptd);
 
@@ -141,6 +151,65 @@ public class PlanejamentoSemestralControlador implements Serializable {
 		return ret;
 	}
 
+	public String visualizarPlanejamento(Integer disciplinaId) {
+
+		String ret = "";
+		if (disciplinaId != null) {
+			Disciplina disciplina = this.getDisciplinaFromSelectedPTD(disciplinaId);
+			this.setPlanejamentoSemestral(disciplina.getPlanejamentoSemestral());
+			ret = "/restrito/planejamento/ensino/formVisualizar.xhtml?faces-redirect=true";
+		}
+
+		return ret;
+	}
+
+	public String aprovarPlanejamento(Integer planejamentoId) {
+
+		String ret = "";
+		if (planejamentoId != null) {
+			PlanejamentoSemestral plano = planejamentoSemestralRepositorio.findByCodigo(planejamentoId);
+			if (plano != null) {
+				plano.setStatus(STATUS_PS.APROVADO);
+				planejamentoSemestralRepositorio.saveAndFlush(plano);
+				this.setPlanejamentoSemestral(plano);
+				ret = "/restrito/planejamento/ensino/formVisualizar.xhtml?faces-redirect=true";
+			}
+		}
+
+		return ret;
+	}
+
+	public String abrirCorrecaoPlanejamento(Integer planejamentoId) {
+
+		String ret = "";
+		if (planejamentoId != null) {
+			PlanejamentoSemestral plano = planejamentoSemestralRepositorio.findByCodigo(planejamentoId);
+			this.setPlanejamentoSemestral(plano);
+			ret = "/restrito/planejamento/ensino/correcao.xhtml?faces-redirect=true";
+		}
+
+		return ret;
+	}
+
+	public String enviarCorrecaoPlanejamento(Integer planejamentoId, String msg) {
+
+		String ret = "";
+		if (planejamentoId != null) {
+			Disciplina disciplina = disciplinaRepositorio.findByPlanejamentoSemestralCodigo(planejamentoId);
+			disciplina.getPlanejamentoSemestral().setStatus(STATUS_PS.CORRECAO);
+			disciplinaRepositorio.saveAndFlush(disciplina);
+			this.setPlanejamentoSemestral(disciplina.getPlanejamentoSemestral());
+			PTDEmail mail = new PTDEmail();
+			String subject = AppContext.getEmailPlanejamentoSubject();
+			subject = subject.replaceFirst("%p", disciplina.getNome());
+			mail.postMail(disciplina.getPtd().getProfessor().getEmail(), 
+					subject , msg, AppContext.getEmailAuth());
+			ret = "/restrito/planejamento/ensino/formVisualizar.xhtml?faces-redirect=true";
+		}
+
+		return ret;
+	}
+
 	public void onRowSelect(SelectEvent event) {
 		PTD ptd = ((PTD) event.getObject());
 		this.setSelectedPtd(ptd);
@@ -148,8 +217,8 @@ public class PlanejamentoSemestralControlador implements Serializable {
 
 	public void onRowEdit(RowEditEvent event) {
 		Semana semana = ((Semana) event.getObject());
-		
-		for( Semana s : this.getDisciplina().getPlanejamentoSemestral().getSemanas()) {
+
+		for (Semana s : this.getDisciplina().getPlanejamentoSemestral().getSemanas()) {
 			if (semana.getNumero().equals(s.getNumero())) {
 				s.setConteudo(semana.getConteudo());
 				s.setEstrategia(semana.getEstrategia());
@@ -186,6 +255,16 @@ public class PlanejamentoSemestralControlador implements Serializable {
 				selectedPtd);
 	}
 
+	public PTD getPlanejamentoSemestral() {
+		return (PTD) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+				.get("planejamentoSemestral");
+	}
+
+	private void setPlanejamentoSemestral(PlanejamentoSemestral planejamentoSemestral) {
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("planejamentoSemestral",
+				planejamentoSemestral);
+	}
+
 	// Métodos de apoio a tela editar.
 	public String addSemana() {
 
@@ -205,7 +284,7 @@ public class PlanejamentoSemestralControlador implements Serializable {
 		if (plan.getSemanas() == null) {
 			plan.setSemanas(new ArrayList<Semana>());
 		}
-		
+
 		boolean exists = false;
 		for (Semana sem : plan.getSemanas()) {
 			if (sem.getNumero().equals(this.semana.getNumero())) {
@@ -213,7 +292,7 @@ public class PlanejamentoSemestralControlador implements Serializable {
 				break;
 			}
 		}
-		
+
 		if (!exists) {
 			plan.getSemanas().add(s);
 			d.setPlanejamentoSemestral(plan);
@@ -240,16 +319,16 @@ public class PlanejamentoSemestralControlador implements Serializable {
 		if (d.getPlanejamentoSemestral() == null) {
 			d.setPlanejamentoSemestral(new PlanejamentoSemestral());
 		}
-		
-		if (((dataProva != null) && !dataProva.equals("")) &&
-				((dataRecuperacao != null) && !dataRecuperacao.equals(""))) {
+
+		if (((dataProva != null) && !dataProva.equals(""))
+				&& ((dataRecuperacao != null) && !dataRecuperacao.equals(""))) {
 
 			Avaliacao a = new Avaliacao();
 			a.setAtividade(this.avaliacao.getAtividade());
 			a.setDataProva(Date.valueOf(dataProva));
 			a.setDataRecuperacao(Date.valueOf(dataRecuperacao));
 			a.setUnidade(this.avaliacao.getUnidade());
-	
+
 			a.setPlanejamentoSemestral(d.getPlanejamentoSemestral());
 			PlanejamentoSemestral plan = d.getPlanejamentoSemestral();
 			if (plan.getAvaliacoes() == null) {

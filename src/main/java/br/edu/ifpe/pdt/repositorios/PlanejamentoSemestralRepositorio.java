@@ -6,4 +6,6 @@ import br.edu.ifpe.pdt.entidades.PlanejamentoSemestral;
 
 public interface PlanejamentoSemestralRepositorio extends JpaRepository<PlanejamentoSemestral, Integer>{
 
+	
+	public PlanejamentoSemestral findByCodigo(Integer id);
 }

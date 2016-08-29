@@ -37,6 +37,9 @@ public class AppContext {
 	
 	@Value("${app.ptdReportPdf}")
 	private String ptdReportPdf;
+	
+	@Value("${app.emailPlanejamentoSubject}")
+	private String emailPlanejamentoSubject;
 
 	public static String getRelatorioPath(){
 		AppContext appc = getAppContextBean();
@@ -114,5 +117,14 @@ public class AppContext {
 
 	private String getPtdReportPdfInternal() {
 		return this.ptdReportPdf;
+	}
+	
+	public static String getEmailPlanejamentoSubject() {
+		AppContext appc = getAppContextBean();
+		return appc.getEmailPlanejamentoSubjectInternal();
+	}
+
+	private String getEmailPlanejamentoSubjectInternal() {
+		return this.emailSubject;
 	}
 }
