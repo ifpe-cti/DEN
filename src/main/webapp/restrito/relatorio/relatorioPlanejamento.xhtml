@@ -10,9 +10,9 @@
 <ui:include src="/restrito/menu.xhtml" />
 
 <h:body>
-	
+
 	<h:form id="formularioBuscaPlanejamento" class="validform">
-		<p:messages showDetail="true"/>
+		<p:messages showDetail="true" />
 		<p:fieldset styleClass="fieldset" legend="Buscar por Semestre...">
 			<p:panelGrid columns="4">
 				<h:outputText value="Ano*: " />
@@ -22,11 +22,11 @@
 				<p:inputText id="txtSemestre" binding="#{semestre}" required="true"
 					requiredMessage="Semestre é obrigatório!" />
 			</p:panelGrid>
-			<div id="div_buttons"> 
+			<div id="div_buttons">
 				<div id="conteudo-left">
 					<br />
-					<p:commandButton value="Buscar" class="buscar_button"
-						update="@all" ajax="true"
+					<p:commandButton value="Buscar" class="buscar_button" update="@all"
+						ajax="true"
 						action="#{relatorioControlador.listarPlanejamentoProfessor(ano.value, semestre.value)}" />
 				</div>
 			</div>
@@ -36,24 +36,26 @@
 	<br />
 	<h:form id="formularioLista" class="validform">
 		<p:dataTable id="tabela" value="#{ptdProfessores}" var="item"
-			paginator="true" rows="20" 
-			selectionMode="single" rowKey="#{item.siape}">
+			paginator="true" rows="20" selectionMode="single"
+			rowKey="#{item.siape}">
 			<p:column>
-				<p align="center">
-					<h:outputText value="#{item.siape}" />
-				</p>
+				<h:outputText value="#{item.siape}" />
 				<f:facet name="header">
 		                        Siape
 		                    </f:facet>
 			</p:column>
 			<p:column headerText="Nome">
-		                    #{item.nome}
-		                </p:column>
-			<p:column headerText="Situação">
-				<p align="center">#{item.situacao}</p>
+				<h:outputText value="#{item.nome}" />
 			</p:column>
-			
+			<p:column headerText="Situação">
+				<h:outputText value="#{item.situacao}" />
+			</p:column>
 		</p:dataTable>
+		<h:commandLink>
+			<p:graphicImage library="images" name="pdf.png" />
+			<p:dataExporter type="pdf" target="tabela" fileName="planejamentos"
+				encoding="iso-8859-1" />
+		</h:commandLink>
 	</h:form>
 </h:body>
 </html>

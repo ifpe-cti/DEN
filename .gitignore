@@ -211,3 +211,4 @@ sftp-config.json
 *.swp
 cobertura.ser
 /log.out
+/target/
