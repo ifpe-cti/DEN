@@ -157,6 +157,7 @@ public class PlanejamentoSemestralControlador implements Serializable {
 		if (disciplinaId != null) {
 			Disciplina disciplina = this.getDisciplinaFromSelectedPTD(disciplinaId);
 			this.setPlanejamentoSemestral(disciplina.getPlanejamentoSemestral());
+			this.setDisciplina(disciplina);
 			ret = "/restrito/planejamento/ensino/formVisualizar.xhtml?faces-redirect=true";
 		}
 
@@ -202,9 +203,10 @@ public class PlanejamentoSemestralControlador implements Serializable {
 			PTDEmail mail = new PTDEmail();
 			String subject = AppContext.getEmailPlanejamentoSubject();
 			subject = subject.replaceFirst("%p", disciplina.getNome());
+			subject = subject.replaceFirst("%t", disciplina.getTurma());
 			mail.postMail(disciplina.getPtd().getProfessor().getEmail(), 
 					subject , msg, AppContext.getEmailAuth());
-			ret = "/restrito/planejamento/ensino/formVisualizar.xhtml?faces-redirect=true";
+			ret = "/restrito/planejamento/ensino/mostrar.xhtml?faces-redirect=true";
 		}
 
 		return ret;

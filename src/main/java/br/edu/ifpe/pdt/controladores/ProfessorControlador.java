@@ -210,6 +210,10 @@ public class ProfessorControlador implements Serializable {
 				FacesContext.getCurrentInstance().addMessage(null,
 						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falha no Login!", "SIAPE ou Senha Inválidos!"));
 			}
+		} else {
+			prof = null;
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falha no Login!", "SIAPE Inválido!"));
 		}
 
 		return ret;

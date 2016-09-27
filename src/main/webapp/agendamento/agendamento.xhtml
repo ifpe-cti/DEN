@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+	<title>DEN IFPE</title>
+	<link rel="shortcut icon" href="../resources/images/favicon.ico" />
+	<h:outputStylesheet library="css" name="ptd.css" />
+</h:head>
+<h:body>
+	<h:graphicImage library="images" name="banner_topo.png"
+		class="img-rounded img-responsive" />
+	<p:growl id="gro" life="3000" />
+	<h:form id="formularioCadastro" class="validform">
+		<p:messages />
+			
+		<p:fieldset legend="Agendamento de Visita">
+			<p:panelGrid columns="2">
+				<p:outputLabel value="Escola*:" />
+				<p:inputText id="txtEscola" binding="#{escola}" />
+
+				<p:outputLabel value="Responsável*:" />
+				<p:inputText id="txtResponsavel" binding="#{responsavel}" />
+
+				<p:outputLabel value="Numero de Alunos:" />
+				<p:inputText id="txtNumAlunos" binding="#{numAlunos}" />
+
+				<p:outputLabel value="E-mail*:" />
+				<p:inputText id="txtEmail" binding="#{email}" />
+				
+				<p:outputLabel value="Telefone:" />
+				<p:inputText id="txtTelefone" binding="#{telefone}" />
+				
+				<p:outputLabel value="Data Pretendida*:" />
+				<p:inputText id="txtData" binding="#{data}" />
+
+			</p:panelGrid>
+			<br />
+			<p:commandButton value="Agendar" class="buscar_button"
+				action="#{agendamentoControlador.cadastrarAgendamento(escola.value,responsavel.value,
+												numAlunos.value,email.value,telefone.value, data.value)}"
+				update="formularioCadastro" />
+		</p:fieldset>
+
+	</h:form>
+</h:body>
+</html>
+

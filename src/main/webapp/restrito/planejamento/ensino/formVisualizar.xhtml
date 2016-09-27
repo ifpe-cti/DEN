@@ -11,6 +11,23 @@
 
 <h:body>
 
+<p:outputPanel id="panel">
+		<h:form id="formularioEnsino" style="width:500px">
+			<p:panelGrid id="gridEnsino" columns="2"
+				class="table table-bordered table-condensed">
+				<h:outputText value="Nome:" />
+				<h:outputText value="#{selectedDisciplina.nome}" />
+				<h:outputText value="Curso:" />
+				<h:outputText value="#{selectedDisciplina.curso}" />
+				<h:outputText value="Turma:" />
+				<h:outputText value="#{selectedDisciplina.turma}" />
+				<h:outputText value="Carga Horária:" />
+				<h:outputText value="#{selectedDisciplina.cargaHoraria}" />
+
+			</p:panelGrid>
+		</h:form>
+	</p:outputPanel>
+	<br />
 	<br />
 	<div>
 

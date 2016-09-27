@@ -26,10 +26,9 @@ public class PTDExport {
 		
 		try {
 			JasperReport report = JasperCompileManager.compileReport(AppContext.getRelatorioPath() + AppContext.getPtdReport());
-
+			JasperReport subReportDisc = JasperCompileManager.compileReport(AppContext.getRelatorioPath() + "disciplinas.jrxml");
+		
 			Map<String, Object> map = new HashMap<String, Object>();
-			JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(new ArrayList<PTD>());	
-
 			
 			Professor prof = ptd.getProfessor();
 			map.put("nome", prof.getNome());
@@ -37,10 +36,13 @@ public class PTDExport {
 			map.put("siape", prof.getSiape());
 			map.put("coordenacao", prof.getCoordenacao());
 			map.put("ano", ptd.getAno() + "." + ptd.getSemestre());
-			map.put("logo", AppContext.getRelatorioPath()+"logo.png");
+			map.put("image", AppContext.getRelatorioPath()+"logo.png");
+			
 			
 			JRBeanCollectionDataSource diciplinas = new JRBeanCollectionDataSource(ptd.getDisciplinas());
-			JRBeanCollectionDataSource aaes = new JRBeanCollectionDataSource(ptd.getAaes());
+			map.put("subreportParameter", subReportDisc);
+			map.put("SUBREPORT_DIR", AppContext.getRelatorioPath());
+			/*JRBeanCollectionDataSource aaes = new JRBeanCollectionDataSource(ptd.getAaes());
 			JRBeanCollectionDataSource pesquisas = new JRBeanCollectionDataSource(ptd.getPesquisas());
 			JRBeanCollectionDataSource extensoes = new JRBeanCollectionDataSource(ptd.getExtensoes());
 			JRBeanCollectionDataSource aaps = new JRBeanCollectionDataSource(ptd.getAaps());
@@ -49,9 +51,9 @@ public class PTDExport {
 			map.put("aaes", aaes);
 			map.put("pesquisas", pesquisas);
 			map.put("extensoes", extensoes);
-			map.put("aaps", aaps);
+			map.put("aaps", aaps);*/
 
-			JasperPrint print = JasperFillManager.fillReport(report, map, dataSource);
+			JasperPrint print = JasperFillManager.fillReport(report, map, diciplinas);
 
 			JasperExportManager.exportReportToPdfFile(print,
 					AppContext.getRelatorioPath() + AppContext.getPtdReportPdf());

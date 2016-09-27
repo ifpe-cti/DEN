@@ -20,7 +20,7 @@
 				<div id="div_buttons">
 					<div id="conteudo-left">
 						<br />
-						<h:panelGrid id="gridEnsino" columns="2" class="table">
+						<h:panelGrid id="gridEnsino" columns="3" class="table">
 							<p:commandButton class="buscar_button" value="Novo PTD"
 								update="formularioEditar"
 								action="#{PTDControlador.cadastrarNovoPTD()}" />
@@ -28,6 +28,10 @@
 							<p:commandButton class="buscar_button"
 								value="Importar PTD selecionado" update="formularioEditar"
 								action="#{PTDControlador.cadastrarNovoPTDFromSelected(selectedPtd.codigo)}" />
+
+							<p:commandButton class="buscar_button"
+								value="Exportar PTD" update="formularioEditar"
+								action="#{PTDControlador.exportarPtd(selectedPtd.codigo)}" />
 						</h:panelGrid>
 					</div>
 				</div>

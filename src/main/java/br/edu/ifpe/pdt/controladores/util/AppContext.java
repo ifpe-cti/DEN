@@ -125,6 +125,6 @@ public class AppContext {
 	}
 
 	private String getEmailPlanejamentoSubjectInternal() {
-		return this.emailSubject;
+		return this.emailPlanejamentoSubject;
 	}
 }
