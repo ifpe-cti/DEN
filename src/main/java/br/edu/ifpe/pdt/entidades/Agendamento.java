@@ -1,7 +1,7 @@
 package br.edu.ifpe.pdt.entidades;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -75,7 +75,7 @@ public class Agendamento implements Serializable{
 	private String telefone;
 	
 	@Column
-	private Date data;
+	private Timestamp data;
 	
 	@Column
 	private AGENDAMENTO_STATUS status;
@@ -128,11 +128,11 @@ public class Agendamento implements Serializable{
 		this.telefone = telefone;
 	}
 
-	public Date getData() {
+	public Timestamp getData() {
 		return data;
 	}
 
-	public void setData(Date data) {
+	public void setData(Timestamp data) {
 		this.data = data;
 	}
 

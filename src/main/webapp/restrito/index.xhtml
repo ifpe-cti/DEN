@@ -30,7 +30,7 @@
 								action="#{PTDControlador.cadastrarNovoPTDFromSelected(selectedPtd.codigo)}" />
 
 							<p:commandButton class="buscar_button"
-								value="Exportar PTD" update="formularioEditar"
+								value="Exportar PTD" update="formularioEditar" ajax="false"
 								action="#{PTDControlador.exportarPtd(selectedPtd.codigo)}" />
 						</h:panelGrid>
 					</div>

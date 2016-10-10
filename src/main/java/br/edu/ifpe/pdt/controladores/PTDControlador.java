@@ -216,11 +216,9 @@ public class PTDControlador implements Serializable {
 	}
 	
 	public String exportarPtd(Integer ptdId) {
-		String ret = "";
+		String ret = "/restrito/index.xhtml";
 		if (ptdId != null) {
-			PTD ptd = ptdRepositorio.findByCodigo(ptdId);
-			
-			
+			PTD ptd = ptdRepositorio.findByCodigo(ptdId);			
 			File f = PTDExport.exportarPTD(ptd);
 			setPDFResponse(f);
 			
@@ -463,8 +461,8 @@ public class PTDControlador implements Serializable {
 			ec.setResponseHeader("Content-Disposition", "attachment; filename=\"" + f.getName() + "\"");
 			try {
 				OutputStream output = ec.getResponseOutputStream();
-
 				FileInputStream fis = new FileInputStream(f);
+				//FileReader fr = new FileReader(f);
 				while (fis.available() > -1) {
 					output.write(fis.read());
 				}
@@ -475,6 +473,8 @@ public class PTDControlador implements Serializable {
 				fc.responseComplete();
 
 			} catch (IOException e) {
+				LoggerPTD.getLoggerInstance().logError(e.getMessage());
+			} catch (Exception e) {
 				LoggerPTD.getLoggerInstance().logError(e.getMessage());
 			}
 		}

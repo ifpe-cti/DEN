@@ -13,6 +13,24 @@
 	<title>DEN IFPE</title>
 	<link rel="shortcut icon" href="../resources/images/favicon.ico" />
 	<h:outputStylesheet library="css" name="ptd.css" />
+
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			applyDatePicker();
+		});
+
+		function applyDatePicker() {
+			$(".datepicker")
+					.datepicker(
+							{
+								dateFormat : 'yy-mm-dd',
+								showOn : "button",
+								buttonImage : "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif",
+								buttonImageOnly : true
+							})
+		}
+	</script>
 </h:head>
 <h:body>
 	<h:graphicImage library="images" name="banner_topo.png"
@@ -20,7 +38,7 @@
 	<p:growl id="gro" life="3000" />
 	<h:form id="formularioCadastro" class="validform">
 		<p:messages />
-			
+
 		<p:fieldset legend="Agendamento de Visita">
 			<p:panelGrid columns="2">
 				<p:outputLabel value="Escola*:" />
@@ -34,19 +52,36 @@
 
 				<p:outputLabel value="E-mail*:" />
 				<p:inputText id="txtEmail" binding="#{email}" />
-				
+
 				<p:outputLabel value="Telefone:" />
 				<p:inputText id="txtTelefone" binding="#{telefone}" />
-				
-				<p:outputLabel value="Data Pretendida*:" />
-				<p:inputText id="txtData" binding="#{data}" />
+
+				<p:outputLabel escape="false"
+					value="Data Pretendida* (ex.: 2016-12-25):&lt;br/&gt;(Obs.: Prioritariamente Segundas e Sextas)" />
+				<h:inputText styleClass="datepicker" binding="#{data}"
+					style="width:80%;"></h:inputText>
+
+				<p:outputLabel value="Horário:" />
+				<p:selectOneMenu id="txtAgendamento" class="select"
+					style="width:200px;" binding="#{horario}">
+					<f:selectItem itemValue="1" itemLabel="8:30h" />
+					<f:selectItem itemValue="2" itemLabel="9:30h" />
+					<f:selectItem itemValue="3" itemLabel="14:00h" />
+					<f:selectItem itemValue="4" itemLabel="15:00h" />
+				</p:selectOneMenu>
 
 			</p:panelGrid>
 			<br />
 			<p:commandButton value="Agendar" class="buscar_button"
-				action="#{agendamentoControlador.cadastrarAgendamento(escola.value,responsavel.value,
-												numAlunos.value,email.value,telefone.value, data.value)}"
+				action="#{agendamentoControlador.cadastrarAgendamento(escola.value,responsavel.value, 
+				numAlunos.value,email.value,telefone.value, data.value, horario.value)}"
+				onclick="PF('dlg2').show();" oncomplete="applyDatePicker(); PF('dlg2').close();"
 				update="formularioCadastro" />
+
+			<p:dialog header="Aguarde.." widgetVar="dlg2" modal="true"
+				height="100">
+				<h:outputText value="Aguarde um instante..." />
+			</p:dialog>
 		</p:fieldset>
 
 	</h:form>

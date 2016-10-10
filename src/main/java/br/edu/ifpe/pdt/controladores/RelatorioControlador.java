@@ -109,8 +109,8 @@ public class RelatorioControlador implements Serializable {
 			ec.setResponseHeader("Content-Disposition", "attachment; filename=\"" + f.getName() + "\"");
 			try {
 				OutputStream output = ec.getResponseOutputStream();
-
 				FileInputStream fis = new FileInputStream(f);
+				//FileReader fr = new FileReader(f);
 				while (fis.available() > -1) {
 					output.write(fis.read());
 				}
