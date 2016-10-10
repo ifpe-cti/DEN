@@ -306,7 +306,7 @@ CAMPUS GARANHUNS]]></text>
 			</staticText>
 			<image>
 				<reportElement x="245" y="0" width="50" height="50" uuid="b9f4cbe2-15ee-4733-a23a-82a652bb5a6e"/>
-				<imageExpression><![CDATA["C:/_projetos/DEN/src/main/resources/logo.png"]]></imageExpression>
+				<imageExpression><![CDATA["/home/ifpe/relatorios/logo.png"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="90" y="119" width="200" height="30" uuid="1739bd08-7d12-40e3-9f55-2955099df19c"/>
