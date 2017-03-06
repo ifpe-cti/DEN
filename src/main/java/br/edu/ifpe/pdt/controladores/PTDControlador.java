@@ -1,9 +1,6 @@
 package br.edu.ifpe.pdt.controladores;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -11,7 +8,6 @@ import java.util.ArrayList;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 import org.joda.time.LocalDate;
@@ -30,7 +26,6 @@ import br.edu.ifpe.pdt.entidades.Pesquisa;
 import br.edu.ifpe.pdt.entidades.Professor;
 import br.edu.ifpe.pdt.repositorios.PTDRepositorio;
 import br.edu.ifpe.pdt.repositorios.ProfessorRepositorio;
-import br.edu.ifpe.pdt.util.LoggerPTD;
 import br.edu.ifpe.pdt.util.PTDEmail;
 
 @Component
@@ -220,7 +215,7 @@ public class PTDControlador implements Serializable {
 		if (ptdId != null) {
 			PTD ptd = ptdRepositorio.findByCodigo(ptdId);			
 			File f = PTDExport.exportarPTD(ptd);
-			setPDFResponse(f);
+			PTDExport.setPDFResponse(f);
 			
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -448,35 +443,5 @@ public class PTDControlador implements Serializable {
 
 	private void updateProfessorDetalhado(Professor prof) {
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("professorDetalhado", prof);
-	}
-	
-	private void setPDFResponse(File f) {
-		if (f != null) {
-			FacesContext fc = FacesContext.getCurrentInstance();
-			ExternalContext ec = fc.getExternalContext();
-
-			ec.responseReset();
-			ec.setResponseContentType("application/pdf");
-			ec.setResponseContentLength((int) f.length());
-			ec.setResponseHeader("Content-Disposition", "attachment; filename=\"" + f.getName() + "\"");
-			try {
-				OutputStream output = ec.getResponseOutputStream();
-				FileInputStream fis = new FileInputStream(f);
-				//FileReader fr = new FileReader(f);
-				while (fis.available() > -1) {
-					output.write(fis.read());
-				}
-
-				output.flush();
-				output.close();
-				fis.close();
-				fc.responseComplete();
-
-			} catch (IOException e) {
-				LoggerPTD.getLoggerInstance().logError(e.getMessage());
-			} catch (Exception e) {
-				LoggerPTD.getLoggerInstance().logError(e.getMessage());
-			}
-		}
 	}
 }

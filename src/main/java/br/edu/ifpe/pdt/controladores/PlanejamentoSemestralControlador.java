@@ -1,5 +1,6 @@
 package br.edu.ifpe.pdt.controladores;
 
+import java.io.File;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import org.primefaces.event.SelectEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import br.edu.ifpe.pdt.controladores.relatorio.PTDExport;
 import br.edu.ifpe.pdt.controladores.util.AppContext;
 import br.edu.ifpe.pdt.entidades.Avaliacao;
 import br.edu.ifpe.pdt.entidades.Disciplina;
@@ -211,6 +213,13 @@ public class PlanejamentoSemestralControlador implements Serializable {
 
 		return ret;
 	}
+	
+	public String imprimir(Integer id) {
+		Disciplina d = disciplinaRepositorio.findByPlanejamentoSemestralCodigo(id);
+		File f = PTDExport.exportarPlanejamento(d);
+		PTDExport.setPDFResponse(f);
+		return "";
+	}
 
 	public void onRowSelect(SelectEvent event) {
 		PTD ptd = ((PTD) event.getObject());
@@ -385,5 +394,14 @@ public class PlanejamentoSemestralControlador implements Serializable {
 		}
 
 		return ret;
+	}
+	
+	public String updateCompetencias() {
+		Disciplina d = this.getDisciplina(); 
+		if (d.getPlanejamentoSemestral() == null) {
+			d.setPlanejamentoSemestral(new PlanejamentoSemestral());
+			this.setDisciplina(d);
+		}
+		return "";
 	}
 }

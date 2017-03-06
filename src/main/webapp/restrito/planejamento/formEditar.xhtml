@@ -72,7 +72,7 @@
 					cols="100" rows="10" title="competencias"
 					onblur="verificarEmail();">
 				</p:inputTextarea>
-				<p:remoteCommand name="verificarEmail"
+				<p:remoteCommand name="verificarEmail" actionListener="#{planejamentoSemestralControlador.updateCompetencias()}"
 					update="formularioCompetencias" />
 			</p>
 		</p:fieldset>

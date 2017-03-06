@@ -45,7 +45,7 @@
 			</p:dataTable>
 
 			<br />
-			
+
 			<p:dataTable id="tabelaDisciplinas"
 				value="#{selectedPtdPlan.disciplinas}" var="item" paginator="true"
 				rows="10" selection="#{disciplina}" selectionMode="single"
@@ -61,14 +61,19 @@
 				<p:column headerText="Status Planejamento">
 					<p align="center">${item.planejamentoSemestral.status.nome}</p>
 				</p:column>
-
+				<p:column headerText="Status Planejamento">
+					<p align="center">
+						<p:commandButton value="Imprimir" alt="Imprimir" ajax="false"
+							action="#{planejamentoSemestralControlador.imprimir(item.codigo)}" />
+					</p>
+				</p:column>
 			</p:dataTable>
 
 			<div id="div_buttons">
 				<div id="conteudo-left">
 					<br />
-					<p:commandButton class="buscar_button"
-						value="Editar Planejamento" update="formularioEditar"
+					<p:commandButton class="buscar_button" value="Editar Planejamento"
+						update="formularioEditar"
 						action="#{planejamentoSemestralControlador.criarPlanejamento(disciplina.codigo,0)}" />
 				</div>
 			</div>

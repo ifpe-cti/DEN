@@ -40,6 +40,9 @@ public class AppContext {
 	
 	@Value("${app.emailPlanejamentoSubject}")
 	private String emailPlanejamentoSubject;
+	
+	@Value("${app.planejamentoReport}")
+	private String planejamentoReport;
 
 	public static String getRelatorioPath(){
 		AppContext appc = getAppContextBean();
@@ -126,5 +129,14 @@ public class AppContext {
 
 	private String getEmailPlanejamentoSubjectInternal() {
 		return this.emailPlanejamentoSubject;
+	}
+	
+	public static String getPlanejamentoReport() {
+		AppContext appc = getAppContextBean();
+		return appc.getPlanejamentoReportInternal();
+	}
+
+	private String getPlanejamentoReportInternal() {
+		return this.planejamentoReport;
 	}
 }
