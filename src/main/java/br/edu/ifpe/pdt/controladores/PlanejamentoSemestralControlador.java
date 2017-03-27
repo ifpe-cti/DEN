@@ -47,6 +47,7 @@ public class PlanejamentoSemestralControlador implements Serializable {
 
 	private Semana semana;
 	private Avaliacao avaliacao;
+	private String competencias;
 
 	public PlanejamentoSemestralControlador() {
 		this.semana = new Semana();
@@ -60,6 +61,9 @@ public class PlanejamentoSemestralControlador implements Serializable {
 		Disciplina disciplina = this.getDisciplinaFromSelectedPTD(disciplinaId);
 
 		if (disciplina != null) {
+			if (disciplina.getPlanejamentoSemestral() != null) {
+				this.competencias = disciplina.getPlanejamentoSemestral().getCompetencias();
+			}
 			if (ensino == 0) {
 				this.setDisciplina(disciplina);
 				ret = "/restrito/planejamento/cadastro.xhtml?faces-redirect=true";
@@ -215,10 +219,35 @@ public class PlanejamentoSemestralControlador implements Serializable {
 	}
 	
 	public String imprimir(Integer id) {
+		String ret = "/restrito/planejamento/ptd/listar.xhtml";
 		Disciplina d = disciplinaRepositorio.findByPlanejamentoSemestralCodigo(id);
-		File f = PTDExport.exportarPlanejamento(d);
-		PTDExport.setPDFResponse(f);
-		return "";
+		
+		if (d != null) {
+			File f = PTDExport.exportarPlanejamento(d);
+			PTDExport.setPDFResponse(f);
+			
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+							"Erro na impressão!", ""));
+		}
+		return ret;
+	}
+	
+	public String exportarPlanejamentoEnsino(Integer id) {
+		String ret = "";
+		Disciplina d = disciplinaRepositorio.findByPlanejamentoSemestralCodigo(id);
+		
+		if (d != null) {
+			File f = PTDExport.exportarPlanejamento(d);
+			PTDExport.setPDFResponse(f);
+			
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+							"Erro na impressão!", ""));
+		}
+		return ret;
 	}
 
 	public void onRowSelect(SelectEvent event) {
@@ -383,10 +412,12 @@ public class PlanejamentoSemestralControlador implements Serializable {
 		String ret = "";
 		Disciplina d = this.getDisciplina();
 		if (d.getPlanejamentoSemestral() != null) {
+			d.getPlanejamentoSemestral().setCompetencias(this.competencias);
 			d.getPlanejamentoSemestral().setStatus(STATUS_PS.AGUARDO);
 			d = disciplinaRepositorio.saveAndFlush(d);
 			this.setDisciplina(null);
 			this.setSelectedPtd(null);
+			this.competencias="";
 			ret = "/restrito/planejamento/ptd/listar.xhtml?faces-redirect=true";
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null,
@@ -404,4 +435,12 @@ public class PlanejamentoSemestralControlador implements Serializable {
 		}
 		return "";
 	}
+
+	public String getCompetencias() {
+		return competencias;
+	}
+
+	public void setCompetencias(String competencias) {
+		this.competencias = competencias;
+	}	
 }

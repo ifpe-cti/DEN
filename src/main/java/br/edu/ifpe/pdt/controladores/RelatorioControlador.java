@@ -180,13 +180,13 @@ public class RelatorioControlador implements Serializable {
 				boolean found = false;
 				for (PTD ptd : p.getPtds()) {
 					if (ptd.getAno().equals(ano) && ptd.getSemestre().equals(semestre)) {
-						entregas.add(new EntregaPTDProfessor(p.getSiape(), p.getNome(), ptd.getStatus().name()));
+						entregas.add(new EntregaPTDProfessor(ptd.getCodigo(),p.getSiape(), p.getNome(), ptd.getStatus().name()));
 						found = true;
 						break;
 					}
 				}
 				if (!found) {
-					entregas.add(new EntregaPTDProfessor(p.getSiape(), p.getNome(), "NAO_ENTREGUE"));
+					entregas.add(new EntregaPTDProfessor(null, p.getSiape(), p.getNome(), "NAO_ENTREGUE"));
 				}
 			}
 		}
@@ -216,18 +216,18 @@ public class RelatorioControlador implements Serializable {
 							}
 						}
 						if (numPlaPreenchidos == 0) {
-							entregas.add(new EntregaPTDProfessor(p.getSiape(), p.getNome(), "NAO_ENTREGUE"));														
+							entregas.add(new EntregaPTDProfessor(ptd.getCodigo(), p.getSiape(), p.getNome(), "NAO_ENTREGUE"));														
 						} else if (numPlaPreenchidos < ptd.getDisciplinas().size()) {
-							entregas.add(new EntregaPTDProfessor(p.getSiape(), p.getNome(), "ENTREGUE_PARCIALMENTE"));
+							entregas.add(new EntregaPTDProfessor(ptd.getCodigo(), p.getSiape(), p.getNome(), "ENTREGUE_PARCIALMENTE"));
 						} else if (numPlaPreenchidos == ptd.getDisciplinas().size()){
-							entregas.add(new EntregaPTDProfessor(p.getSiape(), p.getNome(), "ENTREGUE"));
+							entregas.add(new EntregaPTDProfessor(ptd.getCodigo(), p.getSiape(), p.getNome(), "ENTREGUE"));
 						}						
 						found = true;
 						break;
 					}
 				}
 				if (!found) {
-					entregas.add(new EntregaPTDProfessor(p.getSiape(), p.getNome(), "NAO_ENTREGUE"));
+					entregas.add(new EntregaPTDProfessor(null, p.getSiape(), p.getNome(), "NAO_ENTREGUE"));
 				}
 			}
 		}

@@ -83,7 +83,7 @@ public class PTDExport {
 			JasperExportManager.exportReportToPdfFile(print,
 					AppContext.getRelatorioPath() + d.getNome()+"_planejamento.pdf");
 			
-			file = new File(AppContext.getRelatorioPath() + d.getNome()+"_ptd.pdf");
+			file = new File(AppContext.getRelatorioPath() + d.getNome()+"_planejamento.pdf");
 		} catch (JRException e) {
 			LoggerPTD.getLoggerInstance().logError(e.getMessage());
 		} catch (SQLException e) {

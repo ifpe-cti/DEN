@@ -61,27 +61,24 @@
 	<br />
 </h:form>
 
-<p:fieldset legend="Criar Planejamento">
 
-	<h:form id="formularioCompetencias" style="width:100%">
+<h:form id="formularioPlanej" style="width:100%">
+
+	<p:fieldset id="planejFieldset" legend="Criar Planejamento">
+
 		<p:messages />
-		<p:fieldset legend="Competências/Ementa">
+		<p:fieldset id="compFieldset" legend="Competências/Ementa">
 			<p align="center">
 				<p:inputTextarea
-					value="#{selectedDisciplina.planejamentoSemestral.competencias}"
-					cols="100" rows="10" title="competencias"
-					onblur="verificarEmail();">
+					value="#{planejamentoSemestralControlador.competencias}" cols="100"
+					rows="10">
 				</p:inputTextarea>
-				<p:remoteCommand name="verificarEmail" actionListener="#{planejamentoSemestralControlador.updateCompetencias()}"
-					update="formularioCompetencias" />
 			</p>
 		</p:fieldset>
 
 		<br />
-	</h:form>
-	<h:form id="formularioSemana" class="validform" style="width:100%;">
-		<p:messages />
-		<p:fieldset legend="SEMANAS">
+		<br />
+		<p:fieldset id="semanasFieldset" legend="SEMANAS">
 			<p:panelGrid columns="8"
 				columnClasses="colStyle4,colStyle5,colStyle4,
 			colStyle5,colStyle4,colStyle6,colStyle4,colStyle6">
@@ -100,21 +97,21 @@
 
 				<f:facet name="footer">
 					<p:commandButton value="Adicionar" icon="ui-icon-add"
-						class="buscar_button" update="formularioSemana"
+						class="buscar_button" update="@all"
 						action="#{planejamentoSemestralControlador.addSemana()}" />
 				</f:facet>
 			</p:panelGrid>
 			<br />
-			<p:dataTable id="tabela"
+			<p:dataTable id="tabelaSemanas"
 				value="${selectedDisciplina.planejamentoSemestral.semanas}"
 				var="item" paginator="true" rows="20" editable="true"
 				rowKey="${item.id}" sortBy="#{item.numero}" sortOrder="descending">
 
 				<p:ajax event="rowEdit"
 					listener="#{planejamentoSemestralControlador.onRowEdit}"
-					update="tabela" />
+					update="tabelaSemanas" />
 
-				<p:ajax event="rowEditCancel" update="tabela" />
+				<p:ajax event="rowEditCancel" update="tabelaSemanas" />
 
 				<p:column headerText="Semana" style="width:10%; align:center">
 					<p align="center">${item.numero}</p>
@@ -158,16 +155,13 @@
 
 				<p:column style="width:15%" headerText="">
 					<p:rowEditor />
-					<p:commandButton icon="ui-icon-delete" alt="Remover"
-						update="formularioSemana"
+					<p:commandButton icon="ui-icon-delete" alt="Remover" update="@all"
 						action="#{planejamentoSemestralControlador.removeSemana(item)}" />
 				</p:column>
 			</p:dataTable>
 		</p:fieldset>
-	</h:form>
 
-	<br />
-	<h:form id="formularioAvaliacoes" class="validform">
+		<br />
 		<p:fieldset legend="Avaliações">
 			<p:panelGrid columns="8"
 				columnClasses="colStyle4,colStyle7,colStyle4,
@@ -191,12 +185,12 @@
 				<f:facet name="footer">
 					<p:commandButton value="Adicionar" icon="ui-icon-add"
 						class="buscar_button" update="@form"
-						oncomplete="applyDatePicker();"						
+						oncomplete="applyDatePicker();"
 						action="#{planejamentoSemestralControlador.addAvaliacao(dataProva.value, dataRecuperacao.value)}" />
 				</f:facet>
 			</p:panelGrid>
 			<br />
-			<p:dataTable id="tabela"
+			<p:dataTable id="tabelaAvali"
 				value="${selectedDisciplina.planejamentoSemestral.avaliacoes}"
 				var="item" paginator="true" rows="7" editable="true"
 				rowKey="${item.id}">
@@ -216,18 +210,14 @@
 				</p:column>
 
 				<p:column style="width:10%" headerText="">
-					<p:commandButton icon="ui-icon-delete" alt="Remover"
-						update="@form"
-						oncomplete="applyDatePicker();"			
+					<p:commandButton icon="ui-icon-delete" alt="Remover" update="@form"
+						oncomplete="applyDatePicker();"
 						action="#{planejamentoSemestralControlador.removeAvaliacao(item)}" />
 				</p:column>
 			</p:dataTable>
 		</p:fieldset>
-	</h:form>
-	<br />
-</p:fieldset>
-<h:form id="formButtons" class="validform" style="width:20%;">
-	<p:messages />
+		<br />
+	</p:fieldset>
 	<br />
 	<c:if test="${selectedDisciplina.planejamentoSemestral.codigo == null}">
 		<h:commandButton value="Registrar Planejamento" class="buscar_button"

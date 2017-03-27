@@ -85,16 +85,16 @@ public class PTDControlador implements Serializable {
 
 	public String atualizaPTD() {
 		PTD ptd = this.getSelectedPtd();
-		
-		PTD ptdRep = this.ptdRepositorio.findByAnoAndSemestreAndProfessorSiape(ptd.getAno(), 
-				ptd.getSemestre(), ptd.getProfessor().getSiape());
-		
+
+		PTD ptdRep = this.ptdRepositorio.findByAnoAndSemestreAndProfessorSiape(ptd.getAno(), ptd.getSemestre(),
+				ptd.getProfessor().getSiape());
+
 		if ((ptdRep != null) && !ptdRep.getCodigo().equals(ptd.getCodigo())) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
-					FacesMessage.SEVERITY_ERROR, "Não é permitido ter 2 PTDs no mesmo semestre", ""));
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Não é permitido ter 2 PTDs no mesmo semestre", ""));
 			return "";
-		}		
-		
+		}
+
 		ptd.setStatus(PTD.STATUS.AGUARDO);
 		ptd.setLastUpdate(Date.valueOf(LocalDate.now().toString()));
 		ptd = ptdRepositorio.saveAndFlush(ptd);
@@ -105,15 +105,15 @@ public class PTDControlador implements Serializable {
 	}
 
 	public String criarPTD(String siape, Integer ano, Integer semestre) {
-		
+
 		PTD ptd = this.ptdRepositorio.findByAnoAndSemestreAndProfessorSiape(ano, semestre, siape);
-		
+
 		if (ptd != null) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
-					FacesMessage.SEVERITY_ERROR, "Não é permitido criar 2 PTDs no mesmo semestre", ""));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					"Não é permitido criar 2 PTDs no mesmo semestre", ""));
 			return "";
 		}
-		
+
 		ptd = this.getSelectedPtd();
 		ptd.setStatus(PTD.STATUS.AGUARDO);
 		ptd.setLastUpdate(Date.valueOf(LocalDate.now().toString()));
@@ -209,17 +209,36 @@ public class PTDControlador implements Serializable {
 
 		return ret;
 	}
-	
+
 	public String exportarPtd(Integer ptdId) {
 		String ret = "/restrito/index.xhtml";
 		if (ptdId != null) {
-			PTD ptd = ptdRepositorio.findByCodigo(ptdId);			
+			PTD ptd = ptdRepositorio.findByCodigo(ptdId);
 			File f = PTDExport.exportarPTD(ptd);
 			PTDExport.setPDFResponse(f);
-			
+
 		} else {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					"Selecione um PTD!", ""));
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Selecione um PTD!", ""));
+		}
+
+		return ret;
+	}
+
+	public String exportarPTDEnsino(Integer ptdId) {
+		String ret = "";
+		if (ptdId != null) {
+			PTD ptd = ptdRepositorio.findByCodigo(ptdId);
+			if (ptd != null) {
+				File f = PTDExport.exportarPTD(ptd);
+				PTDExport.setPDFResponse(f);
+			} else {
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro ao exportar PTD!", ""));
+			}
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Selecione um PTD!", ""));
 		}
 
 		return ret;
@@ -278,7 +297,7 @@ public class PTDControlador implements Serializable {
 		ptd = ptdRepositorio.saveAndFlush(ptd);
 		this.setSelectedPtd(ptd);
 		this.updateProfessorDetalhado(ptd.getProfessor());
-		
+
 		return ret;
 	}
 
