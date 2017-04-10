@@ -25,11 +25,11 @@
 			<div id="div_buttons">
 				<div id="conteudo-left">
 					<br />
-					<p:commandButton value="Buscar" class="buscar_button" update="@all"
+					<p:commandButton value="Buscar"  update="@form"
 						ajax="true"
 						action="#{relatorioControlador.listarPTDProfessor(ano.value, semestre.value)}" />
-					<p:commandButton value="Exportar PTDs" class="buscar_button"
-						update="@all" ajax="false"
+					<p:commandButton value="Exportar PTDs" 
+						update="formularioBuscaPTD" ajax="false"
 						action="#{PTDControlador.exportarPTDs(ano.value, semestre.value)}" />
 				</div>
 			</div>
@@ -56,8 +56,8 @@
 			</p:column>
 			<p:column headerText="Exportar" style="center">
 				<p align="center">
-					<p:commandButton value="Exportar PTD" class="buscar_button"
-						update="@all" ajax="false"
+					<p:commandButton value="Exportar PTD" 
+						update="formularioLista" ajax="false"
 						action="#{PTDControlador.exportarPTDEnsino(item.codigo)}" />
 				</p>
 			</p:column>

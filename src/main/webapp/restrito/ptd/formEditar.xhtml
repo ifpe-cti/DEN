@@ -30,7 +30,7 @@
 				<p:inputText style="width:95px;"
 					value="#{PTDControlador.disciplina.cargaHoraria}" />
 				<f:facet name="footer">
-					<p:commandButton value="Adicionar" class="buscar_button"
+					<p:commandButton value="Adicionar" 
 						update="formularioDisciplina"
 						action="#{PTDControlador.addDisciplina()}" />
 				</f:facet>
@@ -55,7 +55,7 @@
 					<p align="center">${item.cargaHoraria}</p>
 				</p:column>
 				<p:column style="width:10%" headerText="">
-					<p:commandButton value="Remover" class="buscar_button"
+					<p:commandButton value="Remover" 
 						update="formularioDisciplina"
 						action="#{PTDControlador.removeDisciplina(item)}" />
 				</p:column>
@@ -74,7 +74,7 @@
 				<p:inputText style="width:150px;"
 					value="#{PTDControlador.aae.cargaHoraria}" />
 				<f:facet name="footer">
-					<p:commandButton value="Adicionar" class="buscar_button"
+					<p:commandButton value="Adicionar" 
 						update="formularioAAE" action="#{PTDControlador.addAAE()}" />
 				</f:facet>
 			</p:panelGrid>
@@ -91,7 +91,7 @@
 		                    ${item.cargaHoraria}
 		                </p:column>
 				<p:column style="width:10%" headerText="">
-					<p:commandButton value="Remover" class="buscar_button"
+					<p:commandButton value="Remover" 
 						update="formularioAAE" action="#{PTDControlador.removeAAE(item)}" />
 				</p:column>
 			</p:dataTable>
@@ -105,7 +105,7 @@
 				<p:inputText style="width:500px;"
 					value="#{PTDControlador.pesquisa.atividade}" />
 				<f:facet name="footer">
-					<p:commandButton value="Adicionar" class="buscar_button"
+					<p:commandButton value="Adicionar" 
 						update="formularioPesquisa"
 						action="#{PTDControlador.addPesquisa()}" />
 				</f:facet>
@@ -120,7 +120,7 @@
 		            </f:facet>
 				</p:column>
 				<p:column style="width:10%" headerText="">
-					<p:commandButton value="Remover" class="buscar_button"
+					<p:commandButton value="Remover" 
 						update="formularioPesquisa"
 						action="#{PTDControlador.removePesquisa(item)}" />
 				</p:column>
@@ -135,7 +135,7 @@
 				<p:inputText style="width:500px;"
 					value="#{PTDControlador.extensao.atividade}" />
 				<f:facet name="footer">
-					<p:commandButton value="Adicionar" class="buscar_button"
+					<p:commandButton value="Adicionar" 
 						update="formularioExtensao"
 						action="#{PTDControlador.addExtensao()}" />
 				</f:facet>
@@ -150,7 +150,7 @@
 		            </f:facet>
 				</p:column>
 				<p:column style="width:10%" headerText="">
-					<p:commandButton value="Remover" class="buscar_button"
+					<p:commandButton value="Remover" 
 						update="formularioExtensao"
 						action="#{PTDControlador.removeExtensao(item)}" />
 				</p:column>
@@ -168,7 +168,7 @@
 				<p:inputText style="width:300px;"
 					value="#{PTDControlador.aap.portaria}" />
 				<f:facet name="footer">
-					<p:commandButton value="Adicionar" class="buscar_button"
+					<p:commandButton value="Adicionar" 
 						update="formularioAAP" action="#{PTDControlador.addAAP()}" />
 				</f:facet>
 			</p:panelGrid>
@@ -185,7 +185,7 @@
 		                    ${item.portaria}
 		                </p:column>
 				<p:column style="width:10%" headerText="">
-					<p:commandButton value="Remover" class="buscar_button"
+					<p:commandButton value="Remover" 
 						update="formularioAAP" action="#{PTDControlador.removeAAP(item)}" />
 				</p:column>
 			</p:dataTable>
@@ -208,7 +208,7 @@
 			requiredMessage="Semestre é obrigatório!"/>
 		</p:panelGrid>
 		<br />
-		<p:commandButton value="Atualizar PTD" class="buscar_button" update="formButtons"
+		<p:commandButton value="Atualizar PTD"  update="formButtons"
 			action="#{PTDControlador.atualizaPTD()}" />
 
 	</c:if>
@@ -223,7 +223,7 @@
 			requiredMessage="Semestre é obrigatório!"/>
 		</p:panelGrid>
 		<br />
-		<p:commandButton value="Criar PTD" class="buscar_button" update="formButtons"
+		<p:commandButton value="Criar PTD"  update="formButtons"
 			action="#{PTDControlador.criarPTD(professorControlador.professorLogado.siape, ano.value, semestre.value)}" />
 	</c:if>
 	<br />

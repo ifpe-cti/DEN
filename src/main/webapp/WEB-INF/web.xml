@@ -21,6 +21,18 @@
 		<param-name>javax.faces.PROJECT_STAGE</param-name>
 		<param-value>Development</param-value>
 	</context-param>
+	<context-param>
+    	<param-name>primefaces.FONT_AWESOME</param-name>
+    	<param-value>true</param-value>
+	</context-param>
+	<context-param>  
+    	<param-name>primefaces.THEME</param-name>  
+    	<param-value>glass-x</param-value>  
+	</context-param>  
+	<mime-mapping>  
+   		<extension>woff2</extension>  
+    	<mime-type>application/x-font-woff2</mime-type>  
+	</mime-mapping>
 	<servlet>
 		<servlet-name>Faces Servlet</servlet-name>
 		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>

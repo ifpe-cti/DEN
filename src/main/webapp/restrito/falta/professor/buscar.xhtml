@@ -14,7 +14,7 @@
 			<p:panelGrid columns="3">
 				<h:outputText value="SIAPE: " />
 				<p:inputText id="txtSiapeBusca" binding="#{siape}" />
-				<p:commandButton class="buscar_button" value="Buscar"
+				<p:commandButton  value="Buscar"
 					update="formularioLista"
 					action="#{professorControlador.buscarProfessorPorSIAPEFalta(siape.value)}" />
 				<h:outputText value="Coordenação: " />
@@ -25,14 +25,14 @@
 					<f:selectItem itemValue="CTMA" itemLabel="CCTMA" />
 					<f:selectItem itemValue="CTI" itemLabel="CCTI" />
 				</p:selectOneMenu>
-				<p:commandButton value="Buscar" class="buscar_button"
+				<p:commandButton value="Buscar" 
 					update="formularioLista"
 					action="#{professorControlador.buscarProfessorPorCoordenacaoFalta(coordenacao.value)}" />
 			</p:panelGrid>
 			<div id="div_buttons">
 				<div id="conteudo-left">
 					<br />
-					<p:commandButton value="Buscar Todos" class="buscar_button"
+					<p:commandButton value="Buscar Todos" 
 						update="formularioLista"
 						action="#{professorControlador.buscarProfessoresFalta()}" />
 				</div>
@@ -79,7 +79,7 @@
 		<div id="div_buttons">
 			<div id="conteudo-left">
 				<br />
-				<p:commandButton value="Adicionar Falta." class="buscar_button"
+				<p:commandButton value="Adicionar Falta." 
 					action="#{professorControlador.adicionarFalta(selectedProfessor.siape, ano.value, semestre.value)}" />
 			</div>
 		</div>

@@ -21,15 +21,15 @@
 					<div id="conteudo-left">
 						<br />
 						<h:panelGrid id="gridEnsino" columns="3" class="table">
-							<p:commandButton class="buscar_button" value="Novo PTD"
+							<p:commandButton value="Novo PTD"
 								update="formularioEditar"
 								action="#{PTDControlador.cadastrarNovoPTD()}" />
 
-							<p:commandButton class="buscar_button"
+							<p:commandButton 
 								value="Importar PTD selecionado" update="formularioEditar"
 								action="#{PTDControlador.cadastrarNovoPTDFromSelected(selectedPtd.codigo)}" />
 
-							<p:commandButton class="buscar_button"
+							<p:commandButton
 								value="Exportar PTD" update="formularioEditar" ajax="false"
 								action="#{PTDControlador.exportarPtd(selectedPtd.codigo)}" />
 						</h:panelGrid>
@@ -62,10 +62,10 @@
 				<div id="div_buttons">
 					<div id="conteudo-left">
 						<br />
-						<p:commandButton class="buscar_button" value="Editar PTD"
+						<p:commandButton  value="Editar PTD"
 							update="formularioEditar"
 							action="#{PTDControlador.editarPTD(selectedPtd.codigo)}" />
-						<p:commandButton class="buscar_button" value="Relatório Semestral"
+						<p:commandButton value="Relatório Semestral"
 							update="formularioEditar"
 							action="#{PTDControlador.editarRelatorioSemestral(selectedPtd.codigo)}" />
 

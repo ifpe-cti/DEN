@@ -22,7 +22,7 @@
 		<div id="div_buttons">
 			<div id="conteudo-left">
 				<br />
-				<p:commandButton class="buscar_button" value="Buscar Agendamentos"
+				<p:commandButton  value="Buscar Agendamentos"
 					update="formularioEditar"
 					action="#{agendamentoControlador.listarAgendamentos()}" />
 
@@ -74,7 +74,7 @@
 						<f:selectItem itemValue="3" itemLabel="REALIZADO" />
 					</p:selectOneMenu>
 
-					<h:commandButton value="Atualizar" class="buscar_button"
+					<h:commandButton value="Atualizar" 
 						update="formularioEditar"
 						action="#{agendamentoControlador.alterarAgendamento(selectedAgendamento.codigo, status.value)}" />
 					</p:panelGrid>

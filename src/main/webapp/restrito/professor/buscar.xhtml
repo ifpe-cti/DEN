@@ -17,7 +17,7 @@
 				<h:outputText value="SIAPE*: " />
 				<h:inputText id="txtSiapeBusca" binding="#{siape}" required="true"
 					requiredMessage="O SIAPE precisa ser preenchido" />
-				<h:commandButton class="buscar_button" value="Buscar"
+				<h:commandButton  value="Buscar"
 					update="formularioBusca"
 					action="#{professorControlador.buscarProfessorPorSIAPE(siape.value)}" />
 			</p:panelGrid>
@@ -53,11 +53,11 @@
 					<div id="conteudo-left">
 						<br />
 						<h:panelGrid id="gridEnsino" columns="2" class="table">
-							<h:commandButton class="buscar_button" value="Novo PTD"
+							<h:commandButton  value="Novo PTD"
 								update="formularioEditar"
 								action="#{PTDControlador.cadastrarNovoPTD(professorControlador.selectedProfessor.codigo)}" />
 
-							<h:commandButton class="buscar_button"
+							<h:commandButton 
 								value="Importar PTD selecionado" update="formularioEditar"
 								action="#{PTDControlador.cadastrarNovoPTDFromSelected(selectedPtd)}" />
 						</h:panelGrid>
@@ -85,7 +85,7 @@
 				<div id="div_buttons">
 					<div id="conteudo-left">
 						<br />
-						<h:commandButton class="buscar_button" value="Editar PTD"
+						<h:commandButton  value="Editar PTD"
 							update="formularioEditar"
 							action="#{PTDControlador.editarPTD(selectedPtd.codigo.value)}" />
 					</div>

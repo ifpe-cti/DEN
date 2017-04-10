@@ -11,7 +11,7 @@
 <h:form id="formButtomImport" class="validform" style="width:20%;">
 	<p:messages />
 	<br />
-	<p:commandButton value="Importar Planejamento" class="buscar_button"
+	<p:commandButton value="Importar Planejamento" 
 		update="@all" type="button" onclick="PF('dlg1').show();" />
 
 	<p:dialog header="Importar Planejamento:" widgetVar="dlg1" modal="true"
@@ -28,7 +28,7 @@
 			<div id="div_buttons">
 				<div id="conteudo-left">
 					<br />
-					<p:commandButton value="Listar Disciplinas" class="buscar_button"
+					<p:commandButton value="Listar Disciplinas" 
 						update="tabelaDisciplinas"
 						action="#{planejamentoSemestralControlador.listarDisciplinas(ano.value, semestre.value)}"
 						onsuccess="PF('dlg1').show();" />
@@ -52,7 +52,7 @@
 				</p:column>
 			</p:dataTable>
 			<br />
-			<p:commandButton value="Importar Disciplina" class="buscar_button"
+			<p:commandButton value="Importar Disciplina" 
 				update="@all" ajax="true"
 				action="#{planejamentoSemestralControlador.importarDisciplina(disciplina.codigo)}" />
 		</p:fieldset>
@@ -97,7 +97,7 @@
 
 				<f:facet name="footer">
 					<p:commandButton value="Adicionar" icon="ui-icon-add"
-						class="buscar_button" update="@all"
+						 update="@all"
 						action="#{planejamentoSemestralControlador.addSemana()}" />
 				</f:facet>
 			</p:panelGrid>
@@ -184,7 +184,7 @@
 
 				<f:facet name="footer">
 					<p:commandButton value="Adicionar" icon="ui-icon-add"
-						class="buscar_button" update="@form"
+						 update="@form"
 						oncomplete="applyDatePicker();"
 						action="#{planejamentoSemestralControlador.addAvaliacao(dataProva.value, dataRecuperacao.value)}" />
 				</f:facet>
@@ -220,13 +220,13 @@
 	</p:fieldset>
 	<br />
 	<c:if test="${selectedDisciplina.planejamentoSemestral.codigo == null}">
-		<h:commandButton value="Registrar Planejamento" class="buscar_button"
+		<p:commandButton value="Registrar Planejamento" 
 			update="@all"
 			action="#{planejamentoSemestralControlador.registrarPlanejamento()}" />
 		<br />
 	</c:if>
 	<c:if test="${selectedDisciplina.planejamentoSemestral.codigo != null}">
-		<h:commandButton value="Editar Planejamento" class="buscar_button"
+		<p:commandButton value="Editar Planejamento" 
 			update="@all"
 			action="#{planejamentoSemestralControlador.atualizaPlanejamento()}" />
 		<br />

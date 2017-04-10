@@ -121,7 +121,7 @@
 				<f:selectItem itemValue="4" itemLabel="CORRECAO" />
 			</p:selectOneMenu>
 
-			<h:commandButton value="Atualizar" class="buscar_button"
+			<h:commandButton value="Atualizar" 
 				update="formularioEnsino"
 				action="#{PTDControlador.atualizaPTDEnsino(status.value)}" />
 		</p:panelGrid>
@@ -132,7 +132,7 @@
 <c:if test="${selectedPtd.status.ordinal == 5}">
 	<h:form id="formularioVisualizar" class="validform" style="width:100%;">
 		<br />
-		<h:commandButton value="Visualizar Relatório Semestral" class="buscar_button"
+		<h:commandButton value="Visualizar Relatório Semestral" 
 			action="#{PTDControlador.visualizarRelatorioSemestral()}" />
 		<br />
 	</h:form>

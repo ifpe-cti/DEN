@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -214,9 +215,32 @@ public class PTDControlador implements Serializable {
 		String ret = "/restrito/index.xhtml";
 		if (ptdId != null) {
 			PTD ptd = ptdRepositorio.findByCodigo(ptdId);
-			File f = PTDExport.exportarPTD(ptd);
-			PTDExport.setPDFResponse(f);
+			if (ptd != null) {
+				File f = PTDExport.exportarPTD(ptd);
+				PTDExport.setPDFResponse(f);
+			} else {
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro ao exportar PTD!", ""));
+			}
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Selecione um PTD!", ""));
+		}
 
+		return ret;
+	}
+	
+	public String exportarPTDs(Integer ano, Integer semestre) {
+		String ret = "/restrito/index.xhtml";
+		if ((ano != null) && (semestre != null)) {
+			List<PTD> ptds = ptdRepositorio.findByAnoAndSemestre(ano, semestre);
+			if ((ptds != null) && (ptds.size() > 0)) {
+				File f = PTDExport.exportarPTDs(ptds);
+				PTDExport.setZipResponse(f);
+			} else {
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro ao exportar PTD!", ""));
+			}
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Selecione um PTD!", ""));

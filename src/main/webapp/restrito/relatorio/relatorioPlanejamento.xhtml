@@ -25,13 +25,9 @@
 			<div id="div_buttons">
 				<div id="conteudo-left">
 					<br />
-					<p:commandButton value="Buscar" class="buscar_button" update="@all"
+					<p:commandButton value="Buscar"  update="@all"
 						ajax="true"
 						action="#{relatorioControlador.listarPlanejamentoProfessor(ano.value, semestre.value)}" />
-
-					<p:commandButton value="Exportar Planejamentos"
-						class="buscar_button" update="@all" ajax="false"
-						action="#{planejamentoSemestralControlador.exportarPlanejamentos(ano.value, semestre.value)}" />
 				</div>
 			</div>
 		</p:fieldset>
@@ -56,7 +52,7 @@
 			</p:column>
 			<p:column headerText="Exportar" style="center">
 				<p align="center">
-					<p:commandButton value="Exportar" class="buscar_button"
+					<p:commandButton value="Exportar" 
 						update="@all" ajax="true"
 						action="#{planejamentoSemestralControlador.exportarPlanejamentoEnsino(item.codigo)}" />
 				</p>

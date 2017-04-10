@@ -23,7 +23,7 @@
 					<f:selectItem itemValue="CTMA" itemLabel="CCTMA" />
 					<f:selectItem itemValue="CTI" itemLabel="CCTI" />
 				</p:selectOneMenu>
-				<p:commandButton value="Buscar" class="buscar_button"
+				<p:commandButton value="Buscar" 
 					update="formularioLista"
 					action="#{relatorioControlador.listarProfessoresFalta(coordenacao.value)}" />
 			</p:panelGrid>
@@ -31,7 +31,7 @@
 		<div id="div_buttons">
 			<div id="conteudo-left">
 				<br />
-				<p:commandButton value="Buscar Todos" class="buscar_button"
+				<p:commandButton value="Buscar Todos" 
 					update="formularioLista"
 					action="#{relatorioControlador.listarProfessoresFalta()}" />
 
@@ -79,7 +79,7 @@
 		<div id="div_buttons">
 			<div id="conteudo-left">
 				<br />
-				<h:commandButton value="Exportar Resultado" class="buscar_button"
+				<h:commandButton value="Exportar Resultado" 
 					update="formularioLista" 
 					action="#{relatorioControlador.exportarFaltasProfessores()}" />
 			</div>

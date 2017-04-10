@@ -234,9 +234,9 @@ public class PlanejamentoSemestralControlador implements Serializable {
 		return ret;
 	}
 	
-	public String exportarPlanejamentoEnsino(Integer id) {
+	public String exportarPlanejamentoEnsino(Integer idPtd) {
 		String ret = "";
-		Disciplina d = disciplinaRepositorio.findByPlanejamentoSemestralCodigo(id);
+		Disciplina d = disciplinaRepositorio.findByPlanejamentoSemestralCodigo(idPtd);
 		
 		if (d != null) {
 			File f = PTDExport.exportarPlanejamento(d);

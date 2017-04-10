@@ -47,7 +47,7 @@
 
 				<f:facet name="footer">
 					<p:commandButton value="Adicionar" icon="ui-icon-add"
-						class="buscar_button" update="formularioSemana"
+						 update="formularioSemana"
 						action="#{planejamentoSemestralControlador.addSemana()}" />
 				</f:facet>
 			</p:panelGrid>
@@ -137,7 +137,7 @@
 
 				<f:facet name="footer">
 					<p:commandButton value="Adicionar" icon="ui-icon-add"
-						class="buscar_button" update="@form"
+						 update="@form"
 						oncomplete="applyDatePicker();"						
 						action="#{planejamentoSemestralControlador.addAvaliacao(dataProva.value, dataRecuperacao.value)}" />
 				</f:facet>
@@ -175,7 +175,7 @@
 </p:fieldset>
 <h:form id="formButtons" class="validform" style="width:20%;">
 	<p:messages />
-	<h:commandButton value="Registrar Planejamento" class="buscar_button"
+	<h:commandButton value="Registrar Planejamento" 
 			update="@all"
 			action="#{planejamentoSemestralControlador.registrarPlanejamento()}" />
 	<br />

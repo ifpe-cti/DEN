@@ -12,13 +12,12 @@
 <h:head>
 	<title>DEN IFPE</title>
 	<link rel="shortcut icon" href="../resources/images/favicon.ico" />
-	<h:outputStylesheet library="css" name="ptd.css" />
 </h:head>
 <h:body>
 	<h:graphicImage library="images" name="banner_topo.png"
 		class="img-rounded img-responsive" />
 	<p:growl id="gro" life="3000" />
-	<h:form id="formularioCadastro" class="validform">
+	<h:form id="formularioCadastro">
 
 		<p:fieldset legend="Cadastro de Professor">
 			<p:messages />
@@ -55,10 +54,10 @@
 
 			</p:panelGrid>
 			<br />
-			<p:commandButton value="cadastrar" class="buscar_button"
+			<p:commandButton value="cadastrar" 
 				action="#{professorControlador.adicionaProfessor(siape.value,senha.value,coordenacao.value,nome.value,email.value)}"
 				update="formularioCadastro" />
-			<p:button value="Voltar" class="buscar_button" 
+			<p:button value="Voltar" 
 				href="/login.xhtml" />
 
 		</p:fieldset>
