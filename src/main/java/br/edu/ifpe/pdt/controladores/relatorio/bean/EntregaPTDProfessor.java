@@ -7,8 +7,9 @@ public class EntregaPTDProfessor {
 	private String nome;
 	private String situacao;
 
+	public EntregaPTDProfessor(){}
+	
 	public EntregaPTDProfessor(Integer codigo, String siape, String nome, String situacao) {
-		super();
 		this.codigo = codigo;
 		this.siape = siape;
 		this.nome = nome;
