@@ -3,7 +3,6 @@ package br.edu.ifpe.pdt.entidades;
 import java.io.Serializable;
 import java.sql.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -67,7 +66,7 @@ public class Falta implements Serializable{
 	@JoinColumn(name="professor_id", updatable=false)
 	private Professor professor;
 	
-	@OneToOne (cascade=CascadeType.ALL) 
+	@OneToOne  
 	@JoinColumn(name="disciplina_id")
 	private Disciplina disciplina;
 	

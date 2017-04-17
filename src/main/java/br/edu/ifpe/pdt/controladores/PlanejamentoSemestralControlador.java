@@ -220,7 +220,7 @@ public class PlanejamentoSemestralControlador implements Serializable {
 	
 	public String imprimir(Integer id) {
 		String ret = "/restrito/planejamento/ptd/listar.xhtml";
-		Disciplina d = disciplinaRepositorio.findByPlanejamentoSemestralCodigo(id);
+		Disciplina d = disciplinaRepositorio.findByCodigo(id);
 		
 		if (d != null) {
 			File f = PTDExport.exportarPlanejamento(d);
