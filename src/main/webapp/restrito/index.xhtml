@@ -38,14 +38,10 @@
 				<p:dataTable id="tabela" value="#{professorLogado.ptds}" var="item"
 					paginator="true" rows="15" selection="#{selectedPtd}"
 					selectionMode="single" rowKey="${item.codigo}">
-					<p:column>
+					<p:column headerText="Ano">
 						<p align="center">
-
 							<h:outputText value="${item.ano}" />
 						</p>
-						<f:facet name="header">
-		                        Ano
-		                    </f:facet>
 					</p:column>
 
 					<p:column headerText="Semestre">

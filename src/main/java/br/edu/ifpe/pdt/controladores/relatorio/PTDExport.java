@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.Files;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -124,11 +125,11 @@ public class PTDExport {
 
 	public static File exportarPTDs(List<PTD> ptds) {
 		File zipFile = null;
-		
+
 		try {
 			zipFile = new File(AppContext.getRelatorioPath() + "ptds.zip");
 			ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipFile));
-			
+
 			for (PTD ptd : ptds) {
 				JasperReport report = JasperCompileManager
 						.compileReport(AppContext.getRelatorioPath() + AppContext.getPtdReport());
@@ -149,7 +150,8 @@ public class PTDExport {
 
 				ZipEntry entry = new ZipEntry(AppContext.getRelatorioPath() + prof.getSiape() + "_ptd.pdf");
 				out.putNextEntry(entry);
-				FileInputStream is = new FileInputStream(new File(AppContext.getRelatorioPath() + prof.getSiape() + "_ptd.pdf"));
+				FileInputStream is = new FileInputStream(
+						new File(AppContext.getRelatorioPath() + prof.getSiape() + "_ptd.pdf"));
 				int b = 0;
 				while ((b = is.read()) != -1) {
 					out.write(b);
@@ -164,6 +166,8 @@ public class PTDExport {
 			LoggerPTD.getLoggerInstance().logError(e.getMessage());
 		} catch (IOException e) {
 			LoggerPTD.getLoggerInstance().logError(e.getMessage());
+		} catch (Exception e) {
+			LoggerPTD.getLoggerInstance().logError(e.getMessage());
 		}
 
 		return zipFile;
@@ -171,29 +175,75 @@ public class PTDExport {
 
 	public static void setZipResponse(File f) {
 		if (f != null) {
-			FacesContext fc = FacesContext.getCurrentInstance();
-			ExternalContext ec = fc.getExternalContext();
 
-			ec.responseReset();
-			ec.setResponseContentType("application/zip");
-			ec.setResponseContentLength((int) f.length());
-			ec.setResponseHeader("Content-Disposition", "attachment; filename=\"" + f.getName() + "\"");
 			try {
-				OutputStream output = ec.getResponseOutputStream();
-				FileInputStream fis = new FileInputStream(f);
-				while (fis.available() > -1) {
-					output.write(fis.read());
-				}
 
-				fis.close();
-				output.flush();
-				output.close();
+				FacesContext fc = FacesContext.getCurrentInstance();
+				ExternalContext ec = fc.getExternalContext();
 
+				ec.responseReset();
+				ec.setResponseContentType("application/zip");
+				ec.setResponseContentLength((int) f.length());
+				ec.setResponseHeader("Content-Disposition", "attachment; filename=\"" + f.getName() + "\"");
+				
+				Files.copy(f.toPath(), ec.getResponseOutputStream());
+
+				fc.responseComplete();
 			} catch (IOException e) {
 				LoggerPTD.getLoggerInstance().logError(e.getMessage());
 			} catch (Exception e) {
 				LoggerPTD.getLoggerInstance().logError(e.getMessage());
 			}
+		} else {
+			LoggerPTD.getLoggerInstance().logError("File is NULL!");
 		}
+	}
+
+	public static File exportarPlanejamentos(List<Disciplina> disciplinas) {
+		File zipFile = null;
+
+		try {
+			zipFile = new File(AppContext.getRelatorioPath() + "planejamentos.zip");
+			ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipFile));
+
+			for (Disciplina disciplina : disciplinas) {
+				if (disciplina.getPlanejamentoSemestral() != null) {
+					JasperReport report = JasperCompileManager
+							.compileReport(AppContext.getRelatorioPath() + AppContext.getPlanejamentoReport());
+
+					Map<String, Object> map = new HashMap<String, Object>();
+
+					map.put("psID", disciplina.getPlanejamentoSemestral().getCodigo());
+
+					ApplicationContext ac = ContextLoader.getCurrentWebApplicationContext();
+					PersistenceContext pc = ac.getBean(PersistenceContext.class);
+					JasperPrint print = JasperFillManager.fillReport(report, map, pc.dataSource().getConnection());
+
+					JasperExportManager.exportReportToPdfFile(print, AppContext.getRelatorioPath()
+							+ disciplina.getNome() + "_" + disciplina.getTurma() + "_planejamento.pdf");
+
+					ZipEntry entry = new ZipEntry(AppContext.getRelatorioPath() + disciplina.getNome() + "_"
+							+ disciplina.getTurma() + "_planejamento.pdf");
+					out.putNextEntry(entry);
+					FileInputStream is = new FileInputStream(new File(AppContext.getRelatorioPath()
+							+ disciplina.getNome() + "_" + disciplina.getTurma() + "_planejamento.pdf"));
+					int b = 0;
+					while ((b = is.read()) != -1) {
+						out.write(b);
+					}
+					is.close();
+					out.closeEntry();
+				}
+			}
+			out.close();
+		} catch (JRException e) {
+			LoggerPTD.getLoggerInstance().logError(e.getMessage());
+		} catch (SQLException e) {
+			LoggerPTD.getLoggerInstance().logError(e.getMessage());
+		} catch (IOException e) {
+			LoggerPTD.getLoggerInstance().logError(e.getMessage());
+		}
+
+		return zipFile;
 	}
 }

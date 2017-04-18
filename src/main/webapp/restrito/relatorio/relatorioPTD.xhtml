@@ -25,7 +25,7 @@
 			<div id="div_buttons">
 				<div id="conteudo-left">
 					<br />
-					<p:commandButton value="Buscar"  update="@form"
+					<p:commandButton value="Buscar"  update="@all"
 						ajax="true"
 						action="#{relatorioControlador.listarPTDProfessor(ano.value, semestre.value)}" />
 					<p:commandButton value="Exportar PTDs" 
@@ -39,26 +39,26 @@
 	<br />
 	<h:form id="formularioLista" class="validform">
 		<p:messages/>
-		<p:dataTable id="tabela" value="#{ptdProfessores}" var="item"
+		<p:dataTable id="tabela" value="#{ptdProfessores}" var="entregaPTDProfessor"
 			paginator="true" rows="20" selectionMode="single"
-			rowKey="${item.codigo}">
+			rowKey="#{entregaPTDProfessor.codigo}">
 			<p:column>
-				<h:outputText value="#{item.siape}" style="center" />
+				<h:outputText value="#{entregaPTDProfessor.siape}" style="center" />
 				<f:facet name="header"> 
 		                        Siape
 		                    </f:facet>
 			</p:column>
 			<p:column headerText="Nome">
-				<h:outputText value="#{item.nome}" style="center" />
+				<h:outputText value="#{entregaPTDProfessor.nome}" style="center" />
 			</p:column>
 			<p:column headerText="Situação" style="center">
-				<h:outputText value="#{item.situacao}" style="center" />
+				<h:outputText value="#{entregaPTDProfessor.situacao}" style="center" />
 			</p:column>
 			<p:column headerText="Exportar" style="center">
 				<p align="center">
 					<p:commandButton value="Exportar PTD" 
 						update="formularioLista" ajax="false"
-						action="#{PTDControlador.exportarPTDEnsino(item.codigo)}" />
+						action="#{PTDControlador.exportarPTDEnsino(entregaPTDProfessor.codigo)}" />
 				</p>
 			</p:column>
 

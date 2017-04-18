@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -21,8 +22,8 @@ import br.edu.ifpe.pdt.entidades.Avaliacao;
 import br.edu.ifpe.pdt.entidades.Disciplina;
 import br.edu.ifpe.pdt.entidades.PTD;
 import br.edu.ifpe.pdt.entidades.PlanejamentoSemestral;
-import br.edu.ifpe.pdt.entidades.Professor;
 import br.edu.ifpe.pdt.entidades.PlanejamentoSemestral.STATUS_PS;
+import br.edu.ifpe.pdt.entidades.Professor;
 import br.edu.ifpe.pdt.entidades.Semana;
 import br.edu.ifpe.pdt.repositorios.DisciplinaRepositorio;
 import br.edu.ifpe.pdt.repositorios.PTDRepositorio;
@@ -236,11 +237,14 @@ public class PlanejamentoSemestralControlador implements Serializable {
 	
 	public String exportarPlanejamentoEnsino(Integer idPtd) {
 		String ret = "";
-		Disciplina d = disciplinaRepositorio.findByPlanejamentoSemestralCodigo(idPtd);
 		
-		if (d != null) {
-			File f = PTDExport.exportarPlanejamento(d);
-			PTDExport.setPDFResponse(f);
+		PTD ptd = ptdRepositorio.findByCodigo(idPtd);
+		
+		List<Disciplina> disciplinas = ptd.getDisciplinas();		
+		
+		if (disciplinas != null) {
+			File f = PTDExport.exportarPlanejamentos(disciplinas);
+			PTDExport.setZipResponse(f);
 			
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null,

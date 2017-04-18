@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2016-10-25T15:44:30 -->
+<!-- 2017-04-17T18:43:11 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Planejamento" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ef8779f6-aa7a-4cca-901f-e69c1e903391">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="postgres"/>
@@ -89,7 +89,7 @@
 		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="postgres"/>
 		<parameter name="psID" class="java.lang.Integer"/>
 		<queryString>
-			<![CDATA[select * from avaliacao where planejamentosemestral_id = $P{psID}  order by dataprova ]]>
+			<![CDATA[select * from avaliacao where planejamentosemestral_id = $P{psID}  order by dataprova]]>
 		</queryString>
 		<field name="id" class="java.lang.Integer"/>
 		<field name="atividade" class="java.lang.String"/>
@@ -176,14 +176,14 @@ CAMPUS GARANHUNS]]></text>
 				<text><![CDATA[Turma:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="52" y="150" width="449" height="23" uuid="7bff6c3e-cbaa-410b-bc85-34ab2e03854e"/>
+				<reportElement x="51" y="151" width="449" height="23" uuid="7bff6c3e-cbaa-410b-bc85-34ab2e03854e"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="430" y="180" width="71" height="22" uuid="85e5837d-4e40-4c04-8e79-88ee2ad77fce"/>
+				<reportElement x="430" y="182" width="71" height="22" uuid="85e5837d-4e40-4c04-8e79-88ee2ad77fce"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="12"/>
 				</textElement>
@@ -197,26 +197,38 @@ CAMPUS GARANHUNS]]></text>
 				<textFieldExpression><![CDATA[$F{curso}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="237" y="181" width="119" height="25" uuid="184e52e8-ac55-43af-9c21-dadaa57da838"/>
+				<reportElement x="234" y="182" width="119" height="25" uuid="184e52e8-ac55-43af-9c21-dadaa57da838"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{turma}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="0" y="250" width="550" height="117" uuid="dc135dfc-6ffa-48c3-a4fe-593adb448e79"/>
-				<textElement textAlignment="Justified">
-					<font fontName="Arial" size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{competencias}]]></textFieldExpression>
-			</textField>
 			<staticText>
-				<reportElement x="180" y="220" width="200" height="30" uuid="f8b452e0-2e19-40c0-9b4a-5c0764083af1"/>
+				<reportElement x="143" y="226" width="247" height="28" uuid="f8b452e0-2e19-40c0-9b4a-5c0764083af1"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="16" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Competências/Ementa]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="0" y="260" width="550" height="101" uuid="dc135dfc-6ffa-48c3-a4fe-593adb448e79"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{competencias}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<detail>
@@ -229,6 +241,7 @@ CAMPUS GARANHUNS]]></text>
 					<property name="com.jaspersoft.studio.table.style.detail" value="Table 1_TD"/>
 					<property name="net.sf.jasperreports.export.headertoolbar.table.name" value="semanas"/>
 					<property name="com.jaspersoft.studio.components.autoresize.proportional" value="true"/>
+					<property name="com.jaspersoft.studio.components.autoresize.next" value="true"/>
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
 					<datasetRun subDataset="semana" uuid="ae2c4763-2482-4bd2-b7c0-850b75fbe1a9">
@@ -260,10 +273,10 @@ CAMPUS GARANHUNS]]></text>
 								</staticText>
 							</jr:columnHeader>
 							<jr:detailCell style="Table 1_TD" height="30">
-								<textField>
+								<textField evaluationTime="Auto">
 									<reportElement x="0" y="0" width="70" height="30" uuid="a2b31923-b7e2-46c2-954d-bd68a8a98ba9"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font fontName="Arial" size="12"/>
+										<font fontName="Arial" size="10"/>
 									</textElement>
 									<textFieldExpression><![CDATA[$F{numero}]]></textFieldExpression>
 								</textField>
@@ -281,10 +294,10 @@ CAMPUS GARANHUNS]]></text>
 								</staticText>
 							</jr:columnHeader>
 							<jr:detailCell style="Table 1_TD" height="30">
-								<textField>
+								<textField evaluationTime="Auto">
 									<reportElement x="0" y="0" width="60" height="30" uuid="11cdc12b-64d5-4a61-8b00-198d4cf71631"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font fontName="Arial" size="12"/>
+										<font fontName="Arial" size="10"/>
 									</textElement>
 									<textFieldExpression><![CDATA[$F{numaulas}]]></textFieldExpression>
 								</textField>
@@ -304,8 +317,8 @@ CAMPUS GARANHUNS]]></text>
 							<jr:detailCell style="Table 1_TD" height="30">
 								<textField>
 									<reportElement x="0" y="0" width="210" height="30" uuid="9972d564-8f5b-448e-a0e8-7b384d787c2d"/>
-									<textElement verticalAlignment="Middle">
-										<font fontName="Arial" size="12"/>
+									<textElement textAlignment="Left" verticalAlignment="Middle">
+										<font fontName="Arial" size="10"/>
 									</textElement>
 									<textFieldExpression><![CDATA[$F{conteudo}]]></textFieldExpression>
 								</textField>
@@ -325,8 +338,9 @@ CAMPUS GARANHUNS]]></text>
 							<jr:detailCell style="Table 1_TD" height="30">
 								<textField>
 									<reportElement x="0" y="0" width="210" height="30" uuid="8d81e1d0-a0ca-4cfe-b87d-9cc6b5e3de51"/>
-									<textElement verticalAlignment="Middle">
-										<font fontName="Arial" size="12"/>
+									<textElement textAlignment="Left" verticalAlignment="Middle">
+										<font fontName="Arial" size="10"/>
+										<paragraph lineSpacing="Single"/>
 									</textElement>
 									<textFieldExpression><![CDATA[$F{estrategia}]]></textFieldExpression>
 								</textField>
@@ -345,6 +359,7 @@ CAMPUS GARANHUNS]]></text>
 					<property name="com.jaspersoft.studio.table.style.detail" value="Table 2_TD"/>
 					<property name="com.jaspersoft.studio.components.autoresize.proportional" value="true"/>
 					<property name="net.sf.jasperreports.export.headertoolbar.table.name" value="avaliacao"/>
+					<property name="com.jaspersoft.studio.components.autoresize.next" value="true"/>
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
 					<datasetRun subDataset="avaliacao" uuid="61104460-58c7-4853-946e-c6e988775879">
@@ -379,7 +394,7 @@ CAMPUS GARANHUNS]]></text>
 								<textField>
 									<reportElement x="0" y="0" width="70" height="30" uuid="632e3bc6-c179-41d5-ab4d-ecf091a46e18"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font size="12"/>
+										<font fontName="DejaVu Sans" size="10"/>
 									</textElement>
 									<textFieldExpression><![CDATA[$F{unidade}]]></textFieldExpression>
 								</textField>
@@ -400,7 +415,7 @@ CAMPUS GARANHUNS]]></text>
 								<textField>
 									<reportElement x="0" y="0" width="206" height="30" uuid="eccf56ab-5fa5-4871-9ad0-ceae03a5d5a4"/>
 									<textElement textAlignment="Left" verticalAlignment="Middle">
-										<font size="12"/>
+										<font fontName="DejaVu Sans" size="10"/>
 									</textElement>
 									<textFieldExpression><![CDATA[$F{atividade}]]></textFieldExpression>
 								</textField>
@@ -421,7 +436,7 @@ CAMPUS GARANHUNS]]></text>
 								<textField>
 									<reportElement x="0" y="0" width="137" height="30" uuid="e4d02957-c6d1-452c-99c8-828760f883c0"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font size="12"/>
+										<font fontName="DejaVu Sans" size="10"/>
 									</textElement>
 									<textFieldExpression><![CDATA[$F{dataprova}]]></textFieldExpression>
 								</textField>
@@ -442,7 +457,7 @@ CAMPUS GARANHUNS]]></text>
 								<textField>
 									<reportElement x="0" y="0" width="137" height="30" uuid="7ef272c2-9585-4a9a-9323-94afc169f7b1"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font size="12"/>
+										<font fontName="DejaVu Sans" size="10"/>
 									</textElement>
 									<textFieldExpression><![CDATA[$F{datarecuperacao}]]></textFieldExpression>
 								</textField>

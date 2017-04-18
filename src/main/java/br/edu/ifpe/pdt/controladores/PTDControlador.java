@@ -27,6 +27,7 @@ import br.edu.ifpe.pdt.entidades.Pesquisa;
 import br.edu.ifpe.pdt.entidades.Professor;
 import br.edu.ifpe.pdt.repositorios.PTDRepositorio;
 import br.edu.ifpe.pdt.repositorios.ProfessorRepositorio;
+import br.edu.ifpe.pdt.util.LoggerPTD;
 import br.edu.ifpe.pdt.util.PTDEmail;
 
 @Component
@@ -234,6 +235,7 @@ public class PTDControlador implements Serializable {
 		String ret = "/restrito/index.xhtml";
 		if ((ano != null) && (semestre != null)) {
 			List<PTD> ptds = ptdRepositorio.findByAnoAndSemestre(ano, semestre);
+			LoggerPTD.getLoggerInstance().logError("exportarPTDs: " + ptds.size());			
 			if ((ptds != null) && (ptds.size() > 0)) {
 				File f = PTDExport.exportarPTDs(ptds);
 				PTDExport.setZipResponse(f);

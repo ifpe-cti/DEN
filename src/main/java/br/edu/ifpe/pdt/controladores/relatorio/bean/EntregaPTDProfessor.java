@@ -1,13 +1,23 @@
 package br.edu.ifpe.pdt.controladores.relatorio.bean;
 
-public class EntregaPTDProfessor {
+import java.io.Serializable;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+
+@ManagedBean
+@SessionScoped
+public class EntregaPTDProfessor implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private Integer codigo;
 	private String siape;
 	private String nome;
 	private String situacao;
-
-	public EntregaPTDProfessor(){}
 	
 	public EntregaPTDProfessor(Integer codigo, String siape, String nome, String situacao) {
 		this.codigo = codigo;

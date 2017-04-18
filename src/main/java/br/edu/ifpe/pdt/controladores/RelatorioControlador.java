@@ -186,7 +186,7 @@ public class RelatorioControlador implements Serializable {
 					}
 				}
 				if (!found) {
-					entregas.add(new EntregaPTDProfessor(null, p.getSiape(), p.getNome(), "NAO_ENTREGUE"));
+					entregas.add(new EntregaPTDProfessor(0, p.getSiape(), p.getNome(), "NAO_ENTREGUE"));
 				}
 			}
 		}
@@ -227,12 +227,12 @@ public class RelatorioControlador implements Serializable {
 					}
 				}
 				if (!found) {
-					entregas.add(new EntregaPTDProfessor(null, p.getSiape(), p.getNome(), "NAO_ENTREGUE"));
+					entregas.add(new EntregaPTDProfessor(0, p.getSiape(), p.getNome(), "NAO_ENTREGUE"));
 				}
 			}
 		}
 
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("ptdProfessores", entregas);
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("planejamentoProfessores", entregas);
 
 		return "";
 	}
