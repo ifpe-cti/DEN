@@ -28,7 +28,8 @@
 				<p:column headerText="Curso" style="width:10%; align:center">
 					<p align="center">${item.curso}</p>
 				</p:column>
-				<p:column style="width:10%; align:center" headerText="Carga Horária Semanal">
+				<p:column style="width:10%; align:center"
+					headerText="Carga Horária Semanal">
 					<p align="center">${item.cargaHoraria}</p>
 				</p:column>
 			</p:dataTable>
@@ -109,7 +110,8 @@
 	</h:form>
 </p:fieldset>
 
-<c:if test="${selectedPtd.status.ordinal != 5 and selectedPtd.status.ordinal != 6}">
+<c:if
+	test="${selectedPtd.status.ordinal != 5 and selectedPtd.status.ordinal != 6}">
 	<h:form id="formularioVisualizar" class="validform" style="width:100%;">
 		<br />
 		<p:panelGrid columns="3" style="width:40%;">
@@ -121,8 +123,7 @@
 				<f:selectItem itemValue="4" itemLabel="CORRECAO" />
 			</p:selectOneMenu>
 
-			<h:commandButton value="Atualizar" 
-				update="formularioEnsino"
+			<h:commandButton value="Atualizar" update="formularioEnsino"
 				action="#{PTDControlador.atualizaPTDEnsino(status.value)}" />
 		</p:panelGrid>
 		<br />
@@ -130,10 +131,12 @@
 	</h:form>
 </c:if>
 <c:if test="${selectedPtd.status.ordinal == 5}">
-	<h:form id="formularioVisualizar" class="validform" style="width:100%;">
+	<h:form id="formularioVisualizar" style="width:100%;">
 		<br />
-		<h:commandButton value="Visualizar Relatório Semestral" 
-			action="#{PTDControlador.visualizarRelatorioSemestral()}" />
+		<p:panelGrid columns="3" style="width:40%;">
+			<h:commandButton value="Ver Relatório Semestral"
+				action="#{PTDControlador.visualizarRelatorioSemestral()}" />
+		</p:panelGrid>
 		<br />
 	</h:form>
 </c:if>

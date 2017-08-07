@@ -64,12 +64,13 @@ public class PlanejamentoSemestralControlador implements Serializable {
 		if (disciplina != null) {
 			if (disciplina.getPlanejamentoSemestral() != null) {
 				this.competencias = disciplina.getPlanejamentoSemestral().getCompetencias();
+			} else {
+				this.competencias = "";
 			}
+			this.setDisciplina(disciplina);
 			if (ensino == 0) {
-				this.setDisciplina(disciplina);
 				ret = "/restrito/planejamento/cadastro.xhtml?faces-redirect=true";
 			} else {
-				this.setDisciplina(disciplina);
 				ret = "/restrito/planejamento/ensino/cadastro.xhtml?faces-redirect=true";
 			}
 		} else {
@@ -119,7 +120,7 @@ public class PlanejamentoSemestralControlador implements Serializable {
 		String ret = "";
 		Disciplina d = disciplinaRepositorio.findByCodigo(disciplinaId);
 		if (d.getPlanejamentoSemestral() != null) {
-
+			
 			Disciplina disciplina = this.getDisciplina();
 			if (disciplina.getPlanejamentoSemestral() == null) {
 				disciplina.setPlanejamentoSemestral(new PlanejamentoSemestral());
@@ -127,19 +128,8 @@ public class PlanejamentoSemestralControlador implements Serializable {
 				disciplina.getPlanejamentoSemestral().setSemanas(new ArrayList<Semana>());
 			}
 			disciplina.getPlanejamentoSemestral().setCompetencias(d.getPlanejamentoSemestral().getCompetencias());
-
-			for (Avaliacao a : d.getPlanejamentoSemestral().getAvaliacoes()) {
-				if (!(disciplina.getPlanejamentoSemestral().getAvaliacoes().contains(a))) {
-					Avaliacao nova = new Avaliacao();
-					nova.setAtividade(a.getAtividade());
-					nova.setUnidade(a.getUnidade());
-					nova.setDataProva(a.getDataProva());
-					nova.setDataRecuperacao(a.getDataRecuperacao());
-					nova.setPlanejamentoSemestral(disciplina.getPlanejamentoSemestral());
-					disciplina.getPlanejamentoSemestral().getAvaliacoes().add(nova);
-				}
-			}
-
+			this.competencias = d.getPlanejamentoSemestral().getCompetencias();
+			
 			for (Semana s : d.getPlanejamentoSemestral().getSemanas()) {
 				if (!(disciplina.getPlanejamentoSemestral().getSemanas().contains(s))) {
 					Semana nova = new Semana();

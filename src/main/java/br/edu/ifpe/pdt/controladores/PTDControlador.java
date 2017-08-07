@@ -96,6 +96,12 @@ public class PTDControlador implements Serializable {
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Não é permitido ter 2 PTDs no mesmo semestre", ""));
 			return "";
 		}
+		
+		if (ptd.getStatus() == PTD.STATUS.HOMOLOGADO) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Não é permitido alterar PTD Homologado!", ""));
+			return "";
+		}
 
 		ptd.setStatus(PTD.STATUS.AGUARDO);
 		ptd.setLastUpdate(Date.valueOf(LocalDate.now().toString()));
